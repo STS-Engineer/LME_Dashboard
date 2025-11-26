@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVO Carbon Group - Dashboard Métaux</title>
+    <title>Dashboard Métaux</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -60,12 +60,31 @@
             gap: 8px;
         }
 
-        /* Statistics Cards */
+        /* Statistics Section */
+        .stats-section {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stats-summary {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
         }
 
         .stat-card {
@@ -349,6 +368,47 @@
             color: #0066b2;
         }
 
+        /* Source Badge */
+        .source-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .source-agosi {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .source-girm {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .source-comex {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .source-shmet {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .source-brent {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .source-unknown {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -375,6 +435,51 @@
             padding: 40px;
             color: #95a5a6;
             font-style: italic;
+        }
+
+        /* (ANCIENS filtres de colonnes supprimés du tableau) */
+
+        /* Pagination (NOUVEAU) */
+        .pagination-controls {
+            margin-top: 15px;
+            display: none; /* sera mis en flex via JS */
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+        .pagination-info {
+            white-space: nowrap;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination-button {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #ecf0f1;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-button:hover:not(:disabled) {
+            border-color: #bdc3c7;
+            transform: translateY(-1px);
+        }
+
+        .pagination-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* Footer */
@@ -423,12 +528,16 @@
             th, td {
                 padding: 10px;
             }
+
+            .pagination-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo-section">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Ctext x='10' y='40' font-family='Arial' font-size='32' font-weight='bold' fill='%230066b2'%3EAVO%3C/text%3E%3Ctext x='90' y='40' font-family='Arial' font-size='32' fill='%23555'%3ECarbon%3C/text%3E%3Ctext x='110' y='55' font-family='Arial' font-size='14' fill='%23f39c12' font-weight='bold'%3EGROUP%3C/text%3E%3C/svg%3E" alt="AVO Carbon Group" class="logo">
@@ -440,57 +549,18 @@
             </div>
         </div>
 
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-header">
-                    <span class="stat-title">Cuivre (Cu)</span>
-                    <i class="fas fa-medal stat-icon"></i>
-                </div>
-                <div class="stat-value" id="stat-copper">--</div>
-                <div class="stat-change" id="change-copper">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>Chargement...</span>
-                </div>
+        <div class="stats-section">
+            <div class="stats-header">
+                <h3 class="filters-title">
+                    <i class="fas fa-chart-line"></i>
+                    Résumé par métal
+                </h3>
+                <span id="statsSummary" class="stats-summary">Chargement...</span>
             </div>
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <span class="stat-title">Zinc (Zn)</span>
-                    <i class="fas fa-medal stat-icon"></i>
-                </div>
-                <div class="stat-value" id="stat-zinc">--</div>
-                <div class="stat-change" id="change-zinc">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>Chargement...</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <span class="stat-title">Étain (Sn)</span>
-                    <i class="fas fa-medal stat-icon"></i>
-                </div>
-                <div class="stat-value" id="stat-tin">--</div>
-                <div class="stat-change" id="change-tin">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>Chargement...</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <span class="stat-title">Total Enregistrements</span>
-                    <i class="fas fa-database stat-icon"></i>
-                </div>
-                <div class="stat-value" id="stat-total">--</div>
-                <div class="stat-change">
-                    <span id="total-metals">-- métaux suivis</span>
-                </div>
+            <div class="stats-grid" id="statsContainer">
             </div>
         </div>
 
-        <!-- Filters Section -->
         <div class="filters-section">
             <h3 class="filters-title">
                 <i class="fas fa-filter"></i>
@@ -501,9 +571,14 @@
                     <label class="filter-label">Type de métal</label>
                     <select id="filterMetalType" class="filter-select">
                         <option value="all">Tous les métaux</option>
-                        <option value="copper">Cuivre (Cu)</option>
-                        <option value="zinc">Zinc (Zn)</option>
-                        <option value="tin">Étain (Sn)</option>
+                    </select>
+                </div>
+
+                <!-- NOUVEAU : filtre Source -->
+                <div class="filter-group">
+                    <label class="filter-label">Source</label>
+                    <select id="filterSource" class="filter-select">
+                        <option value="all">Toutes les sources</option>
                     </select>
                 </div>
                 
@@ -531,7 +606,6 @@
             </div>
         </div>
 
-        <!-- Prices Table -->
         <div class="table-section">
             <div class="section-header">
                 <h2 class="section-title">
@@ -555,9 +629,11 @@
                     <p>Chargement des données...</p>
                 </div>
             </div>
+
+            <!-- NOUVEAU : contrôles de pagination -->
+            <div id="paginationControls" class="pagination-controls"></div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
             &copy; 2025 AVO Carbon Group. Tous droits réservés.
         </div>
@@ -568,12 +644,20 @@
         let currentFilters = {
             metalType: 'all',
             startDate: null,
-            endDate: null
+            endDate: null,
+            source: 'all' // NEW
         };
 
-        // Fonction pour formater la date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
+        // NEW: variables pour pagination & données
+        let allPrices = [];
+        let filteredPrices = [];
+        let currentPage = 1;
+        const pageSize = 15; // nombre de lignes par page
+
+        // Fonction pour formater la date (avec heure, utilisée pour "Dernière mise à jour")
+        function formatDate(dateInput) {
+            const date = new Date(dateInput);
+            if (isNaN(date.getTime())) return '';
             return date.toLocaleString('fr-FR', {
                 year: 'numeric',
                 month: '2-digit',
@@ -583,20 +667,59 @@
             });
         }
 
+        // NOUVEAU : fonction pour formater uniquement la date (pour la colonne "Date de prix")
+        function formatDateOnlyDate(dateInput) {
+            const date = new Date(dateInput);
+            if (isNaN(date.getTime())) return '';
+            return date.toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+        }
+
         // Fonction pour formater le prix
         function formatPrice(price) {
+            if (price === null || price === undefined || isNaN(price)) return '--';
             return new Intl.NumberFormat('fr-FR', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(price);
         }
 
-        // Appliquer les filtres
+        // Formater la source (URL → ABBREVIATION)
+        function formatSource(sourceUrl) {
+            if (!sourceUrl) return { label: '--', class: 'source-unknown' };
+            
+            const url = String(sourceUrl).trim().toLowerCase();
+
+            if (url.includes('agosi.de')) {
+                return { label: 'AGOSI', class: 'source-agosi' };
+            }
+            if (url.includes('m-lego.com')) {
+                return { label: 'GIRM', class: 'source-girm' };
+            }
+            if (url.includes('comexlive.org')) {
+                return { label: 'COMEX', class: 'source-comex' };
+            }
+            if (url.includes('shmet.com')) {
+                return { label: 'SHMET', class: 'source-shmet' };
+            }
+            if (url.includes('insee.fr')) {
+                return { label: 'BRENT LONDON', class: 'source-brent' };
+            }
+
+            return { label: 'AUTRE', class: 'source-unknown' };
+        }
+
+        // Appliquer les filtres globaux
         function applyFilters() {
             currentFilters.metalType = document.getElementById('filterMetalType').value;
             currentFilters.startDate = document.getElementById('filterStartDate').value;
             currentFilters.endDate = document.getElementById('filterEndDate').value;
-            
+            currentFilters.source = document.getElementById('filterSource').value; // NEW
+
+            currentPage = 1;
             loadPriceHistory();
         }
 
@@ -605,38 +728,39 @@
             document.getElementById('filterMetalType').value = 'all';
             document.getElementById('filterStartDate').value = '';
             document.getElementById('filterEndDate').value = '';
-            
+            document.getElementById('filterSource').value = 'all'; // NEW
+
             currentFilters = {
                 metalType: 'all',
                 startDate: null,
-                endDate: null
+                endDate: null,
+                source: 'all'
             };
-            
+
+            currentPage = 1;
             loadPriceHistory();
         }
 
-        // Exporter vers Excel
+        // Exporter vers Excel (note : filtre Source pas encore géré côté backend)
         function exportToExcel() {
             let url = '/export/excel?';
-            
+
             if (currentFilters.metalType !== 'all') {
                 url += `metal_type=${currentFilters.metalType}&`;
             }
-            
+
             if (currentFilters.startDate) {
                 url += `start_date=${currentFilters.startDate}&`;
             }
-            
+
             if (currentFilters.endDate) {
                 url += `end_date=${currentFilters.endDate}&`;
             }
-            
-            // Ajouter un paramètre days par défaut si pas de dates
+
             if (!currentFilters.startDate && !currentFilters.endDate) {
                 url += 'days=30';
             }
-            
-            // Télécharger le fichier
+
             window.location.href = url;
         }
 
@@ -645,130 +769,281 @@
             try {
                 const response = await fetch('/api/statistics');
                 const result = await response.json();
-                
+
                 if (result.status === 'success') {
-                    const data = result.data;
-                    
-                    // Total records
-                    document.getElementById('stat-total').textContent = data.total_records || 0;
-                    document.getElementById('total-metals').textContent = `${data.total_metals || 0} métaux suivis`;
-                    
-                    // Variations par métal
-                    if (data.variations) {
-                        data.variations.forEach(v => {
-                            const statElement = document.getElementById(`stat-${v.metal_type}`);
-                            const changeElement = document.getElementById(`change-${v.metal_type}`);
-                            
-                            if (statElement) {
-                                statElement.textContent = formatPrice(v.current_price) + ' CNY';
-                            }
-                            
-                            if (changeElement) {
-                                const variation = parseFloat(v.variation_percent);
-                                const isPositive = variation >= 0;
-                                
-                                changeElement.className = `stat-change ${isPositive ? 'change-positive' : 'change-negative'}`;
-                                changeElement.innerHTML = `
-                                    <i class="fas fa-arrow-${isPositive ? 'up' : 'down'}"></i>
-                                    <span>${isPositive ? '+' : ''}${variation}% (24h)</span>
-                                `;
-                            }
+                    const data = result.data || {};
+                    const variations = data.variations || [];
+                    const metalTypes = Array.from(new Set(variations.map(v => v.metal_type))).filter(Boolean);
+
+                    const totalRecords = data.total_records || 0;
+                    const totalMetals = data.total_metals || variations.length || 0;
+                    const summaryEl = document.getElementById('statsSummary');
+                    if (summaryEl) {
+                        summaryEl.textContent = `${totalRecords} enregistrements • ${totalMetals} métaux suivis`;
+                    }
+
+                    const filterSelect = document.getElementById('filterMetalType');
+                    if (filterSelect.options.length === 1) {
+                        metalTypes.forEach(type => {
+                            const option = document.createElement('option');
+                            option.value = type.toLowerCase();
+                            option.textContent = type;
+                            filterSelect.appendChild(option);
                         });
                     }
+
+                    const container = document.getElementById('statsContainer');
+                    container.innerHTML = '';
+
+                    if (variations.length === 0) {
+                        container.innerHTML = '<div class="no-data">Aucune statistique disponible</div>';
+                        return;
+                    }
+
+                    variations.forEach(v => {
+                        const variation = parseFloat(v.variation_percent);
+                        const isPositive = variation >= 0;
+                        const metalLabel = (v.metal_type || '').toUpperCase();
+                        const currency = v.currency || 'CNY';
+
+                        let metalClass = 'metal-default';
+                        if (metalLabel.includes('COPPER')) metalClass = 'metal-copper';
+                        if (metalLabel.includes('ZINC')) metalClass = 'metal-zinc';
+                        if (metalLabel.includes('TIN')) metalClass = 'metal-tin';
+
+                        const card = document.createElement('div');
+                        card.className = 'stat-card';
+
+                        card.innerHTML = `
+                            <div class="stat-header">
+                                <span class="stat-title">${metalLabel}</span>
+                                <i class="fas fa-medal stat-icon"></i>
+                            </div>
+                            <div class="stat-value">
+                                ${v.current_price != null ? formatPrice(v.current_price) + ' ' + currency : '--'}
+                            </div>
+                            <div class="stat-change ${isPositive ? 'change-positive' : 'change-negative'}">
+                                <i class="fas fa-arrow-${isPositive ? 'up' : 'down'}"></i>
+                                <span>${isNaN(variation) ? '0' : (isPositive ? '+' : '') + formatPrice(variation)}% (24h)</span>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
                 }
             } catch (error) {
                 console.error('Erreur chargement statistiques:', error);
             }
         }
 
-        // Charger l'historique des prix avec filtres
+        // NEW : remplir la liste des sources possibles d'après les données chargées
+        function populateSourceFilterOptions() {
+            const select = document.getElementById('filterSource');
+            if (!select) return;
+
+            const currentValue = select.value || 'all';
+            const labelsSet = new Set();
+
+            allPrices.forEach(price => {
+                const s = formatSource(price.source_url);
+                if (s.label && s.label !== '--') {
+                    labelsSet.add(s.label);
+                }
+            });
+
+            select.innerHTML = '<option value="all">Toutes les sources</option>';
+
+            Array.from(labelsSet)
+                .sort()
+                .forEach(label => {
+                    const option = document.createElement('option');
+                    option.value = label.toLowerCase();
+                    option.textContent = label;
+                    select.appendChild(option);
+                });
+
+            // Restaurer la valeur si toujours disponible
+            if (currentValue !== 'all') {
+                const found = Array.from(labelsSet).some(
+                    l => l.toLowerCase() === currentValue.toLowerCase()
+                );
+                if (found) {
+                    select.value = currentValue.toLowerCase();
+                    currentFilters.source = currentValue.toLowerCase();
+                }
+            }
+        }
+
+        // NEW : appliquer le filtre Source + pagination, et afficher le tableau
+        function applyTableFiltersAndRender() {
+            const tableContainer = document.getElementById('tableContainer');
+            const paginationControls = document.getElementById('paginationControls');
+
+            if (!Array.isArray(allPrices) || allPrices.length === 0) {
+                tableContainer.innerHTML = '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
+                if (paginationControls) paginationControls.style.display = 'none';
+                return;
+            }
+
+            const sourceFilter = (currentFilters.source || 'all').toLowerCase();
+
+            filteredPrices = allPrices.filter(price => {
+                if (sourceFilter === 'all') return true;
+                const s = formatSource(price.source_url);
+                return (s.label || '').toLowerCase() === sourceFilter;
+            });
+
+            if (filteredPrices.length === 0) {
+                tableContainer.innerHTML = '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
+                if (paginationControls) paginationControls.style.display = 'none';
+                return;
+            }
+
+            const totalPages = Math.ceil(filteredPrices.length / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            renderTablePage(currentPage, totalPages);
+        }
+
+        // NEW : affiche une page spécifique du tableau
+        function renderTablePage(page, totalPages) {
+            const tableContainer = document.getElementById('tableContainer');
+            const paginationControls = document.getElementById('paginationControls');
+
+            const startIndex = (page - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const pageData = filteredPrices.slice(startIndex, endIndex);
+            const totalRecords = filteredPrices.length;
+
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Devise</th>
+                            <th>Unité</th>
+                            <th>Source</th>
+                            <th>Date de prix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            pageData.forEach(price => {
+                const metalClass = `metal-${price.metal_type ? price.metal_type.toLowerCase() : 'default'}`;
+                const source = formatSource(price.source_url);
+                const dateValue = price.price_date;
+
+                tableHTML += `
+                    <tr>
+                        <td><span class="metal-badge ${metalClass}">${price.metal_type || ''}</span></td>
+                        <td><span class="price-value">${formatPrice(price.price)}</span></td>
+                        <td>${price.currency || ''}</td>
+                        <td>${price.unit || ''}</td>
+                        <td><span class="source-badge ${source.class}">${source.label}</span></td>
+                        <td>${dateValue ? formatDateOnlyDate(dateValue) : ''}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            tableContainer.innerHTML = tableHTML;
+
+            if (paginationControls) {
+                paginationControls.innerHTML = `
+                    <div class="pagination-info">
+                        Affichage de ${startIndex + 1} à ${Math.min(endIndex, totalRecords)} sur ${totalRecords} enregistrements
+                    </div>
+                    <div class="pagination-buttons">
+                        <button class="pagination-button" onclick="changePage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>
+                            &laquo; Précédent
+                        </button>
+                        <span>Page ${page} / ${totalPages}</span>
+                        <button class="pagination-button" onclick="changePage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>
+                            Suivant &raquo;
+                        </button>
+                    </div>
+                `;
+                paginationControls.style.display = 'flex';
+            }
+        }
+
+        // NEW : changer de page
+        function changePage(newPage) {
+            const totalPages = Math.ceil(filteredPrices.length / pageSize) || 1;
+            if (newPage < 1 || newPage > totalPages) return;
+            currentPage = newPage;
+            renderTablePage(currentPage, totalPages);
+        }
+
+        // Charger l'historique des prix (sans filtres de colonnes dans le tableau)
         async function loadPriceHistory() {
             try {
                 let url = '/api/prices/history?';
-                
+
                 if (currentFilters.metalType !== 'all') {
                     url += `metal_type=${currentFilters.metalType}&`;
                 }
-                
+
                 if (currentFilters.startDate) {
                     url += `start_date=${currentFilters.startDate}&`;
                 }
-                
+
                 if (currentFilters.endDate) {
                     url += `end_date=${currentFilters.endDate}&`;
                 }
-                
-                // Si pas de dates, utiliser 7 jours par défaut
-                if (!currentFilters.startDate && !currentFilters.endDate) {
-                    url += 'days=7';
-                }
-                
+
+                // SUPPRESSION : ne plus limiter par défaut à 7 jours
+                // if (!currentFilters.startDate && !currentFilters.endDate) {
+                //     url += 'days=7';
+                // }
+
                 const response = await fetch(url);
                 const result = await response.json();
-                
+
                 const tableContainer = document.getElementById('tableContainer');
-                
+
                 if (result.status === 'success' && result.data.length > 0) {
-                    const prices = result.data;
-                    
-                    let tableHTML = `
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date & Heure</th>
-                                    <th>Produit</th>
-                                    <th>Métal</th>
-                                    <th>Prix</th>
-                                    <th>Devise</th>
-                                    <th>Unité</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                    `;
-                    
-                    prices.forEach(price => {
-                        const metalClass = `metal-${price.metal_type}`;
-                        tableHTML += `
-                            <tr>
-                                <td>${formatDate(price.created_at)}</td>
-                                <td>${price.source_product_name}</td>
-                                <td><span class="metal-badge ${metalClass}">${price.metal_type}</span></td>
-                                <td><span class="price-value">${formatPrice(price.price)}</span></td>
-                                <td>${price.currency}</td>
-                                <td>${price.unit}</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    tableHTML += `
-                            </tbody>
-                        </table>
-                    `;
-                    
-                    tableContainer.innerHTML = tableHTML;
+                    allPrices = result.data;
+
+                    // (Re)remplir le filtre Source à partir des données
+                    populateSourceFilterOptions();
+
+                    // Appliquer filtre Source + pagination
+                    applyTableFiltersAndRender();
                 } else {
+                    allPrices = [];
+                    filteredPrices = [];
                     tableContainer.innerHTML = '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
+                    const paginationControls = document.getElementById('paginationControls');
+                    if (paginationControls) paginationControls.style.display = 'none';
                 }
             } catch (error) {
                 console.error('Erreur chargement historique:', error);
-                document.getElementById('tableContainer').innerHTML = 
+                document.getElementById('tableContainer').innerHTML =
                     '<div class="no-data">Erreur lors du chargement des données</div>';
+                const paginationControls = document.getElementById('paginationControls');
+                if (paginationControls) paginationControls.style.display = 'none';
             }
         }
 
         // Charger toutes les données
         async function loadData() {
             document.getElementById('lastUpdate').textContent = 'Mise à jour en cours...';
-            
+
             await Promise.all([
                 loadStatistics(),
                 loadPriceHistory()
             ]);
-            
+
             document.getElementById('lastUpdate').textContent = formatDate(new Date());
         }
 
-        // Charger les données au démarrage
+        // Charger au démarrage
         loadData();
 
         // Auto-refresh toutes les 5 minutes
