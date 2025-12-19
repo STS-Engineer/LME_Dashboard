@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Métaux</title>
+    <title>AVO Carbon - Dashboard Métaux & FX</title>
     <link rel="icon" type="image/png"
       href="https://raw.githubusercontent.com/STS-Engineer/LME_Dashboard/main/templates/Gemini_Generated_Image_gc66sygc66sygc66.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -32,7 +32,7 @@
             padding: 20px 30px;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -60,6 +60,43 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Tabs / Pages */
+        .page-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .page-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #ecf0f1;
+            background: rgba(255,255,255,0.85);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .page-tab:hover {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .page-tab.active {
+            background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 8px rgba(0,102,178,0.3);
         }
 
         /* Statistics Section */
@@ -411,6 +448,42 @@
             color: #6c757d;
         }
 
+        /* FX Currency Badge */
+        .currency-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .currency-eur {
+            background-color: #e8f4fd;
+            color: #004d8c;
+        }
+
+        .currency-usd {
+            background-color: #e8f8f5;
+            color: #16a085;
+        }
+
+        .currency-cny {
+            background-color: #fef3e8;
+            color: #e67e22;
+        }
+
+        .currency-gbp {
+            background-color: #fce4ec;
+            color: #c2185b;
+        }
+
+        .currency-other {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -439,12 +512,10 @@
             font-style: italic;
         }
 
-        /* (ANCIENS filtres de colonnes supprimés du tableau) */
-
-        /* Pagination (NOUVEAU) */
+        /* Pagination (commune aux deux tableaux) */
         .pagination-controls {
             margin-top: 15px;
-            display: none; /* sera mis en flex via JS */
+            display: none;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
@@ -535,15 +606,20 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .page-tabs {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <div class="header">
             <div class="logo-section">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Ctext x='10' y='40' font-family='Arial' font-size='32' font-weight='bold' fill='%230066b2'%3EAVO%3C/text%3E%3Ctext x='90' y='40' font-family='Arial' font-size='32' fill='%23555'%3ECarbon%3C/text%3E%3Ctext x='110' y='55' font-family='Arial' font-size='14' fill='%23f39c12' font-weight='bold'%3EGROUP%3C/text%3E%3C/svg%3E" alt="AVO Carbon Group" class="logo">
-                <h1 class="header-title">Tableau de Bord - Prix des Métaux</h1>
+                <h1 class="header-title">Tableau de Bord</h1>
             </div>
             <div class="last-update">
                 <i class="fas fa-clock"></i>
@@ -551,89 +627,166 @@
             </div>
         </div>
 
-        <div class="stats-section">
-            <div class="stats-header">
+        <!-- TABS -->
+        <div class="page-tabs">
+            <button id="tab-metals" class="page-tab active" onclick="showPage('metals')">
+                <i class="fas fa-industry"></i> Prix des Métaux
+            </button>
+            <button id="tab-fx" class="page-tab" onclick="showPage('fx')">
+                <i class="fas fa-coins"></i> Taux de change ECB
+            </button>
+        </div>
+
+        <!-- PAGE MÉTAUX -->
+        <div id="page-metals">
+            <div class="stats-section">
+                <div class="stats-header">
+                    <h3 class="filters-title">
+                        <i class="fas fa-chart-line"></i>
+                        Résumé par métal
+                    </h3>
+                    <span id="statsSummary" class="stats-summary">Chargement...</span>
+                </div>
+                <div class="stats-grid" id="statsContainer">
+                </div>
+            </div>
+
+            <div class="filters-section">
                 <h3 class="filters-title">
-                    <i class="fas fa-chart-line"></i>
-                    Résumé par métal
+                    <i class="fas fa-filter"></i>
+                    Filtres
                 </h3>
-                <span id="statsSummary" class="stats-summary">Chargement...</span>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Type de métal</label>
+                        <select id="filterMetalType" class="filter-select">
+                            <option value="all">Tous les métaux</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Source</label>
+                        <select id="filterSource" class="filter-select">
+                            <option value="all">Toutes les sources</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Date de début</label>
+                        <input type="date" id="filterStartDate" class="filter-input">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Date de fin</label>
+                        <input type="date" id="filterEndDate" class="filter-input">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <button class="apply-filters-btn" onclick="applyFilters()">
+                            <i class="fas fa-search"></i> Appliquer
+                        </button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <button class="reset-filters-btn" onclick="resetFilters()">
+                            <i class="fas fa-redo"></i> Réinitialiser
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="stats-grid" id="statsContainer">
+
+            <div class="table-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-table"></i>
+                        Historique des Prix
+                    </h2>
+                    <div class="actions-group">
+                        <button class="export-btn" onclick="exportToExcel()">
+                            <i class="fas fa-file-excel"></i>
+                            Exporter Excel
+                        </button>
+                        <button class="refresh-btn" onclick="loadData()">
+                            <i class="fas fa-sync-alt"></i>
+                            Actualiser
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container" id="tableContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Chargement des données...</p>
+                    </div>
+                </div>
+
+                <div id="paginationControls" class="pagination-controls"></div>
             </div>
         </div>
 
-        <div class="filters-section">
-            <h3 class="filters-title">
-                <i class="fas fa-filter"></i>
-                Filtres
-            </h3>
-            <div class="filters-grid">
-                <div class="filter-group">
-                    <label class="filter-label">Type de métal</label>
-                    <select id="filterMetalType" class="filter-select">
-                        <option value="all">Tous les métaux</option>
-                    </select>
-                </div>
+        <!-- PAGE FX (ECB) -->
+        <div id="page-fx" style="display:none;">
+            <div class="filters-section">
+                <h3 class="filters-title">
+                    <i class="fas fa-filter"></i>
+                    Filtres Taux de change ECB (EUR base)
+                </h3>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Devise cotée (quote_currency)</label>
+                        <select id="fxQuoteCurrency" class="filter-select">
+                            <option value="all">Toutes les devises</option>
+                        </select>
+                    </div>
 
-                <!-- NOUVEAU : filtre Source -->
-                <div class="filter-group">
-                    <label class="filter-label">Source</label>
-                    <select id="filterSource" class="filter-select">
-                        <option value="all">Toutes les sources</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label class="filter-label">Date de début</label>
-                    <input type="date" id="filterStartDate" class="filter-input">
-                </div>
-                
-                <div class="filter-group">
-                    <label class="filter-label">Date de fin</label>
-                    <input type="date" id="filterEndDate" class="filter-input">
-                </div>
-                
-                <div class="filter-group">
-                    <button class="apply-filters-btn" onclick="applyFilters()">
-                        <i class="fas fa-search"></i> Appliquer
-                    </button>
-                </div>
-                
-                <div class="filter-group">
-                    <button class="reset-filters-btn" onclick="resetFilters()">
-                        <i class="fas fa-redo"></i> Réinitialiser
-                    </button>
-                </div>
-            </div>
-        </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Date de début</label>
+                        <input type="date" id="fxStartDate" class="filter-input">
+                    </div>
 
-        <div class="table-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-table"></i>
-                    Historique des Prix
-                </h2>
-                <div class="actions-group">
-                    <button class="export-btn" onclick="exportToExcel()">
-                        <i class="fas fa-file-excel"></i>
-                        Exporter Excel
-                    </button>
-                    <button class="refresh-btn" onclick="loadData()">
-                        <i class="fas fa-sync-alt"></i>
-                        Actualiser
-                    </button>
-                </div>
-            </div>
-            <div class="table-container" id="tableContainer">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Chargement des données...</p>
+                    <div class="filter-group">
+                        <label class="filter-label">Date de fin</label>
+                        <input type="date" id="fxEndDate" class="filter-input">
+                    </div>
+
+                    <div class="filter-group">
+                        <button class="apply-filters-btn" onclick="applyFxFilters()">
+                            <i class="fas fa-search"></i> Appliquer (FX)
+                        </button>
+                    </div>
+
+                    <div class="filter-group">
+                        <button class="reset-filters-btn" onclick="resetFxFilters()">
+                            <i class="fas fa-redo"></i> Réinitialiser (FX)
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- NOUVEAU : contrôles de pagination -->
-            <div id="paginationControls" class="pagination-controls"></div>
+            <div class="table-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-coins"></i>
+                        Taux de change ECB (EUR → devise)
+                    </h2>
+                    <div class="actions-group">
+                        <button class="export-btn" onclick="exportFxToExcel()">
+                            <i class="fas fa-file-excel"></i>
+                            Exporter Excel (FX)
+                        </button>
+                        <button class="refresh-btn" onclick="loadFxRates()">
+                            <i class="fas fa-sync-alt"></i>
+                            Actualiser (FX)
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container" id="fxTableContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Chargement des taux de change ECB...</p>
+                    </div>
+                </div>
+                <div id="fxPaginationControls" class="pagination-controls"></div>
+            </div>
         </div>
 
         <div class="footer">
@@ -642,21 +795,50 @@
     </div>
 
     <script>
-        // Variables globales pour les filtres
+        // --- GESTION TABS / PAGES ---
+        function showPage(page) {
+            const metalsPage = document.getElementById('page-metals');
+            const fxPage = document.getElementById('page-fx');
+            const tabMetals = document.getElementById('tab-metals');
+            const tabFx = document.getElementById('tab-fx');
+
+            if (page === 'metals') {
+                metalsPage.style.display = 'block';
+                fxPage.style.display = 'none';
+                tabMetals.classList.add('active');
+                tabFx.classList.remove('active');
+            } else {
+                metalsPage.style.display = 'none';
+                fxPage.style.display = 'block';
+                tabMetals.classList.remove('active');
+                tabFx.classList.add('active');
+            }
+        }
+
+        // Variables globales pour les filtres Métaux
         let currentFilters = {
             metalType: 'all',
             startDate: null,
             endDate: null,
-            source: 'all' // NEW
+            source: 'all'
         };
 
-        // NEW: variables pour pagination & données
         let allPrices = [];
         let filteredPrices = [];
         let currentPage = 1;
-        const pageSize = 15; // nombre de lignes par page
+        const pageSize = 15;
 
-        // Fonction pour formater la date (avec heure, utilisée pour "Dernière mise à jour")
+        // FX (ECB)
+        let fxFilters = {
+            quoteCurrency: 'all',
+            startDate: null,
+            endDate: null
+        };
+        let fxData = [];
+        let fxFilteredData = [];
+        let fxCurrentPage = 1;
+        const fxPageSize = 15;
+
         function formatDate(dateInput) {
             const date = new Date(dateInput);
             if (isNaN(date.getTime())) return '';
@@ -669,7 +851,6 @@
             });
         }
 
-        // NOUVEAU : fonction pour formater uniquement la date (pour la colonne "Date de prix")
         function formatDateOnlyDate(dateInput) {
             const date = new Date(dateInput);
             if (isNaN(date.getTime())) return '';
@@ -680,16 +861,14 @@
             });
         }
 
-        // Fonction pour formater le prix
         function formatPrice(price) {
             if (price === null || price === undefined || isNaN(price)) return '--';
             return new Intl.NumberFormat('fr-FR', {
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                maximumFractionDigits: 4
             }).format(price);
         }
 
-        // Formater la source (URL → ABBREVIATION)
         function formatSource(sourceUrl) {
             if (!sourceUrl) return { label: '--', class: 'source-unknown' };
             
@@ -714,23 +893,22 @@
             return { label: 'AUTRE', class: 'source-unknown' };
         }
 
-        // Appliquer les filtres globaux
+        // --- FILTRES METALS ---
         function applyFilters() {
             currentFilters.metalType = document.getElementById('filterMetalType').value;
             currentFilters.startDate = document.getElementById('filterStartDate').value;
             currentFilters.endDate = document.getElementById('filterEndDate').value;
-            currentFilters.source = document.getElementById('filterSource').value; // NEW
+            currentFilters.source = document.getElementById('filterSource').value;
 
             currentPage = 1;
             loadPriceHistory();
         }
 
-        // Réinitialiser les filtres
         function resetFilters() {
             document.getElementById('filterMetalType').value = 'all';
             document.getElementById('filterStartDate').value = '';
             document.getElementById('filterEndDate').value = '';
-            document.getElementById('filterSource').value = 'all'; // NEW
+            document.getElementById('filterSource').value = 'all';
 
             currentFilters = {
                 metalType: 'all',
@@ -743,30 +921,25 @@
             loadPriceHistory();
         }
 
-        // Exporter vers Excel (note : filtre Source pas encore géré côté backend)
         function exportToExcel() {
             let url = '/export/excel?';
 
             if (currentFilters.metalType !== 'all') {
                 url += `metal_type=${currentFilters.metalType}&`;
             }
-
             if (currentFilters.startDate) {
                 url += `start_date=${currentFilters.startDate}&`;
             }
-
             if (currentFilters.endDate) {
                 url += `end_date=${currentFilters.endDate}&`;
             }
-
             if (!currentFilters.startDate && !currentFilters.endDate) {
                 url += 'days=30';
             }
-
             window.location.href = url;
         }
 
-        // Charger les statistiques
+        // STATS
         async function loadStatistics() {
             try {
                 const response = await fetch('/api/statistics');
@@ -837,7 +1010,6 @@
             }
         }
 
-        // NEW : remplir la liste des sources possibles d'après les données chargées
         function populateSourceFilterOptions() {
             const select = document.getElementById('filterSource');
             if (!select) return;
@@ -863,7 +1035,6 @@
                     select.appendChild(option);
                 });
 
-            // Restaurer la valeur si toujours disponible
             if (currentValue !== 'all') {
                 const found = Array.from(labelsSet).some(
                     l => l.toLowerCase() === currentValue.toLowerCase()
@@ -875,7 +1046,6 @@
             }
         }
 
-        // NEW : appliquer le filtre Source + pagination, et afficher le tableau
         function applyTableFiltersAndRender() {
             const tableContainer = document.getElementById('tableContainer');
             const paginationControls = document.getElementById('paginationControls');
@@ -906,7 +1076,6 @@
             renderTablePage(currentPage, totalPages);
         }
 
-        // NEW : affiche une page spécifique du tableau
         function renderTablePage(page, totalPages) {
             const tableContainer = document.getElementById('tableContainer');
             const paginationControls = document.getElementById('paginationControls');
@@ -974,7 +1143,6 @@
             }
         }
 
-        // NEW : changer de page
         function changePage(newPage) {
             const totalPages = Math.ceil(filteredPrices.length / pageSize) || 1;
             if (newPage < 1 || newPage > totalPages) return;
@@ -982,7 +1150,6 @@
             renderTablePage(currentPage, totalPages);
         }
 
-        // Charger l'historique des prix (sans filtres de colonnes dans le tableau)
         async function loadPriceHistory() {
             try {
                 let url = '/api/prices/history?';
@@ -990,19 +1157,12 @@
                 if (currentFilters.metalType !== 'all') {
                     url += `metal_type=${currentFilters.metalType}&`;
                 }
-
                 if (currentFilters.startDate) {
                     url += `start_date=${currentFilters.startDate}&`;
                 }
-
                 if (currentFilters.endDate) {
                     url += `end_date=${currentFilters.endDate}&`;
                 }
-
-                // SUPPRESSION : ne plus limiter par défaut à 7 jours
-                // if (!currentFilters.startDate && !currentFilters.endDate) {
-                //     url += 'days=7';
-                // }
 
                 const response = await fetch(url);
                 const result = await response.json();
@@ -1011,11 +1171,7 @@
 
                 if (result.status === 'success' && result.data.length > 0) {
                     allPrices = result.data;
-
-                    // (Re)remplir le filtre Source à partir des données
                     populateSourceFilterOptions();
-
-                    // Appliquer filtre Source + pagination
                     applyTableFiltersAndRender();
                 } else {
                     allPrices = [];
@@ -1033,22 +1189,250 @@
             }
         }
 
+        // --- FX (ECB) ---
+
+        function populateFxCurrencyFilter() {
+            const select = document.getElementById('fxQuoteCurrency');
+            if (!select) return;
+
+            const currentValue = select.value || 'all';
+            const set = new Set();
+
+            fxData.forEach(row => {
+                if (row.quote_currency) {
+                    set.add(row.quote_currency);
+                }
+            });
+
+            select.innerHTML = '<option value="all">Toutes les devises</option>';
+
+            Array.from(set)
+                .sort()
+                .forEach(code => {
+                    const opt = document.createElement('option');
+                    opt.value = code;
+                    opt.textContent = code;
+                    select.appendChild(opt);
+                });
+
+            if (currentValue !== 'all' && set.has(currentValue)) {
+                select.value = currentValue;
+                fxFilters.quoteCurrency = currentValue;
+            }
+        }
+
+        async function loadFxRates() {
+            try {
+                let url = '/ecb/rates?';
+
+                if (fxFilters.startDate) {
+                    url += `start_date=${fxFilters.startDate}&`;
+                }
+                if (fxFilters.endDate) {
+                    url += `end_date=${fxFilters.endDate}&`;
+                }
+                if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== 'all') {
+                    url += `quote_currency=${fxFilters.quoteCurrency}&`;
+                }
+
+                const response = await fetch(url);
+                const result = await response.json();
+
+                const container = document.getElementById('fxTableContainer');
+
+                if (result.status === 'success' && Array.isArray(result.data) && result.data.length > 0) {
+                    fxData = result.data;
+                    populateFxCurrencyFilter();
+                    // reset pagination on new data
+                    fxCurrentPage = 1;
+                    renderFxTable();
+                } else {
+                    fxData = [];
+                    fxFilteredData = [];
+                    container.innerHTML = '<div class="no-data">Aucun taux disponible pour ces filtres</div>';
+                    const fxPaginationControls = document.getElementById('fxPaginationControls');
+                    if (fxPaginationControls) fxPaginationControls.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Erreur chargement FX:', error);
+                document.getElementById('fxTableContainer').innerHTML =
+                    '<div class="no-data">Erreur lors du chargement des taux ECB</div>';
+                const fxPaginationControls = document.getElementById('fxPaginationControls');
+                if (fxPaginationControls) fxPaginationControls.style.display = 'none';
+            }
+        }
+
+        // Helper pour choisir la classe du badge devise
+        function getCurrencyBadgeClass(code) {
+            const c = (code || '').toUpperCase();
+            switch (c) {
+                case 'EUR':
+                    return 'currency-badge currency-eur';
+                case 'USD':
+                    return 'currency-badge currency-usd';
+                case 'CNY':
+                    return 'currency-badge currency-cny';
+                case 'GBP':
+                    return 'currency-badge currency-gbp';
+                default:
+                    return 'currency-badge currency-other';
+            }
+        }
+
+        function renderFxTable() {
+            const container = document.getElementById('fxTableContainer');
+            const fxPaginationControls = document.getElementById('fxPaginationControls');
+
+            if (!fxData || fxData.length === 0) {
+                container.innerHTML = '<div class="no-data">Aucun taux disponible</div>';
+                if (fxPaginationControls) fxPaginationControls.style.display = 'none';
+                return;
+            }
+
+            const quoteFilter = fxFilters.quoteCurrency || 'all';
+            fxFilteredData = fxData.filter(row => {
+                if (!row.quote_currency) return false;
+                if (quoteFilter === 'all') return true;
+                return row.quote_currency === quoteFilter;
+            });
+
+            if (fxFilteredData.length === 0) {
+                container.innerHTML = '<div class="no-data">Aucun taux disponible pour ces filtres</div>';
+                if (fxPaginationControls) fxPaginationControls.style.display = 'none';
+                return;
+            }
+
+            const totalPages = Math.ceil(fxFilteredData.length / fxPageSize) || 1;
+            if (fxCurrentPage > totalPages) fxCurrentPage = totalPages;
+
+            renderFxTablePage(fxCurrentPage, totalPages);
+        }
+
+        function renderFxTablePage(page, totalPages) {
+            const container = document.getElementById('fxTableContainer');
+            const fxPaginationControls = document.getElementById('fxPaginationControls');
+
+            const startIndex = (page - 1) * fxPageSize;
+            const endIndex = startIndex + fxPageSize;
+            const pageData = fxFilteredData.slice(startIndex, endIndex);
+            const totalRecords = fxFilteredData.length;
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Devise</th>
+                            <th>Taux</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            pageData.forEach(row => {
+                const d = row.ref_date ? formatDateOnlyDate(row.ref_date) : '';
+                const code = row.quote_currency || '';
+                const rate = row.rate != null ? formatPrice(row.rate) : '--';
+                const badgeClass = getCurrencyBadgeClass(code);
+
+                html += `
+                    <tr>
+                        <td>${d}</td>
+                        <td><span class="${badgeClass}">${code}</span></td>
+                        <td>${rate}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = html;
+
+            if (fxPaginationControls) {
+                fxPaginationControls.innerHTML = `
+                    <div class="pagination-info">
+                        Affichage de ${startIndex + 1} à ${Math.min(endIndex, totalRecords)} sur ${totalRecords} enregistrements
+                    </div>
+                    <div class="pagination-buttons">
+                        <button class="pagination-button" onclick="changeFxPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>
+                            &laquo; Précédent
+                        </button>
+                        <span>Page ${page} / ${totalPages}</span>
+                        <button class="pagination-button" onclick="changeFxPage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>
+                            Suivant &raquo;
+                        </button>
+                    </div>
+                `;
+                fxPaginationControls.style.display = 'flex';
+            }
+        }
+
+        function changeFxPage(newPage) {
+            const totalPages = Math.ceil(fxFilteredData.length / fxPageSize) || 1;
+            if (newPage < 1 || newPage > totalPages) return;
+            fxCurrentPage = newPage;
+            renderFxTablePage(fxCurrentPage, totalPages);
+        }
+
+        function applyFxFilters() {
+            fxFilters.quoteCurrency = document.getElementById('fxQuoteCurrency').value || 'all';
+            fxFilters.startDate = document.getElementById('fxStartDate').value || null;
+            fxFilters.endDate = document.getElementById('fxEndDate').value || null;
+
+            fxCurrentPage = 1;
+            loadFxRates();
+        }
+
+        function resetFxFilters() {
+            document.getElementById('fxQuoteCurrency').value = 'all';
+            document.getElementById('fxStartDate').value = '';
+            document.getElementById('fxEndDate').value = '';
+
+            fxFilters = {
+                quoteCurrency: 'all',
+                startDate: null,
+                endDate: null
+            };
+
+            fxCurrentPage = 1;
+            loadFxRates();
+        }
+
+        function exportFxToExcel() {
+            let url = '/ecb/rates/export?';
+
+            if (fxFilters.startDate) {
+                url += `start_date=${fxFilters.startDate}&`;
+            }
+            if (fxFilters.endDate) {
+                url += `end_date=${fxFilters.endDate}&`;
+            }
+            if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== 'all') {
+                url += `quote_currency=${fxFilters.quoteCurrency}&`;
+            }
+
+            window.location.href = url;
+        }
+
         // Charger toutes les données
         async function loadData() {
             document.getElementById('lastUpdate').textContent = 'Mise à jour en cours...';
 
             await Promise.all([
                 loadStatistics(),
-                loadPriceHistory()
+                loadPriceHistory(),
+                loadFxRates()
             ]);
 
             document.getElementById('lastUpdate').textContent = formatDate(new Date());
         }
 
-        // Charger au démarrage
+        // Initial load
+        showPage('metals');
         loadData();
-
-        // Auto-refresh toutes les 5 minutes
         setInterval(loadData, 5 * 60 * 1000);
     </script>
 </body>
