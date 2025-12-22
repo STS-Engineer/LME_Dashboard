@@ -10,6 +10,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from io import BytesIO
+import calendar
+
 
 # Configuration logging
 logging.basicConfig(
@@ -271,8 +273,22 @@ def get_sync_logs(limit=10):
             conn.close()
 
 # ===============================
-# PARTIE ECB / TAUX DE CHANGE
+# PARTIE  TAUX DE CHANGE
 # ===============================
+def month_to_range(month_str: str):
+    """
+    month_str: 'YYYY-MM'
+    returns (start_date, end_date) as date objects
+    """
+    if not month_str:
+        return None, None
+    try:
+        y, m = map(int, month_str.split('-'))
+        last_day = calendar.monthrange(y, m)[1]
+        return date(y, m, 1), date(y, m, last_day)
+    except Exception:
+        return None, None
+    
 def get_ecb_rates(start_date=None, end_date=None, quote_currency=None):
     """
     Récupère les taux de change ECB depuis la table ecb_exchange_rates.
@@ -339,6 +355,51 @@ def get_ecb_rates(start_date=None, end_date=None, quote_currency=None):
         if conn:
             conn.close()
 
+def get_florent_report_data(year, month):
+    """
+    Récupère les données pour le rapport Florent:
+    - Closing rate du mois sélectionné
+    - Closing rate du mois précédent (M-1)
+    - Moyenne YTD (du 1er janvier jusqu'à la fin du mois sélectionné)
+    """
+    conn = get_db_connection()
+    if not conn:
+        return []
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            query = """
+            WITH MonthlyData AS (
+                SELECT 
+                    quote_currency,
+                    rate,
+                    ref_date,
+                    LAST_VALUE(rate) OVER (
+                        PARTITION BY quote_currency, DATE_TRUNC('month', ref_date) 
+                        ORDER BY ref_date 
+                        RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+                    ) as month_closing
+                FROM ecb_exchange_rates
+                WHERE EXTRACT(YEAR FROM ref_date) = %s
+            )
+            SELECT 
+                quote_currency,
+                MAX(CASE WHEN EXTRACT(MONTH FROM ref_date) = %s THEN month_closing END) as closing_rate,
+                MAX(CASE WHEN EXTRACT(MONTH FROM ref_date) = %s - 1 THEN month_closing END) as period_rate,
+                AVG(rate) FILTER (WHERE EXTRACT(MONTH FROM ref_date) <= %s) as ytd_average
+            FROM MonthlyData
+            GROUP BY quote_currency
+            ORDER BY quote_currency;
+            """
+            cur.execute(query, (year, month, month, month))
+            return cur.fetchall()
+    except Exception as e:
+        logger.error(f"Erreur get_florent_report_data: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        return []
+    finally:
+        conn.close()
+
 # ===============================
 # ROUTES FLASK
 # ===============================
@@ -370,27 +431,33 @@ def api_latest_prices():
 
 @app.route('/api/prices/history')
 def api_price_history():
-    """API pour l'historique des prix, avec filtres."""
     days = request.args.get('days', type=int)
     metal_type = request.args.get('metal_type')
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
+    month = request.args.get('month')  # NEW
 
     if metal_type and metal_type.lower() == 'all':
         metal_type = None
 
+    # If month is provided, override date range
+    if month:
+        sd, ed = month_to_range(month)
+        if sd and ed:
+            start_date = sd.isoformat()
+            end_date = ed.isoformat()
+            days = None  # ignore days
+
     history = get_price_history(days, metal_type, start_date, end_date)
-    
-    # Sérialiser les objets date pour JSON
+
     def serialize_history(item):
         if isinstance(item.get('price_date'), (date, datetime)):
             item['price_date'] = item['price_date'].isoformat()
         if isinstance(item.get('created_at'), (date, datetime)):
             item['created_at'] = item['created_at'].isoformat()
         return item
-    
+
     serialized_history = [serialize_history(dict(item)) for item in history]
-    
     return jsonify({'status': 'success', 'data': serialized_history})
 
 @app.route('/api/statistics')
@@ -544,7 +611,6 @@ def export_excel():
         return jsonify({'error': str(e)}), 500
 
 # ---------- API ECB / FX ----------
-
 @app.route('/ecb/rates')
 def api_ecb_rates():
     """
@@ -651,6 +717,102 @@ def api_ecb_rates_export():
 
     except Exception as e:
         logger.error(f"Erreur export FX Excel: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/ecb/export-florent')
+def export_florent():
+    """
+    Export Excel du rapport mensuel FX pour Florent avec style AVO Carbon.
+    Colonnes: Currency | Closing Rate (Mois) | Period Rate (M-1) | Average YTD
+    """
+    try:
+        month = request.args.get('month', type=int)
+        year = request.args.get('year', type=int)
+        
+        if not month or not year:
+            return jsonify({'status': 'error', 'message': 'Paramètres month et year requis'}), 400
+        
+        month_name = datetime(year, month, 1).strftime('%B %Y')
+        
+        data = get_florent_report_data(year, month)
+        
+        if not data:
+            return jsonify({'status': 'error', 'message': 'Aucune donnée disponible pour cette période'}), 404
+        
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Monthly FX Report"
+        
+        # --- STYLING CONFIGURATION ---
+        header_fill = PatternFill(start_color="002060", end_color="002060", fill_type="solid")  # Navy Blue
+        header_font = Font(color="FFFFFF", bold=True, size=12)
+        border_style = Border(
+            left=Side(style='thin'),
+            right=Side(style='thin'),
+            top=Side(style='thin'),
+            bottom=Side(style='thin')
+        )
+        center_align = Alignment(horizontal='center', vertical='center')
+        right_align = Alignment(horizontal='right', vertical='center')
+        
+        # 1. Write Headers
+        headers = ['Currency', f'Closing Rate ({month_name})', 'Period Rate', f'Average YTD {month_name}{year}']
+        ws.append(headers)
+        
+        # Apply Header Styles
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.alignment = center_align
+            cell.border = border_style
+        
+        # 2. Write Data Rows
+        for row_data in data:
+            row = [
+                row_data['quote_currency'],
+                row_data['closing_rate'] if row_data['closing_rate'] is not None else None,
+                row_data['period_rate'] if row_data['period_rate'] is not None else "N/A",
+                row_data['ytd_average'] if row_data['ytd_average'] is not None else None
+            ]
+            ws.append(row)
+        
+        # 3. Format Data Cells (Borders & Numbers)
+        for row in ws.iter_rows(min_row=2):
+            for idx, cell in enumerate(row):
+                cell.border = border_style
+                if idx == 0:  # Currency column
+                    cell.alignment = center_align
+                else:  # Numeric columns
+                    if isinstance(cell.value, (float, int)):
+                        cell.number_format = '0.0000'  # 4 decimals
+                        cell.alignment = right_align
+                    elif cell.value == "N/A":
+                        cell.alignment = center_align
+        
+        # Adjust Column Widths
+        ws.column_dimensions['A'].width = 15
+        ws.column_dimensions['B'].width = 22
+        ws.column_dimensions['C'].width = 22
+        ws.column_dimensions['D'].width = 22
+        
+        # Save to memory and return
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+        
+        filename = f"AVO_Monthly_FX_{month:02d}_{year}.xlsx"
+        
+        return send_file(
+            output,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            as_attachment=True,
+            download_name=filename
+        )
+        
+    except Exception as e:
+        logger.error(f"Erreur export Florent: {e}")
         import traceback
         logger.error(traceback.format_exc())
         return jsonify({'error': str(e)}), 500
