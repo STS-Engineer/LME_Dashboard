@@ -99,6 +99,34 @@
             box-shadow: 0 4px 8px rgba(0,102,178,0.3);
         }
 
+        /* Card Styles */
+        .card {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            /* content */
+        }
+
         /* Statistics Section */
         .stats-section {
             background: white;
@@ -240,7 +268,7 @@
             background: white;
         }
 
-        .apply-filters-btn {
+        .apply-filters-btn, .btn-success, .btn-primary {
             background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
             color: white;
             border: none;
@@ -251,11 +279,22 @@
             font-weight: 600;
             transition: all 0.3s ease;
             white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .apply-filters-btn:hover {
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .apply-filters-btn:hover, .btn-success:hover, .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,102,178,0.3);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 4px 8px rgba(39,174,96,0.3);
         }
 
         .reset-filters-btn {
@@ -273,6 +312,11 @@
         .reset-filters-btn:hover {
             border-color: #bdc3c7;
             color: #2c3e50;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
         }
 
         /* Table Section */
@@ -512,6 +556,27 @@
             font-style: italic;
         }
 
+        .text-muted {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .row.align-items-end {
+            align-items: flex-end;
+        }
+
+        .col-md-4 {
+            flex: 1;
+            min-width: 200px;
+        }
+
         /* Pagination (commune aux deux tableaux) */
         .pagination-controls {
             margin-top: 15px;
@@ -610,6 +675,14 @@
             .page-tabs {
                 flex-direction: column;
             }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .col-md-4 {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -670,17 +743,22 @@
                             <option value="all">Toutes les sources</option>
                         </select>
                     </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <i class="fas fa-calendar-alt"></i> Filtre par mois
+                        </label>
+                        <input type="month" id="filterMonth" class="filter-input">
+                    </div>
                     
                     <div class="filter-group">
                         <label class="filter-label">Date de début</label>
                         <input type="date" id="filterStartDate" class="filter-input">
-                    </div>
-                    
+                    </div>                  
                     <div class="filter-group">
                         <label class="filter-label">Date de fin</label>
                         <input type="date" id="filterEndDate" class="filter-input">
-                    </div>
-                    
+                    </div>                   
                     <div class="filter-group">
                         <button class="apply-filters-btn" onclick="applyFilters()">
                             <i class="fas fa-search"></i> Appliquer
@@ -694,7 +772,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="table-section">
                 <div class="section-header">
                     <h2 class="section-title">
@@ -718,13 +795,33 @@
                         <p>Chargement des données...</p>
                     </div>
                 </div>
-
                 <div id="paginationControls" class="pagination-controls"></div>
             </div>
         </div>
 
         <!-- PAGE FX (ECB) -->
         <div id="page-fx" style="display:none;">
+            <!-- RAPPORT FLORENT -->
+            <div class="card" style="border-top: 4px solid #27ae60;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-file-invoice-dollar"></i> Rapport mensuel</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Génère le rapport mensuel avec Closing Rate, Period Rate Average (M-1) et Moyenne YTD.</p>
+                    <div class="row align-items-end">
+                        <div class="col-md-4">
+                            <label class="filter-label">Choisir le mois :</label>
+                            <input type="month" id="florent_report_date" class="filter-input" value="2024-11">
+                        </div>
+                        <div class="col-md-4">
+                            <button onclick="downloadFlorentReport()" class="btn-success btn-block">
+                                <i class="fas fa-file-excel"></i> Exporter vers Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="filters-section">
                 <h3 class="filters-title">
                     <i class="fas fa-filter"></i>
@@ -736,6 +833,13 @@
                         <select id="fxQuoteCurrency" class="filter-select">
                             <option value="all">Toutes les devises</option>
                         </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <i class="fas fa-calendar-alt"></i> Filtre par mois
+                        </label>
+                        <input type="month" id="fxFilterMonth" class="filter-input">
                     </div>
 
                     <div class="filter-group">
@@ -795,6 +899,18 @@
     </div>
 
     <script>
+        // --- FONCTION RAPPORT FLORENT ---
+        function downloadFlorentReport() {
+            const picker = document.getElementById('florent_report_date').value;
+            if (!picker) {
+                alert("Veuillez sélectionner un mois valide.");
+                return;
+            }
+            const [year, month] = picker.split('-');
+            // Redirect to the new flask route
+            window.location.href = `/ecb/export-florent?year=${year}&month=${parseInt(month)}`;
+        }
+
         // --- GESTION TABS / PAGES ---
         function showPage(page) {
             const metalsPage = document.getElementById('page-metals');
@@ -820,7 +936,8 @@
             metalType: 'all',
             startDate: null,
             endDate: null,
-            source: 'all'
+            source: 'all',
+            month: null
         };
 
         let allPrices = [];
@@ -832,7 +949,8 @@
         let fxFilters = {
             quoteCurrency: 'all',
             startDate: null,
-            endDate: null
+            endDate: null,
+            month: null
         };
         let fxData = [];
         let fxFilteredData = [];
@@ -896,9 +1014,18 @@
         // --- FILTRES METALS ---
         function applyFilters() {
             currentFilters.metalType = document.getElementById('filterMetalType').value;
-            currentFilters.startDate = document.getElementById('filterStartDate').value;
-            currentFilters.endDate = document.getElementById('filterEndDate').value;
+            currentFilters.month = document.getElementById('filterMonth').value || null;
+            currentFilters.startDate = document.getElementById('filterStartDate').value || null;
+            currentFilters.endDate = document.getElementById('filterEndDate').value || null;
             currentFilters.source = document.getElementById('filterSource').value;
+
+            // Si un mois est sélectionné, on désactive les dates individuelles
+            if (currentFilters.month) {
+                document.getElementById('filterStartDate').value = '';
+                document.getElementById('filterEndDate').value = '';
+                currentFilters.startDate = null;
+                currentFilters.endDate = null;
+            }
 
             currentPage = 1;
             loadPriceHistory();
@@ -906,6 +1033,7 @@
 
         function resetFilters() {
             document.getElementById('filterMetalType').value = 'all';
+            document.getElementById('filterMonth').value = '';
             document.getElementById('filterStartDate').value = '';
             document.getElementById('filterEndDate').value = '';
             document.getElementById('filterSource').value = 'all';
@@ -914,7 +1042,8 @@
                 metalType: 'all',
                 startDate: null,
                 endDate: null,
-                source: 'all'
+                source: 'all',
+                month: null
             };
 
             currentPage = 1;
@@ -927,14 +1056,18 @@
             if (currentFilters.metalType !== 'all') {
                 url += `metal_type=${currentFilters.metalType}&`;
             }
-            if (currentFilters.startDate) {
-                url += `start_date=${currentFilters.startDate}&`;
-            }
-            if (currentFilters.endDate) {
-                url += `end_date=${currentFilters.endDate}&`;
-            }
-            if (!currentFilters.startDate && !currentFilters.endDate) {
-                url += 'days=30';
+            if (currentFilters.month) {
+                url += `month=${currentFilters.month}&`;
+            } else {
+                if (currentFilters.startDate) {
+                    url += `start_date=${currentFilters.startDate}&`;
+                }
+                if (currentFilters.endDate) {
+                    url += `end_date=${currentFilters.endDate}&`;
+                }
+                if (!currentFilters.startDate && !currentFilters.endDate) {
+                    url += 'days=30';
+                }
             }
             window.location.href = url;
         }
@@ -1157,11 +1290,15 @@
                 if (currentFilters.metalType !== 'all') {
                     url += `metal_type=${currentFilters.metalType}&`;
                 }
-                if (currentFilters.startDate) {
-                    url += `start_date=${currentFilters.startDate}&`;
-                }
-                if (currentFilters.endDate) {
-                    url += `end_date=${currentFilters.endDate}&`;
+                if (currentFilters.month) {
+                    url += `month=${currentFilters.month}&`;
+                } else {
+                    if (currentFilters.startDate) {
+                        url += `start_date=${currentFilters.startDate}&`;
+                    }
+                    if (currentFilters.endDate) {
+                        url += `end_date=${currentFilters.endDate}&`;
+                    }
                 }
 
                 const response = await fetch(url);
@@ -1225,11 +1362,15 @@
             try {
                 let url = '/ecb/rates?';
 
-                if (fxFilters.startDate) {
-                    url += `start_date=${fxFilters.startDate}&`;
-                }
-                if (fxFilters.endDate) {
-                    url += `end_date=${fxFilters.endDate}&`;
+                if (fxFilters.month) {
+                    url += `month=${fxFilters.month}&`;
+                } else {
+                    if (fxFilters.startDate) {
+                        url += `start_date=${fxFilters.startDate}&`;
+                    }
+                    if (fxFilters.endDate) {
+                        url += `end_date=${fxFilters.endDate}&`;
+                    }
                 }
                 if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== 'all') {
                     url += `quote_currency=${fxFilters.quoteCurrency}&`;
@@ -1243,7 +1384,6 @@
                 if (result.status === 'success' && Array.isArray(result.data) && result.data.length > 0) {
                     fxData = result.data;
                     populateFxCurrencyFilter();
-                    // reset pagination on new data
                     fxCurrentPage = 1;
                     renderFxTable();
                 } else {
@@ -1262,7 +1402,6 @@
             }
         }
 
-        // Helper pour choisir la classe du badge devise
         function getCurrencyBadgeClass(code) {
             const c = (code || '').toUpperCase();
             switch (c) {
@@ -1379,8 +1518,17 @@
 
         function applyFxFilters() {
             fxFilters.quoteCurrency = document.getElementById('fxQuoteCurrency').value || 'all';
+            fxFilters.month = document.getElementById('fxFilterMonth').value || null;
             fxFilters.startDate = document.getElementById('fxStartDate').value || null;
             fxFilters.endDate = document.getElementById('fxEndDate').value || null;
+
+            // Si un mois est sélectionné, on désactive les dates individuelles
+            if (fxFilters.month) {
+                document.getElementById('fxStartDate').value = '';
+                document.getElementById('fxEndDate').value = '';
+                fxFilters.startDate = null;
+                fxFilters.endDate = null;
+            }
 
             fxCurrentPage = 1;
             loadFxRates();
@@ -1388,13 +1536,15 @@
 
         function resetFxFilters() {
             document.getElementById('fxQuoteCurrency').value = 'all';
+            document.getElementById('fxFilterMonth').value = '';
             document.getElementById('fxStartDate').value = '';
             document.getElementById('fxEndDate').value = '';
 
             fxFilters = {
                 quoteCurrency: 'all',
                 startDate: null,
-                endDate: null
+                endDate: null,
+                month: null
             };
 
             fxCurrentPage = 1;
@@ -1404,11 +1554,15 @@
         function exportFxToExcel() {
             let url = '/ecb/rates/export?';
 
-            if (fxFilters.startDate) {
-                url += `start_date=${fxFilters.startDate}&`;
-            }
-            if (fxFilters.endDate) {
-                url += `end_date=${fxFilters.endDate}&`;
+            if (fxFilters.month) {
+                url += `month=${fxFilters.month}&`;
+            } else {
+                if (fxFilters.startDate) {
+                    url += `start_date=${fxFilters.startDate}&`;
+                }
+                if (fxFilters.endDate) {
+                    url += `end_date=${fxFilters.endDate}&`;
+                }
             }
             if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== 'all') {
                 url += `quote_currency=${fxFilters.quoteCurrency}&`;
@@ -1417,7 +1571,6 @@
             window.location.href = url;
         }
 
-        // Charger toutes les données
         async function loadData() {
             document.getElementById('lastUpdate').textContent = 'Mise à jour en cours...';
 
@@ -1430,7 +1583,6 @@
             document.getElementById('lastUpdate').textContent = formatDate(new Date());
         }
 
-        // Initial load
         showPage('metals');
         loadData();
         setInterval(loadData, 5 * 60 * 1000);
