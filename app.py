@@ -12,7 +12,6 @@ from openpyxl.utils import get_column_letter
 from io import BytesIO
 import calendar
 
-
 # Configuration logging
 logging.basicConfig(
     level=logging.INFO,
@@ -34,7 +33,6 @@ DB_CONFIG = {
     "database": "LME_DB",
     "sslmode": "require"
 }
-
 # ===============================
 # FONCTIONS DATABASE GÉNÉRALES
 # ===============================
@@ -289,12 +287,13 @@ def month_to_range(month_str: str):
     except Exception:
         return None, None
     
-def get_ecb_rates(start_date=None, end_date=None, quote_currency=None):
+def get_ecb_rates(start_date=None, end_date=None, quote_currency=None, month=None):
     """
     Récupère les taux de change ECB depuis la table ecb_exchange_rates.
     Filtres:
       - start_date, end_date : 'YYYY-MM-DD' (optionnels)
       - quote_currency : code devise (ex: 'USD') ou None pour toutes.
+      - month : 'YYYY-MM' pour filtrer par mois
     """
     conn = get_db_connection()
     if not conn:
@@ -316,32 +315,40 @@ def get_ecb_rates(start_date=None, end_date=None, quote_currency=None):
             """
             params = []
 
-            if start_date:
-                try:
-                    sd = datetime.strptime(start_date, "%Y-%m-%d").date()
-                except ValueError:
-                    sd = None
-                if sd:
-                    query += " AND ref_date >= %s"
-                    params.append(sd)
+            # Handle month filter first (overrides start_date/end_date)
+            if month:
+                sd, ed = month_to_range(month)
+                if sd and ed:
+                    query += " AND ref_date >= %s AND ref_date <= %s"
+                    params.extend([sd, ed])
+            else:
+                # Handle individual date filters
+                if start_date:
+                    try:
+                        sd = datetime.strptime(start_date, "%Y-%m-%d").date()
+                    except ValueError:
+                        sd = None
+                    if sd:
+                        query += " AND ref_date >= %s"
+                        params.append(sd)
 
-            if end_date:
-                try:
-                    ed = datetime.strptime(end_date, "%Y-%m-%d").date()
-                except ValueError:
-                    ed = None
-                if ed:
-                    query += " AND ref_date <= %s"
-                    params.append(ed)
+                if end_date:
+                    try:
+                        ed = datetime.strptime(end_date, "%Y-%m-%d").date()
+                    except ValueError:
+                        ed = None
+                    if ed:
+                        query += " AND ref_date <= %s"
+                        params.append(ed)
+
+                # Si aucune date fournie, on limite par défaut aux 365 derniers jours
+                if not start_date and not end_date:
+                    query += " AND ref_date >= %s"
+                    params.append(datetime.now().date() - timedelta(days=365))
 
             if quote_currency and quote_currency.lower() != 'all':
                 query += " AND quote_currency = %s"
                 params.append(quote_currency.upper())
-
-            # Si aucune date fournie, on limite par défaut aux 365 derniers jours
-            if not start_date and not end_date:
-                query += " AND ref_date >= %s"
-                params.append(datetime.now().date() - timedelta(days=365))
 
             query += " ORDER BY ref_date DESC, quote_currency ASC"
 
@@ -619,12 +626,19 @@ def api_ecb_rates():
       - start_date (YYYY-MM-DD, optionnel)
       - end_date   (YYYY-MM-DD, optionnel)
       - quote_currency (code devise, optionnel)
+      - month (YYYY-MM, optionnel)
     """
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
     quote_currency = request.args.get('quote_currency')
+    month = request.args.get('month')  # NEW: Get month parameter
 
-    rates = get_ecb_rates(start_date=start_date, end_date=end_date, quote_currency=quote_currency)
+    rates = get_ecb_rates(
+        start_date=start_date, 
+        end_date=end_date, 
+        quote_currency=quote_currency,
+        month=month  # NEW: Pass month parameter
+    )
 
     def serialize_rate(row):
         d = dict(row)
@@ -632,7 +646,6 @@ def api_ecb_rates():
             d['ref_date'] = d['ref_date'].isoformat()
         if d.get('rate') is not None:
             d['rate'] = float(d['rate'])
-        # metadata peut être jsonb -> le laisser tel quel ou le cast en str si nécessaire
         return d
 
     data = [serialize_rate(r) for r in rates]
@@ -649,8 +662,14 @@ def api_ecb_rates_export():
         start_date = request.args.get('start_date')
         end_date = request.args.get('end_date')
         quote_currency = request.args.get('quote_currency')
+        month = request.args.get('month')  # NEW: Get month parameter
 
-        rates = get_ecb_rates(start_date=start_date, end_date=end_date, quote_currency=quote_currency)
+        rates = get_ecb_rates(
+            start_date=start_date, 
+            end_date=end_date, 
+            quote_currency=quote_currency,
+            month=month  # NEW: Pass month parameter
+        )
 
         if not rates:
             return jsonify({'status': 'error', 'message': 'Aucun taux à exporter'}), 404
@@ -816,7 +835,6 @@ def export_florent():
         import traceback
         logger.error(traceback.format_exc())
         return jsonify({'error': str(e)}), 500
-
 # ===============================
 # POINT D'ENTRÉE
 # ===============================
