@@ -407,6 +407,153 @@ def get_florent_report_data(year, month):
     finally:
         conn.close()
 
+def get_monthly_fx_summary(year=None, month=None, quote_currency=None):
+    """
+    Récupère le résumé mensuel dynamique des taux FX:
+    - Closing Rate: dernier taux disponible du mois sélectionné
+    - Period Rate (M-1): dernier taux du mois précédent
+    - Average YTD: moyenne depuis le 1er janvier jusqu'à la fin du mois sélectionné
+    
+    Si year/month non fournis, utilise le mois actuel
+    """
+    conn = get_db_connection()
+    if not conn:
+        return []
+    
+    try:
+        # Si pas de date fournie, utiliser le mois actuel
+        if not year or not month:
+            today = datetime.now()
+            year = today.year
+            month = today.month
+        else:
+            year = int(year)
+            month = int(month)
+        
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            query = """
+            WITH MonthlyClosing AS (
+                -- Closing Rate: dernier taux disponible du mois sélectionné
+                SELECT DISTINCT ON (quote_currency)
+                    quote_currency,
+                    rate as closing_rate,
+                    ref_date as closing_date
+                FROM ecb_exchange_rates
+                WHERE EXTRACT(YEAR FROM ref_date) = %s
+                  AND EXTRACT(MONTH FROM ref_date) = %s
+                ORDER BY quote_currency, ref_date DESC
+            ),
+            PreviousMonthClosing AS (
+                -- Period Rate: dernier taux du mois précédent (M-1)
+                SELECT DISTINCT ON (quote_currency)
+                    quote_currency,
+                    rate as period_rate,
+                    ref_date as period_date
+                FROM ecb_exchange_rates
+                WHERE (
+                    (EXTRACT(YEAR FROM ref_date) = %s AND EXTRACT(MONTH FROM ref_date) = %s - 1)
+                    OR
+                    (EXTRACT(YEAR FROM ref_date) = %s - 1 AND EXTRACT(MONTH FROM ref_date) = 12 AND %s = 1)
+                )
+                ORDER BY quote_currency, ref_date DESC
+            ),
+            YTDAverage AS (
+                -- Average YTD: moyenne depuis le 1er janvier jusqu'à la fin du mois sélectionné
+                SELECT 
+                    quote_currency,
+                    AVG(rate) as ytd_average
+                FROM ecb_exchange_rates
+                WHERE EXTRACT(YEAR FROM ref_date) = %s
+                  AND EXTRACT(MONTH FROM ref_date) <= %s
+                GROUP BY quote_currency
+            )
+            SELECT 
+                mc.quote_currency,
+                mc.closing_rate,
+                mc.closing_date,
+                pmc.period_rate,
+                pmc.period_date,
+                ytd.ytd_average
+            FROM MonthlyClosing mc
+            LEFT JOIN PreviousMonthClosing pmc ON mc.quote_currency = pmc.quote_currency
+            LEFT JOIN YTDAverage ytd ON mc.quote_currency = ytd.quote_currency
+            WHERE 1=1
+            """
+            
+            params = [
+                year, month,  # MonthlyClosing
+                year, month, year, month,  # PreviousMonthClosing
+                year, month  # YTDAverage
+            ]
+            
+            # Filtre optionnel par devise
+            if quote_currency and quote_currency.lower() != 'all':
+                query += " AND mc.quote_currency = %s"
+                params.append(quote_currency.upper())
+            
+            query += " ORDER BY mc.quote_currency"
+            
+            cur.execute(query, params)
+            return cur.fetchall()
+            
+    except Exception as e:
+        logger.error(f"Erreur get_monthly_fx_summary: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        return []
+    finally:
+        conn.close()
+
+
+# Add this NEW route for the monthly summary API
+
+@app.route('/ecb/monthly-summary')
+def api_monthly_fx_summary():
+    """
+    API pour récupérer le résumé mensuel dynamique des taux FX.
+    Paramètres:
+      - year (optionnel): année (défaut: année actuelle)
+      - month (optionnel): mois 1-12 (défaut: mois actuel)
+      - quote_currency (optionnel): devise à filtrer
+    """
+    year = request.args.get('year', type=int)
+    month = request.args.get('month', type=int)
+    quote_currency = request.args.get('quote_currency')
+    
+    summary = get_monthly_fx_summary(year, month, quote_currency)
+    
+    def serialize_summary(row):
+        d = dict(row)
+        # Serialize dates
+        if isinstance(d.get('closing_date'), (date, datetime)):
+            d['closing_date'] = d['closing_date'].isoformat()
+        if isinstance(d.get('period_date'), (date, datetime)):
+            d['period_date'] = d['period_date'].isoformat()
+        # Serialize decimal values
+        if d.get('closing_rate') is not None:
+            d['closing_rate'] = float(d['closing_rate'])
+        if d.get('period_rate') is not None:
+            d['period_rate'] = float(d['period_rate'])
+        if d.get('ytd_average') is not None:
+            d['ytd_average'] = float(d['ytd_average'])
+        return d
+    
+    data = [serialize_summary(r) for r in summary]
+    
+    # Add metadata about the period
+    metadata = {
+        'year': year or datetime.now().year,
+        'month': month or datetime.now().month,
+        'month_name': datetime(year or datetime.now().year, month or datetime.now().month, 1).strftime('%B %Y'),
+        'is_current_month': (year or datetime.now().year) == datetime.now().year and (month or datetime.now().month) == datetime.now().month
+    }
+    
+    return jsonify({
+        'status': 'success',
+        'data': data,
+        'metadata': metadata
+    })
+
 # ===============================
 # ROUTES FLASK
 # ===============================
