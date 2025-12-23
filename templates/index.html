@@ -8,6 +8,38 @@
       href="https://raw.githubusercontent.com/STS-Engineer/LME_Dashboard/main/templates/Gemini_Generated_Image_gc66sygc66sygc66.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient-start: #f5f7fa;
+            --bg-gradient-end: #c3cfe2;
+            --card-bg: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --primary-color: #0066b2;
+            --primary-dark: #004d8c;
+            --success-color: #27ae60;
+            --success-dark: #229954;
+            --danger-color: #e74c3c;
+            --border-color: #ecf0f1;
+            --border-hover: #bdc3c7;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 6px 12px rgba(0,0,0,0.15);
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --card-bg: #0f3460;
+            --text-primary: #e4e4e4;
+            --text-secondary: #b0b0b0;
+            --border-color: #1e3a5f;
+            --border-hover: #2e5a8f;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 6px 12px rgba(0,0,0,0.5);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,26 +48,117 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             padding: 20px;
+            transition: background var(--transition-speed) ease;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            33% {
+                transform: translateY(-100vh) translateX(50px);
+            }
+            66% {
+                transform: translateY(-200vh) translateX(-50px);
+            }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Header avec logo */
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--card-bg);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            border: 3px solid var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0,102,178,0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(0,102,178,0);
+            }
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+            animation: none;
+        }
+
+        .theme-toggle i {
+            font-size: 24px;
+            color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        /* Header */
         .header {
-            background: white;
+            background: var(--card-bg);
             padding: 20px 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            animation: slideDown 0.5s ease;
+            transition: all var(--transition-speed) ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .logo-section {
@@ -46,27 +169,56 @@
 
         .logo {
             height: 60px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .header-title {
             font-size: 28px;
-            color: #2c3e50;
+            color: var(--text-primary);
             font-weight: 600;
+            transition: color var(--transition-speed) ease;
         }
 
         .last-update {
-            color: #7f8c8d;
+            color: var(--text-secondary);
             font-size: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: color var(--transition-speed) ease;
         }
 
-        /* Tabs / Pages */
+        .last-update i {
+            animation: clockTick 1s ease-in-out infinite;
+        }
+
+        @keyframes clockTick {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(10deg);
+            }
+            75% {
+                transform: rotate(-10deg);
+            }
+        }
+
+        /* Tabs */
         .page-tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            animation: slideDown 0.6s ease;
         }
 
         .page-tab {
@@ -74,66 +226,110 @@
             text-align: center;
             padding: 10px 15px;
             border-radius: 10px;
-            border: 1px solid #ecf0f1;
-            background: rgba(255,255,255,0.85);
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s ease;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .page-tab:hover::before {
+            left: 100%;
         }
 
         .page-tab:hover {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-2px);
         }
 
         .page-tab.active {
-            background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
             border-color: transparent;
             box-shadow: 0 4px 8px rgba(0,102,178,0.3);
+            transform: scale(1.02);
+        }
+
+        .page-tab i {
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .page-tab:hover i {
+            transform: scale(1.2);
         }
 
         /* Card Styles */
         .card {
-            background: white;
+            background: var(--card-bg);
             padding: 25px 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             margin-bottom: 30px;
+            transition: all var(--transition-speed) ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .card-header {
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #ecf0f1;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .card-title {
             font-size: 20px;
-            color: #2c3e50;
+            color: var(--text-primary);
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .card-body {
-            /* content */
+            transition: color var(--transition-speed) ease;
         }
 
         /* Statistics Section */
         .stats-section {
-            background: white;
+            background: var(--card-bg);
             padding: 20px 25px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             margin-bottom: 30px;
+            transition: all var(--transition-speed) ease;
+            animation: fadeIn 0.7s ease;
         }
 
         .stats-header {
@@ -145,7 +341,8 @@
 
         .stats-summary {
             font-size: 14px;
-            color: #7f8c8d;
+            color: var(--text-secondary);
+            transition: color var(--transition-speed) ease;
         }
 
         .stats-grid {
@@ -155,16 +352,35 @@
         }
 
         .stat-card {
-            background: white;
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg-gradient-start) 100%);
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-speed) ease;
+            animation: scaleIn 0.5s ease;
+            animation-fill-mode: backwards;
+            border: 1px solid var(--border-color);
         }
 
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
         }
 
         .stat-header {
@@ -175,21 +391,33 @@
         }
 
         .stat-title {
-            color: #7f8c8d;
+            color: var(--text-secondary);
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            transition: color var(--transition-speed) ease;
         }
 
         .stat-icon {
             font-size: 24px;
-            color: #0066b2;
+            color: var(--primary-color);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .stat-value {
             font-size: 32px;
             font-weight: 700;
-            color: #2c3e50;
+            color: var(--text-primary);
+            transition: color var(--transition-speed) ease;
         }
 
         .stat-change {
@@ -198,33 +426,61 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            font-weight: 600;
         }
 
         .change-positive {
-            color: #27ae60;
+            color: var(--success-color);
+            animation: priceUp 0.5s ease;
         }
 
         .change-negative {
-            color: #e74c3c;
+            color: var(--danger-color);
+            animation: priceDown 0.5s ease;
+        }
+
+        @keyframes priceUp {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes priceDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(3px);
+            }
         }
 
         /* Filters Section */
         .filters-section {
-            background: white;
+            background: var(--card-bg);
             padding: 25px 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             margin-bottom: 30px;
+            transition: all var(--transition-speed) ease;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .filters-section:hover {
+            box-shadow: var(--shadow-lg);
         }
 
         .filters-title {
             font-size: 18px;
-            color: #2c3e50;
+            color: var(--text-primary);
             font-weight: 600;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: color var(--transition-speed) ease;
         }
 
         .filters-grid {
@@ -238,94 +494,269 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
+            animation: slideUp 0.5s ease;
+            animation-fill-mode: backwards;
+        }
+
+        .filter-group:nth-child(1) { animation-delay: 0.1s; }
+        .filter-group:nth-child(2) { animation-delay: 0.2s; }
+        .filter-group:nth-child(3) { animation-delay: 0.3s; }
+        .filter-group:nth-child(4) { animation-delay: 0.4s; }
+        .filter-group:nth-child(5) { animation-delay: 0.5s; }
+        .filter-group:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .filter-label {
             font-size: 13px;
-            color: #7f8c8d;
+            color: var(--text-secondary);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .filter-group:focus-within .filter-label {
+            color: var(--primary-color);
         }
 
         .filter-input, .filter-select {
-            padding: 10px 15px;
-            border: 2px solid #ecf0f1;
-            border-radius: 8px;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
             font-size: 14px;
-            color: #2c3e50;
-            transition: all 0.3s ease;
+            color: var(--text-primary);
+            transition: all var(--transition-speed) ease;
+            background: var(--card-bg);
+        }
+
+        .filter-input:hover, .filter-select:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transform: translateY(-1px);
         }
 
         .filter-input:focus, .filter-select:focus {
             outline: none;
-            border-color: #0066b2;
-            box-shadow: 0 0 0 3px rgba(0,102,178,0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0,102,178,0.1);
+            transform: translateY(-2px);
         }
 
         .filter-select {
             cursor: pointer;
-            background: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230066b2' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 35px;
         }
 
-        .apply-filters-btn, .btn-success, .btn-primary {
-            background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+        .filter-group.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -10px;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border-radius: 3px;
+            animation: slideInLeft 0.3s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .filter-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4e9f7 100%);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            animation: popIn 0.3s ease;
+            transition: all var(--transition-speed) ease;
         }
 
-        .btn-success {
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        [data-theme="dark"] .filter-badge {
+            background: linear-gradient(135deg, rgba(0,102,178,0.2) 0%, rgba(0,77,140,0.3) 100%);
+            color: #5dade2;
         }
 
-        .apply-filters-btn:hover, .btn-success:hover, .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,102,178,0.3);
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        .btn-success:hover {
-            box-shadow: 0 4px 8px rgba(39,174,96,0.3);
+        .filter-badge:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-badge .remove-filter {
+            cursor: pointer;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+        }
+
+        .filter-badge .remove-filter:hover {
+            opacity: 1;
+            transform: rotate(90deg);
         }
 
         .reset-filters-btn {
             background: transparent;
-            color: #7f8c8d;
-            border: 2px solid #ecf0f1;
-            padding: 10px 25px;
-            border-radius: 8px;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            padding: 12px 25px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reset-filters-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0,102,178,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .reset-filters-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .reset-filters-btn:hover {
-            border-color: #bdc3c7;
-            color: #2c3e50;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .reset-filters-btn i {
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .reset-filters-btn:hover i {
+            transform: rotate(360deg);
+        }
+
+        .btn-success, .btn-primary {
+            background: linear-gradient(135deg, var(--success-color) 0%, var(--success-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all var(--transition-speed) ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+
+        .btn-success::before, .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-success:hover::before, .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-success:hover, .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39,174,96,0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(0,102,178,0.4);
+        }
+
+        .btn-success:active, .btn-primary:active {
+            transform: translateY(0);
         }
 
         .btn-block {
             width: 100%;
-            justify-content: center;
         }
 
         /* Table Section */
         .table-section {
-            background: white;
+            background: var(--card-bg);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             margin-bottom: 30px;
+            transition: all var(--transition-speed) ease;
+            animation: fadeIn 1s ease;
         }
 
         .section-header {
@@ -334,16 +765,17 @@
             align-items: center;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #ecf0f1;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .section-title {
             font-size: 22px;
-            color: #2c3e50;
+            color: var(--text-primary);
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: color var(--transition-speed) ease;
         }
 
         .actions-group {
@@ -353,7 +785,7 @@
         }
 
         .refresh-btn, .export-btn {
-            background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -363,11 +795,31 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .export-btn {
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            background: linear-gradient(135deg, var(--success-color) 0%, var(--success-dark) 100%);
+        }
+
+        .refresh-btn::before, .export-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .refresh-btn:hover::before, .export-btn:hover::before {
+            width: 200px;
+            height: 200px;
         }
 
         .refresh-btn:hover, .export-btn:hover {
@@ -379,8 +831,12 @@
             box-shadow: 0 4px 8px rgba(39,174,96,0.3);
         }
 
-        .refresh-btn:active, .export-btn:active {
-            transform: translateY(0);
+        .refresh-btn i {
+            transition: transform 0.5s ease;
+        }
+
+        .refresh-btn:hover i {
+            transform: rotate(360deg);
         }
 
         /* Table Styles */
@@ -391,10 +847,22 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            animation: tableLoad 0.5s ease;
+        }
+
+        @keyframes tableLoad {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         thead {
-            background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
         }
 
@@ -405,20 +873,58 @@
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        th:hover::after {
+            width: 100%;
         }
 
         tbody tr {
-            border-bottom: 1px solid #ecf0f1;
-            transition: background-color 0.2s ease;
+            border-bottom: 1px solid var(--border-color);
+            transition: all var(--transition-speed) ease;
+            animation: rowLoad 0.5s ease;
+            animation-fill-mode: backwards;
+        }
+
+        tbody tr:nth-child(1) { animation-delay: 0.05s; }
+        tbody tr:nth-child(2) { animation-delay: 0.1s; }
+        tbody tr:nth-child(3) { animation-delay: 0.15s; }
+        tbody tr:nth-child(4) { animation-delay: 0.2s; }
+        tbody tr:nth-child(5) { animation-delay: 0.25s; }
+
+        @keyframes rowLoad {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         tbody tr:hover {
-            background-color: #f8f9fa;
+            background: linear-gradient(90deg, transparent, rgba(0,102,178,0.05), transparent);
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         td {
             padding: 15px;
-            color: #2c3e50;
+            color: var(--text-primary);
+            transition: color var(--transition-speed) ease;
         }
 
         .metal-badge {
@@ -428,6 +934,24 @@
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
+            animation: badgePop 0.3s ease;
+            transition: transform 0.2s ease;
+        }
+
+        @keyframes badgePop {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .metal-badge:hover {
+            transform: scale(1.1);
         }
 
         .metal-copper {
@@ -448,10 +972,10 @@
         .price-value {
             font-size: 18px;
             font-weight: 700;
-            color: #0066b2;
+            color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
         }
 
-        /* Source Badge */
         .source-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -460,6 +984,11 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            transition: transform 0.2s ease;
+        }
+
+        .source-badge:hover {
+            transform: scale(1.05);
         }
 
         .source-agosi {
@@ -492,7 +1021,6 @@
             color: #6c757d;
         }
 
-        /* FX Currency Badge */
         .currency-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -501,6 +1029,11 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            transition: transform 0.2s ease;
+        }
+
+        .currency-badge:hover {
+            transform: scale(1.05);
         }
 
         .currency-eur {
@@ -531,12 +1064,13 @@
         .loading {
             text-align: center;
             padding: 40px;
-            color: #7f8c8d;
+            color: var(--text-secondary);
+            animation: fadeIn 0.5s ease;
         }
 
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #0066b2;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -552,14 +1086,16 @@
         .no-data {
             text-align: center;
             padding: 40px;
-            color: #95a5a6;
+            color: var(--text-secondary);
             font-style: italic;
+            animation: fadeIn 0.5s ease;
         }
 
         .text-muted {
-            color: #7f8c8d;
+            color: var(--text-secondary);
             font-size: 14px;
             margin-bottom: 15px;
+            transition: color var(--transition-speed) ease;
         }
 
         .row {
@@ -577,7 +1113,6 @@
             min-width: 200px;
         }
 
-        /* Pagination (commune aux deux tableaux) */
         .pagination-controls {
             margin-top: 15px;
             display: none;
@@ -586,7 +1121,8 @@
             flex-wrap: wrap;
             gap: 10px;
             font-size: 13px;
-            color: #7f8c8d;
+            color: var(--text-secondary);
+            animation: fadeIn 0.5s ease;
         }
 
         .pagination-info {
@@ -602,17 +1138,19 @@
         .pagination-button {
             padding: 6px 12px;
             border-radius: 6px;
-            border: 1px solid #ecf0f1;
-            background: white;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
             cursor: pointer;
             font-size: 13px;
             font-weight: 500;
             transition: all 0.2s ease;
+            color: var(--text-primary);
         }
 
         .pagination-button:hover:not(:disabled) {
-            border-color: #bdc3c7;
+            border-color: var(--border-hover);
             transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
         }
 
         .pagination-button:disabled {
@@ -620,12 +1158,13 @@
             cursor: not-allowed;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 20px;
-            color: #7f8c8d;
+            color: var(--text-secondary);
             font-size: 14px;
+            transition: color var(--transition-speed) ease;
+            animation: fadeIn 1.2s ease;
         }
 
         /* Responsive */
@@ -683,10 +1222,35 @@
             .col-md-4 {
                 width: 100%;
             }
+
+            .theme-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Performance optimizations */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .will-change {
+            will-change: transform, opacity;
         }
     </style>
 </head>
 <body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </div>
+
     <div class="container">
         <!-- HEADER -->
         <div class="header">
@@ -730,40 +1294,35 @@
                     Filtres
                 </h3>
                 <div class="filters-grid">
-                    <div class="filter-group">
+                    <div class="filter-group" id="filterGroup-metalType">
                         <label class="filter-label">Type de métal</label>
-                        <select id="filterMetalType" class="filter-select">
+                        <select id="filterMetalType" class="filter-select" onchange="handleFilterChange()">
                             <option value="all">Tous les métaux</option>
                         </select>
                     </div>
 
-                    <div class="filter-group">
+                    <div class="filter-group" id="filterGroup-source">
                         <label class="filter-label">Source</label>
-                        <select id="filterSource" class="filter-select">
+                        <select id="filterSource" class="filter-select" onchange="handleFilterChange()">
                             <option value="all">Toutes les sources</option>
                         </select>
                     </div>
 
-                    <div class="filter-group">
+                    <div class="filter-group" id="filterGroup-month">
                         <label class="filter-label">
                             <i class="fas fa-calendar-alt"></i> Filtre par mois
                         </label>
-                        <input type="month" id="filterMonth" class="filter-input">
+                        <input type="month" id="filterMonth" class="filter-input" onchange="handleFilterChange()">
                     </div>
                     
-                    <div class="filter-group">
+                    <div class="filter-group" id="filterGroup-startDate">
                         <label class="filter-label">Date de début</label>
-                        <input type="date" id="filterStartDate" class="filter-input">
+                        <input type="date" id="filterStartDate" class="filter-input" onchange="handleFilterChange()">
                     </div>                  
-                    <div class="filter-group">
+                    <div class="filter-group" id="filterGroup-endDate">
                         <label class="filter-label">Date de fin</label>
-                        <input type="date" id="filterEndDate" class="filter-input">
+                        <input type="date" id="filterEndDate" class="filter-input" onchange="handleFilterChange()">
                     </div>                   
-                    <div class="filter-group">
-                        <button class="apply-filters-btn" onclick="applyFilters()">
-                            <i class="fas fa-search"></i> Appliquer
-                        </button>
-                    </div>
                     
                     <div class="filter-group">
                         <button class="reset-filters-btn" onclick="resetFilters()">
@@ -771,7 +1330,11 @@
                         </button>
                     </div>
                 </div>
+                
+                <!-- Active Filters Display -->
+                <div id="activeFiltersContainer" class="active-filters" style="display: none;"></div>
             </div>
+
             <div class="table-section">
                 <div class="section-header">
                     <h2 class="section-title">
@@ -828,42 +1391,39 @@
                     Filtres Taux de change ECB (EUR base)
                 </h3>
                 <div class="filters-grid">
-                    <div class="filter-group">
+                    <div class="filter-group" id="fxFilterGroup-currency">
                         <label class="filter-label">Devise cotée (quote_currency)</label>
-                        <select id="fxQuoteCurrency" class="filter-select">
+                        <select id="fxQuoteCurrency" class="filter-select" onchange="handleFxFilterChange()">
                             <option value="all">Toutes les devises</option>
                         </select>
                     </div>
 
-                    <div class="filter-group">
+                    <div class="filter-group" id="fxFilterGroup-month">
                         <label class="filter-label">
                             <i class="fas fa-calendar-alt"></i> Filtre par mois
                         </label>
-                        <input type="month" id="fxFilterMonth" class="filter-input">
+                        <input type="month" id="fxFilterMonth" class="filter-input" onchange="handleFxFilterChange()">
                     </div>
 
-                    <div class="filter-group">
+                    <div class="filter-group" id="fxFilterGroup-startDate">
                         <label class="filter-label">Date de début</label>
-                        <input type="date" id="fxStartDate" class="filter-input">
+                        <input type="date" id="fxStartDate" class="filter-input" onchange="handleFxFilterChange()">
                     </div>
 
-                    <div class="filter-group">
+                    <div class="filter-group" id="fxFilterGroup-endDate">
                         <label class="filter-label">Date de fin</label>
-                        <input type="date" id="fxEndDate" class="filter-input">
-                    </div>
-
-                    <div class="filter-group">
-                        <button class="apply-filters-btn" onclick="applyFxFilters()">
-                            <i class="fas fa-search"></i> Appliquer (FX)
-                        </button>
+                        <input type="date" id="fxEndDate" class="filter-input" onchange="handleFxFilterChange()">
                     </div>
 
                     <div class="filter-group">
                         <button class="reset-filters-btn" onclick="resetFxFilters()">
-                            <i class="fas fa-redo"></i> Réinitialiser (FX)
+                            <i class="fas fa-redo"></i> Réinitialiser
                         </button>
                     </div>
                 </div>
+                
+                <!-- Active FX Filters Display -->
+                <div id="fxActiveFiltersContainer" class="active-filters" style="display: none;"></div>
             </div>
 
             <div class="table-section">
@@ -899,39 +1459,59 @@
     </div>
 
     <script>
-        // --- FONCTION RAPPORT FLORENT ---
-        function downloadFlorentReport() {
-            const picker = document.getElementById('florent_report_date').value;
-            if (!picker) {
-                alert("Veuillez sélectionner un mois valide.");
-                return;
-            }
-            const [year, month] = picker.split('-');
-            // Redirect to the new flask route
-            window.location.href = `/ecb/export-florent?year=${year}&month=${parseInt(month)}`;
-        }
-
-        // --- GESTION TABS / PAGES ---
-        function showPage(page) {
-            const metalsPage = document.getElementById('page-metals');
-            const fxPage = document.getElementById('page-fx');
-            const tabMetals = document.getElementById('tab-metals');
-            const tabFx = document.getElementById('tab-fx');
-
-            if (page === 'metals') {
-                metalsPage.style.display = 'block';
-                fxPage.style.display = 'none';
-                tabMetals.classList.add('active');
-                tabFx.classList.remove('active');
+        // ==========================================
+        // DARK MODE FUNCTIONALITY
+        // ==========================================
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
             } else {
-                metalsPage.style.display = 'none';
-                fxPage.style.display = 'block';
-                tabMetals.classList.remove('active');
-                tabFx.classList.add('active');
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
             }
         }
 
-        // Variables globales pour les filtres Métaux
+        // Load saved theme on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const icon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-sun';
+            }
+            
+            // Initialize particles
+            createParticles();
+        });
+
+        // ==========================================
+        // ANIMATED PARTICLES
+        // ==========================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ==========================================
+        // GLOBAL VARIABLES
+        // ==========================================
         let currentFilters = {
             metalType: 'all',
             startDate: null,
@@ -945,7 +1525,6 @@
         let currentPage = 1;
         const pageSize = 15;
 
-        // FX (ECB)
         let fxFilters = {
             quoteCurrency: 'all',
             startDate: null,
@@ -957,6 +1536,171 @@
         let fxCurrentPage = 1;
         const fxPageSize = 15;
 
+        // ==========================================
+        // AUTO-APPLY FILTER FUNCTIONS
+        // ==========================================
+        function handleFilterChange() {
+            applyFilters();
+        }
+
+        function handleFxFilterChange() {
+            applyFxFilters();
+        }
+
+        function updateActiveFiltersDisplay() {
+            const container = document.getElementById('activeFiltersContainer');
+            const badges = [];
+
+            if (currentFilters.metalType && currentFilters.metalType !== 'all') {
+                const select = document.getElementById('filterMetalType');
+                const text = select.options[select.selectedIndex].text;
+                badges.push({ key: 'metalType', label: `Métal: ${text}` });
+                document.getElementById('filterGroup-metalType').classList.add('active');
+            } else {
+                document.getElementById('filterGroup-metalType').classList.remove('active');
+            }
+
+            if (currentFilters.source && currentFilters.source !== 'all') {
+                const select = document.getElementById('filterSource');
+                const text = select.options[select.selectedIndex].text;
+                badges.push({ key: 'source', label: `Source: ${text}` });
+                document.getElementById('filterGroup-source').classList.add('active');
+            } else {
+                document.getElementById('filterGroup-source').classList.remove('active');
+            }
+
+            if (currentFilters.month) {
+                badges.push({ key: 'month', label: `Mois: ${currentFilters.month}` });
+                document.getElementById('filterGroup-month').classList.add('active');
+            } else {
+                document.getElementById('filterGroup-month').classList.remove('active');
+            }
+
+            if (currentFilters.startDate) {
+                badges.push({ key: 'startDate', label: `Début: ${currentFilters.startDate}` });
+                document.getElementById('filterGroup-startDate').classList.add('active');
+            } else {
+                document.getElementById('filterGroup-startDate').classList.remove('active');
+            }
+
+            if (currentFilters.endDate) {
+                badges.push({ key: 'endDate', label: `Fin: ${currentFilters.endDate}` });
+                document.getElementById('filterGroup-endDate').classList.add('active');
+            } else {
+                document.getElementById('filterGroup-endDate').classList.remove('active');
+            }
+
+            if (badges.length > 0) {
+                container.style.display = 'flex';
+                container.innerHTML = badges.map(badge => `
+                    <div class="filter-badge">
+                        <span>${badge.label}</span>
+                        <span class="remove-filter" onclick="removeActiveFilter('${badge.key}')">×</span>
+                    </div>
+                `).join('');
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function updateFxActiveFiltersDisplay() {
+            const container = document.getElementById('fxActiveFiltersContainer');
+            const badges = [];
+
+            if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== 'all') {
+                badges.push({ key: 'quoteCurrency', label: `Devise: ${fxFilters.quoteCurrency}` });
+                document.getElementById('fxFilterGroup-currency').classList.add('active');
+            } else {
+                document.getElementById('fxFilterGroup-currency').classList.remove('active');
+            }
+
+            if (fxFilters.month) {
+                badges.push({ key: 'month', label: `Mois: ${fxFilters.month}` });
+                document.getElementById('fxFilterGroup-month').classList.add('active');
+            } else {
+                document.getElementById('fxFilterGroup-month').classList.remove('active');
+            }
+
+            if (fxFilters.startDate) {
+                badges.push({ key: 'startDate', label: `Début: ${fxFilters.startDate}` });
+                document.getElementById('fxFilterGroup-startDate').classList.add('active');
+            } else {
+                document.getElementById('fxFilterGroup-startDate').classList.remove('active');
+            }
+
+            if (fxFilters.endDate) {
+                badges.push({ key: 'endDate', label: `Fin: ${fxFilters.endDate}` });
+                document.getElementById('fxFilterGroup-endDate').classList.add('active');
+            } else {
+                document.getElementById('fxFilterGroup-endDate').classList.remove('active');
+            }
+
+            if (badges.length > 0) {
+                container.style.display = 'flex';
+                container.innerHTML = badges.map(badge => `
+                    <div class="filter-badge">
+                        <span>${badge.label}</span>
+                        <span class="remove-filter" onclick="removeFxActiveFilter('${badge.key}')">×</span>
+                    </div>
+                `).join('');
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function removeActiveFilter(filterKey) {
+            switch(filterKey) {
+                case 'metalType':
+                    document.getElementById('filterMetalType').value = 'all';
+                    currentFilters.metalType = 'all';
+                    break;
+                case 'source':
+                    document.getElementById('filterSource').value = 'all';
+                    currentFilters.source = 'all';
+                    break;
+                case 'month':
+                    document.getElementById('filterMonth').value = '';
+                    currentFilters.month = null;
+                    break;
+                case 'startDate':
+                    document.getElementById('filterStartDate').value = '';
+                    currentFilters.startDate = null;
+                    break;
+                case 'endDate':
+                    document.getElementById('filterEndDate').value = '';
+                    currentFilters.endDate = null;
+                    break;
+            }
+            currentPage = 1;
+            loadPriceHistory();
+        }
+
+        function removeFxActiveFilter(filterKey) {
+            switch(filterKey) {
+                case 'quoteCurrency':
+                    document.getElementById('fxQuoteCurrency').value = 'all';
+                    fxFilters.quoteCurrency = 'all';
+                    break;
+                case 'month':
+                    document.getElementById('fxFilterMonth').value = '';
+                    fxFilters.month = null;
+                    break;
+                case 'startDate':
+                    document.getElementById('fxStartDate').value = '';
+                    fxFilters.startDate = null;
+                    break;
+                case 'endDate':
+                    document.getElementById('fxEndDate').value = '';
+                    fxFilters.endDate = null;
+                    break;
+            }
+            fxCurrentPage = 1;
+            loadFxRates();
+        }
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
         function formatDate(dateInput) {
             const date = new Date(dateInput);
             if (isNaN(date.getTime())) return '';
@@ -1011,7 +1755,9 @@
             return { label: 'AUTRE', class: 'source-unknown' };
         }
 
-        // --- FILTRES METALS ---
+        // ==========================================
+        // METALS FILTERS
+        // ==========================================
         function applyFilters() {
             currentFilters.metalType = document.getElementById('filterMetalType').value;
             currentFilters.month = document.getElementById('filterMonth').value || null;
@@ -1019,7 +1765,6 @@
             currentFilters.endDate = document.getElementById('filterEndDate').value || null;
             currentFilters.source = document.getElementById('filterSource').value;
 
-            // Si un mois est sélectionné, on désactive les dates individuelles
             if (currentFilters.month) {
                 document.getElementById('filterStartDate').value = '';
                 document.getElementById('filterEndDate').value = '';
@@ -1072,7 +1817,9 @@
             window.location.href = url;
         }
 
-        // STATS
+        // ==========================================
+        // STATISTICS
+        // ==========================================
         async function loadStatistics() {
             try {
                 const response = await fetch('/api/statistics');
@@ -1081,6 +1828,11 @@
                 if (result.status === 'success') {
                     const data = result.data || {};
                     const variations = data.variations || [];
+                    // ==========================================
+// CONTINUATION OF JAVASCRIPT CODE
+// Add this after the loadStatistics function in the HTML
+// ==========================================
+
                     const metalTypes = Array.from(new Set(variations.map(v => v.metal_type))).filter(Boolean);
 
                     const totalRecords = data.total_records || 0;
@@ -1310,12 +2062,14 @@
                     allPrices = result.data;
                     populateSourceFilterOptions();
                     applyTableFiltersAndRender();
+                    updateActiveFiltersDisplay();
                 } else {
                     allPrices = [];
                     filteredPrices = [];
                     tableContainer.innerHTML = '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
                     const paginationControls = document.getElementById('paginationControls');
                     if (paginationControls) paginationControls.style.display = 'none';
+                    updateActiveFiltersDisplay();
                 }
             } catch (error) {
                 console.error('Erreur chargement historique:', error);
@@ -1326,8 +2080,9 @@
             }
         }
 
-        // --- FX (ECB) ---
-
+        // ==========================================
+        // FX (ECB) FUNCTIONS
+        // ==========================================
         function populateFxCurrencyFilter() {
             const select = document.getElementById('fxQuoteCurrency');
             if (!select) return;
@@ -1386,12 +2141,14 @@
                     populateFxCurrencyFilter();
                     fxCurrentPage = 1;
                     renderFxTable();
+                    updateFxActiveFiltersDisplay();
                 } else {
                     fxData = [];
                     fxFilteredData = [];
                     container.innerHTML = '<div class="no-data">Aucun taux disponible pour ces filtres</div>';
                     const fxPaginationControls = document.getElementById('fxPaginationControls');
                     if (fxPaginationControls) fxPaginationControls.style.display = 'none';
+                    updateFxActiveFiltersDisplay();
                 }
             } catch (error) {
                 console.error('Erreur chargement FX:', error);
@@ -1522,7 +2279,6 @@
             fxFilters.startDate = document.getElementById('fxStartDate').value || null;
             fxFilters.endDate = document.getElementById('fxEndDate').value || null;
 
-            // Si un mois est sélectionné, on désactive les dates individuelles
             if (fxFilters.month) {
                 document.getElementById('fxStartDate').value = '';
                 document.getElementById('fxEndDate').value = '';
@@ -1571,6 +2327,44 @@
             window.location.href = url;
         }
 
+        // ==========================================
+        // FLORENT REPORT
+        // ==========================================
+        function downloadFlorentReport() {
+            const picker = document.getElementById('florent_report_date').value;
+            if (!picker) {
+                alert("Veuillez sélectionner un mois valide.");
+                return;
+            }
+            const [year, month] = picker.split('-');
+            window.location.href = `/ecb/export-florent?year=${year}&month=${parseInt(month)}`;
+        }
+
+        // ==========================================
+        // PAGE NAVIGATION
+        // ==========================================
+        function showPage(page) {
+            const metalsPage = document.getElementById('page-metals');
+            const fxPage = document.getElementById('page-fx');
+            const tabMetals = document.getElementById('tab-metals');
+            const tabFx = document.getElementById('tab-fx');
+
+            if (page === 'metals') {
+                metalsPage.style.display = 'block';
+                fxPage.style.display = 'none';
+                tabMetals.classList.add('active');
+                tabFx.classList.remove('active');
+            } else {
+                metalsPage.style.display = 'none';
+                fxPage.style.display = 'block';
+                tabMetals.classList.remove('active');
+                tabFx.classList.add('active');
+            }
+        }
+
+        // ==========================================
+        // MAIN DATA LOADING
+        // ==========================================
         async function loadData() {
             document.getElementById('lastUpdate').textContent = 'Mise à jour en cours...';
 
@@ -1583,9 +2377,12 @@
             document.getElementById('lastUpdate').textContent = formatDate(new Date());
         }
 
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
         showPage('metals');
         loadData();
-        setInterval(loadData, 5 * 60 * 1000);
+        setInterval(loadData, 5 * 60 * 1000); // Auto-refresh every 5 minutes
     </script>
 </body>
 </html>
