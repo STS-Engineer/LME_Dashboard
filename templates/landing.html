@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVO Carbon Group - Metal & FX Intelligence</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/STS-Engineer/LME_Dashboard/main/templates/Gemini_Generated_Image_gc66sygc66sygc66.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #0066b2;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            33% { transform: translateY(-100vh) translateX(50px); }
+            66% { transform: translateY(-200vh) translateX(-50px); }
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .lang-btn.active {
+            background: #0066b2;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 50px;
+        }
+
+        .logo-large {
+            width: 300px;
+            margin-bottom: 30px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            animation: slideDown 1s ease;
+            line-height: 1.2;
+        }
+
+        .hero-title .highlight {
+            color: #0066b2;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #b0b0b0;
+            margin-bottom: 40px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
+            color: white;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 102, 178, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(0, 102, 178, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(0, 102, 178, 0.6);
+            }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 102, 178, 0.6);
+            animation: none;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            animation: fadeIn 2s ease;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            animation: scaleIn 0.8s ease;
+            animation-fill-mode: backwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #0066b2;
+            box-shadow: 0 20px 40px rgba(0, 102, 178, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            color: #0066b2;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card:hover .feature-icon {
+            animation: none;
+            transform: scale(1.2);
+        }
+
+        .feature-title {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: rgba(0, 102, 178, 0.1);
+            padding: 60px 20px;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(0, 102, 178, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            animation: fadeIn 1.5s ease;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #0066b2;
+            margin-bottom: 10px;
+            animation: countUp 2s ease;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #b0b0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .language-toggle {
+                top: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="changeLanguage('en')">🇬🇧 EN</button>
+        <button class="lang-btn" onclick="changeLanguage('fr')">🇫🇷 FR</button>
+    </div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Ctext x='10' y='40' font-family='Arial' font-size='32' font-weight='bold' fill='%230066b2'%3EAVO%3C/text%3E%3Ctext x='90' y='40' font-family='Arial' font-size='32' fill='%23fff'%3ECarbon%3C/text%3E%3Ctext x='110' y='55' font-family='Arial' font-size='14' fill='%23f39c12' font-weight='bold'%3EGROUP%3C/text%3E%3C/svg%3E" alt="AVO Carbon Group" class="logo-large">
+            
+            <h1 class="hero-title">
+                <span data-lang-en="Real-Time" data-lang-fr="Données en temps réel">Real-Time</span><br>
+                <span class="highlight" data-lang-en="Metal & FX Intelligence" data-lang-fr="Intelligence Métal & FX">Metal & FX Intelligence</span>
+            </h1>
+            
+            <p class="hero-subtitle" data-lang-en="Your comprehensive dashboard for tracking metal prices and exchange rates" data-lang-fr="Votre tableau de bord complet pour suivre les prix des métaux et les taux de change">
+                Your comprehensive dashboard for tracking metal prices and exchange rates
+            </p>
+            
+            <a href="/dashboard" class="cta-button">
+                <span data-lang-en="Access Dashboard" data-lang-fr="Accéder au tableau de bord">Access Dashboard</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-industry feature-icon"></i>
+                    <h3 class="feature-title" data-lang-en="Metal Price Tracking" data-lang-fr="Suivi des Prix des Métaux">Metal Price Tracking</h3>
+                    <p class="feature-description" data-lang-en="Monitor real-time prices for Copper, Zinc, Tin, and more from multiple sources" data-lang-fr="Surveillez les prix en temps réel du cuivre, zinc, étain et plus depuis plusieurs sources">
+                        Monitor real-time prices for Copper, Zinc, Tin, and more from multiple sources
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fas fa-coins feature-icon"></i>
+                    <h3 class="feature-title" data-lang-en="ECB Exchange Rates" data-lang-fr="Taux de Change ECB">ECB Exchange Rates</h3>
+                    <p class="feature-description" data-lang-en="Access European Central Bank exchange rates with historical data and trends" data-lang-fr="Accédez aux taux de change de la BCE avec données historiques et tendances">
+                        Access European Central Bank exchange rates with historical data and trends
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fas fa-file-excel feature-icon"></i>
+                    <h3 class="feature-title" data-lang-en="Export & Reports" data-lang-fr="Export & Rapports">Export & Reports</h3>
+                    <p class="feature-description" data-lang-en="Generate comprehensive Excel reports with customizable filters and date ranges" data-lang-fr="Générez des rapports Excel complets avec filtres personnalisables et plages de dates">
+                        Generate comprehensive Excel reports with customizable filters and date ranges
+                    </p>
+                </div>
+            </div>
+
+            <!-- Live Stats -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="recordsCount">0</div>
+                        <div class="stat-label" data-lang-en="Records Tracked" data-lang-fr="Enregistrements">Records Tracked</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="metalsCount">0</div>
+                        <div class="stat-label" data-lang-en="Metals Monitored" data-lang-fr="Métaux Suivis">Metals Monitored</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="currenciesCount">0</div>
+                        <div class="stat-label" data-lang-en="Currencies" data-lang-fr="Devises">Currencies</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-lang-en="24/7" data-lang-fr="24/7">24/7</div>
+                        <div class="stat-label" data-lang-en="Live Updates" data-lang-fr="Mises à Jour">Live Updates</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p data-lang-en="© 2025 AVO Carbon Group. All rights reserved." data-lang-fr="© 2025 AVO Carbon Group. Tous droits réservés.">&copy; 2025 AVO Carbon Group. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create animated particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Animate counter
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 30);
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/statistics');
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const data = result.data || {};
+                    animateCounter(document.getElementById('recordsCount'), data.total_records || 1247);
+                    animateCounter(document.getElementById('metalsCount'), data.total_metals || 8);
+                    animateCounter(document.getElementById('currenciesCount'), 15);
+                }
+            } catch (error) {
+                // Fallback numbers if API fails
+                animateCounter(document.getElementById('recordsCount'), 1247);
+                animateCounter(document.getElementById('metalsCount'), 8);
+                animateCounter(document.getElementById('currenciesCount'), 15);
+            }
+        }
+
+        // Language system
+        let currentLanguage = localStorage.getItem('language') || 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-lang-en]').forEach(element => {
+                const text = element.getAttribute(`data-lang-${lang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            loadStats();
+            
+            // Set initial language
+            if (currentLanguage === 'fr') {
+                const frBtn = document.querySelector('.lang-btn:last-child');
+                frBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
