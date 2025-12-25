@@ -558,8 +558,11 @@ def api_monthly_fx_summary():
 # ROUTES FLASK
 # ===============================
 @app.route('/')
-def index():
-    """Route principale pour servir le front-end HTML."""
+def landing_page():
+    return render_template('landing.html')
+
+@app.route('/dashboard')
+def dashboard():
     return render_template('index.html')
 
 @app.route('/health')
