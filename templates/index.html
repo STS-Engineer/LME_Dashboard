@@ -2544,8 +2544,17 @@
           if (currentFilters.metalType !== "all") {
             url += `metal_type=${currentFilters.metalType}&`;
           }
+
           if (currentFilters.month) {
             url += `month=${currentFilters.month}&`;
+
+            // ✅ IMPORTANT: allow narrowing inside the month
+            if (currentFilters.startDate) {
+              url += `start_date=${currentFilters.startDate}&`;
+            }
+            if (currentFilters.endDate) {
+              url += `end_date=${currentFilters.endDate}&`;
+            }
           } else {
             if (currentFilters.startDate) {
               url += `start_date=${currentFilters.startDate}&`;
@@ -2570,15 +2579,18 @@
             filteredPrices = [];
             tableContainer.innerHTML =
               '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
+
             const paginationControls =
               document.getElementById("paginationControls");
             if (paginationControls) paginationControls.style.display = "none";
+
             updateActiveFiltersDisplay();
           }
         } catch (error) {
           console.error("Erreur chargement historique:", error);
           document.getElementById("tableContainer").innerHTML =
             '<div class="no-data">Erreur lors du chargement des données</div>';
+
           const paginationControls =
             document.getElementById("paginationControls");
           if (paginationControls) paginationControls.style.display = "none";
