@@ -1503,7 +1503,11 @@
 
       <!-- TABS -->
       <div class="page-tabs">
-        <button id="tab-metals" class="page-tab active" onclick="showPage('metals')">
+        <button
+          id="tab-metals"
+          class="page-tab active"
+          onclick="showPage('metals')"
+        >
           <i class="fas fa-industry"></i> Prix des Métaux
         </button>
         <button id="tab-fx" class="page-tab" onclick="showPage('fx')">
@@ -1560,7 +1564,7 @@
                 type="month"
                 id="filterMonth"
                 class="filter-input"
-                onchange="handleFilterChange()"
+                onchange="handleMonthFilterChange()"
               />
             </div>
 
@@ -1904,10 +1908,10 @@
         }
 
         if (currentFilters.startDate) {
-          badges.push({
-            key: "startDate",
-            label: `Début: ${currentFilters.startDate}`,
-          });
+          const label = currentFilters.month
+            ? `Début (dans le mois): ${currentFilters.startDate}`
+            : `Début: ${currentFilters.startDate}`;
+          badges.push({ key: "startDate", label });
           document
             .getElementById("filterGroup-startDate")
             .classList.add("active");
@@ -1918,11 +1922,13 @@
         }
 
         if (currentFilters.endDate) {
-          badges.push({
-            key: "endDate",
-            label: `Fin: ${currentFilters.endDate}`,
-          });
-          document.getElementById("filterGroup-endDate").classList.add("active");
+          const label = currentFilters.month
+            ? `Fin (dans le mois): ${currentFilters.endDate}`
+            : `Fin: ${currentFilters.endDate}`;
+          badges.push({ key: "endDate", label });
+          document
+            .getElementById("filterGroup-endDate")
+            .classList.add("active");
         } else {
           document
             .getElementById("filterGroup-endDate")
@@ -1934,11 +1940,11 @@
           container.innerHTML = badges
             .map(
               (badge) => `
-                    <div class="filter-badge">
-                        <span>${badge.label}</span>
-                        <span class="remove-filter" onclick="removeActiveFilter('${badge.key}')">×</span>
-                    </div>
-                `
+          <div class="filter-badge">
+              <span>${badge.label}</span>
+              <span class="remove-filter" onclick="removeActiveFilter('${badge.key}')">×</span>
+          </div>
+        `
             )
             .join("");
         } else {
@@ -1966,7 +1972,9 @@
 
         if (fxFilters.month) {
           badges.push({ key: "month", label: `Mois: ${fxFilters.month}` });
-          document.getElementById("fxFilterGroup-month").classList.add("active");
+          document
+            .getElementById("fxFilterGroup-month")
+            .classList.add("active");
         } else {
           document
             .getElementById("fxFilterGroup-month")
@@ -2125,22 +2133,111 @@
       // ==========================================
       // METALS FILTERS
       // ==========================================
+      function handleMonthFilterChange() {
+        const monthValue = document.getElementById("filterMonth").value;
+        const startDateInput = document.getElementById("filterStartDate");
+        const endDateInput = document.getElementById("filterEndDate");
+
+        if (monthValue) {
+          // Enable date inputs and set min/max constraints
+          const [year, month] = monthValue.split("-");
+          const firstDay = new Date(year, month - 1, 1)
+            .toISOString()
+            .split("T")[0];
+          const lastDay = new Date(year, month, 0).toISOString().split("T")[0];
+
+          startDateInput.disabled = false;
+          endDateInput.disabled = false;
+          startDateInput.min = firstDay;
+          startDateInput.max = lastDay;
+          endDateInput.min = firstDay;
+          endDateInput.max = lastDay;
+
+          // Visual feedback: change placeholder
+          startDateInput.placeholder = `Min: ${firstDay}`;
+          endDateInput.placeholder = `Max: ${lastDay}`;
+
+          // Clear existing values if they're outside the month
+          if (
+            startDateInput.value &&
+            (startDateInput.value < firstDay || startDateInput.value > lastDay)
+          ) {
+            startDateInput.value = "";
+          }
+          if (
+            endDateInput.value &&
+            (endDateInput.value < firstDay || endDateInput.value > lastDay)
+          ) {
+            endDateInput.value = "";
+          }
+        } else {
+          // No month selected: remove constraints
+          startDateInput.disabled = false;
+          endDateInput.disabled = false;
+          startDateInput.removeAttribute("min");
+          startDateInput.removeAttribute("max");
+          endDateInput.removeAttribute("min");
+          endDateInput.removeAttribute("max");
+          startDateInput.placeholder = "jj/mm/aaaa";
+          endDateInput.placeholder = "jj/mm/aaaa";
+        }
+
+        applyFilters();
+      }
       function applyFilters() {
         currentFilters.metalType =
           document.getElementById("filterMetalType").value;
         currentFilters.month =
           document.getElementById("filterMonth").value || null;
-        currentFilters.startDate =
-          document.getElementById("filterStartDate").value || null;
-        currentFilters.endDate =
-          document.getElementById("filterEndDate").value || null;
         currentFilters.source = document.getElementById("filterSource").value;
 
+        // NEW LOGIC: Month filter sets the range, but dates can override within that month
         if (currentFilters.month) {
-          document.getElementById("filterStartDate").value = "";
-          document.getElementById("filterEndDate").value = "";
-          currentFilters.startDate = null;
-          currentFilters.endDate = null;
+          // Get the month boundaries
+          const [year, month] = currentFilters.month.split("-");
+          const firstDay = new Date(year, month - 1, 1);
+          const lastDay = new Date(year, month, 0);
+
+          const startDateInput =
+            document.getElementById("filterStartDate").value;
+          const endDateInput = document.getElementById("filterEndDate").value;
+
+          // If user specifies dates, validate they're within the month
+          if (startDateInput) {
+            const startDate = new Date(startDateInput);
+            if (startDate >= firstDay && startDate <= lastDay) {
+              currentFilters.startDate = startDateInput;
+            } else {
+              alert(`La date de début doit être dans ${month}/${year}`);
+              currentFilters.startDate = firstDay.toISOString().split("T")[0];
+              document.getElementById("filterStartDate").value =
+                currentFilters.startDate;
+            }
+          } else {
+            // No start date specified: use first day of month
+            currentFilters.startDate = firstDay.toISOString().split("T")[0];
+          }
+
+          if (endDateInput) {
+            const endDate = new Date(endDateInput);
+            if (endDate >= firstDay && endDate <= lastDay) {
+              currentFilters.endDate = endDateInput;
+            } else {
+              alert(`La date de fin doit être dans ${month}/${year}`);
+              currentFilters.endDate = lastDay.toISOString().split("T")[0];
+              document.getElementById("filterEndDate").value =
+                currentFilters.endDate;
+            }
+          } else {
+            // No end date specified: use last day of month
+            currentFilters.endDate = lastDay.toISOString().split("T")[0];
+          }
+        } else {
+          // No month filter: use dates as is
+          currentFilters.startDate =
+            document.getElementById("filterStartDate").value || null;
+          currentFilters.endDate =
+            document.getElementById("filterEndDate").value || null;
         }
 
         currentPage = 1;
@@ -2153,6 +2250,18 @@
         document.getElementById("filterStartDate").value = "";
         document.getElementById("filterEndDate").value = "";
         document.getElementById("filterSource").value = "all";
+
+        // Remove date constraints
+        const startDateInput = document.getElementById("filterStartDate");
+        const endDateInput = document.getElementById("filterEndDate");
+        startDateInput.removeAttribute("min");
+        startDateInput.removeAttribute("max");
+        endDateInput.removeAttribute("min");
+        endDateInput.removeAttribute("max");
+        startDateInput.disabled = false;
+        endDateInput.disabled = false;
+        startDateInput.placeholder = "jj/mm/aaaa";
+        endDateInput.placeholder = "jj/mm/aaaa";
 
         currentFilters = {
           metalType: "all",
@@ -2187,7 +2296,6 @@
         }
         window.location.href = url;
       }
-
       // ==========================================
       // STATISTICS
       // ==========================================
@@ -2373,11 +2481,17 @@
 
           tableHTML += `
             <tr>
-              <td><span class="metal-badge ${metalClass}">${price.metal_type || ""}</span></td>
-              <td><span class="price-value">${formatPrice(price.price)}</span></td>
+              <td><span class="metal-badge ${metalClass}">${
+            price.metal_type || ""
+          }</span></td>
+              <td><span class="price-value">${formatPrice(
+                price.price
+              )}</span></td>
               <td>${price.currency || ""}</td>
               <td>${price.unit || ""}</td>
-              <td><span class="source-badge ${source.class}">${source.label}</span></td>
+              <td><span class="source-badge ${source.class}">${
+            source.label
+          }</span></td>
               <td>${dateValue ? formatDateOnlyDate(dateValue) : ""}</td>
             </tr>
           `;
@@ -2399,15 +2513,15 @@
           )} sur ${totalRecords} enregistrements
             </div>
             <div class="pagination-buttons">
-              <button class="pagination-button" onclick="changePage(${page - 1})" ${
-            page <= 1 ? "disabled" : ""
-          }>
+              <button class="pagination-button" onclick="changePage(${
+                page - 1
+              })" ${page <= 1 ? "disabled" : ""}>
                 &laquo; Précédent
               </button>
               <span>Page ${page} / ${totalPages}</span>
-              <button class="pagination-button" onclick="changePage(${page + 1})" ${
-            page >= totalPages ? "disabled" : ""
-          }>
+              <button class="pagination-button" onclick="changePage(${
+                page + 1
+              })" ${page >= totalPages ? "disabled" : ""}>
                 Suivant &raquo;
               </button>
             </div>
@@ -2527,7 +2641,8 @@
         );
 
         if (!fxData || fxData.length === 0) {
-          container.innerHTML = '<div class="no-data">Aucun taux disponible</div>';
+          container.innerHTML =
+            '<div class="no-data">Aucun taux disponible</div>';
           if (fxPaginationControls) fxPaginationControls.style.display = "none";
           return;
         }
@@ -2606,15 +2721,15 @@
           )} sur ${totalRecords} enregistrements
             </div>
             <div class="pagination-buttons">
-              <button class="pagination-button" onclick="changeFxPage(${page - 1})" ${
-            page <= 1 ? "disabled" : ""
-          }>
+              <button class="pagination-button" onclick="changeFxPage(${
+                page - 1
+              })" ${page <= 1 ? "disabled" : ""}>
                 &laquo; Précédent
               </button>
               <span>Page ${page} / ${totalPages}</span>
-              <button class="pagination-button" onclick="changeFxPage(${page + 1})" ${
-            page >= totalPages ? "disabled" : ""
-          }>
+              <button class="pagination-button" onclick="changeFxPage(${
+                page + 1
+              })" ${page >= totalPages ? "disabled" : ""}>
                 Suivant &raquo;
               </button>
             </div>
@@ -2637,8 +2752,7 @@
           document.getElementById("fxFilterMonth").value || null;
         fxFilters.startDate =
           document.getElementById("fxStartDate").value || null;
-        fxFilters.endDate =
-          document.getElementById("fxEndDate").value || null;
+        fxFilters.endDate = document.getElementById("fxEndDate").value || null;
 
         if (fxFilters.month) {
           document.getElementById("fxStartDate").value = "";
@@ -2782,9 +2896,7 @@
                 ? formatDateOnlyDate(row.period_date)
                 : "";
               const ytdAvg =
-                row.ytd_average != null
-                  ? formatPrice(row.ytd_average)
-                  : "N/A";
+                row.ytd_average != null ? formatPrice(row.ytd_average) : "N/A";
 
               const badgeClass = getCurrencyBadgeClass(currency);
 
@@ -2902,7 +3014,8 @@
             const fxPaginationControls = document.getElementById(
               "fxPaginationControls"
             );
-            if (fxPaginationControls) fxPaginationControls.style.display = "none";
+            if (fxPaginationControls)
+              fxPaginationControls.style.display = "none";
             updateFxActiveFiltersDisplay();
 
             await loadMonthlySummary();
@@ -2939,25 +3052,27 @@
           tabFx.classList.add("active");
         }
       }
-
       // ==========================================
       // MAIN DATA LOADING (UPDATED)
       // ==========================================
       async function loadData() {
         document.getElementById("lastUpdate").textContent =
           "Mise à jour en cours...";
-
-        await Promise.all([loadStatistics(), loadPriceHistory(), loadFxRates()]);
-
-        document.getElementById("lastUpdate").textContent = formatDate(new Date());
+        await Promise.all([
+          loadStatistics(),
+          loadPriceHistory(),
+          loadFxRates(),
+        ]);
+        document.getElementById("lastUpdate").textContent = formatDate(
+          new Date()
+        );
       }
-
       // ==========================================
       // INITIALIZATION
       // ==========================================
       showPage("metals");
       loadData();
-      setInterval(loadData, 5 * 60 * 1000); // Auto-refresh every 5 minutes
+      setInterval(loadData, 5 * 60 * 1000);
     </script>
   </body>
 </html>
