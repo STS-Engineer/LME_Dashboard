@@ -954,6 +954,89 @@
         color: var(--text-secondary);
         font-style: italic;
       }
+      /* Collapsible Section Styles */
+      .collapsible-section {
+        background: var(--card-bg);
+        border-radius: 15px;
+        box-shadow: var(--shadow-md);
+        margin-bottom: 30px;
+        transition: all var(--transition-speed) ease;
+        animation: fadeIn 1s ease;
+        overflow: hidden;
+      }
+
+      .collapsible-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 30px;
+        cursor: pointer;
+        border-bottom: 2px solid var(--border-color);
+        transition: all var(--transition-speed) ease;
+        user-select: none;
+      }
+
+      .collapsible-header:hover {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 102, 178, 0.05),
+          transparent
+        );
+      }
+
+      .collapsible-header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .collapsible-toggle-icon {
+        font-size: 20px;
+        color: var(--primary-color);
+        transition: transform var(--transition-speed) ease;
+      }
+
+      .collapsible-toggle-icon.rotated {
+        transform: rotate(90deg);
+      }
+
+      .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+        padding: 0 30px;
+      }
+
+      .collapsible-content.expanded {
+        max-height: 5000px; /* Large enough value */
+        padding: 30px;
+        transition: max-height 0.5s ease-in;
+      }
+
+      .collapsible-content-inner {
+        padding-top: 20px;
+      }
+
+      .collapsible-actions {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 768px) {
+        .collapsible-header {
+          flex-direction: column;
+          gap: 15px;
+          align-items: flex-start;
+        }
+
+        .collapsible-actions {
+          flex-direction: column;
+          width: 100%;
+        }
+      }
 
       /* Table Section */
       .table-section {
@@ -1749,35 +1832,50 @@
           ></div>
         </div>
 
-        <div class="table-section">
-          <div class="section-header">
-            <h2 class="section-title">
-              <i class="fas fa-coins"></i>
-              Détail des Taux de change ECB (EUR → devise)
-            </h2>
-            <div class="actions-group">
-              <button class="export-btn" onclick="exportFxToExcel()">
-                <i class="fas fa-file-excel"></i>
-                Exporter Excel (FX)
-              </button>
-              <button class="refresh-btn" onclick="loadFxRates()">
-                <i class="fas fa-sync-alt"></i>
-                Actualiser (FX)
-              </button>
+        <div class="collapsible-section">
+          <div class="collapsible-header" onclick="toggleFxDetailsSection()">
+            <div class="collapsible-header-left">
+              <i
+                class="fas fa-chevron-right collapsible-toggle-icon"
+                id="fxDetailsToggleIcon"
+              ></i>
+              <h2 class="section-title">
+                <i class="fas fa-coins"></i>
+                Détail des Taux de change ECB (EUR → devise)
+              </h2>
+            </div>
+            <span style="font-size: 13px; color: var(--text-secondary)">
+              Cliquez pour afficher/masquer
+            </span>
+          </div>
+
+          <div class="collapsible-content" id="fxDetailsContent">
+            <div class="collapsible-content-inner">
+              <div class="collapsible-actions">
+                <button class="export-btn" onclick="exportFxToExcel()">
+                  <i class="fas fa-file-excel"></i>
+                  Exporter Excel (FX)
+                </button>
+                <button class="refresh-btn" onclick="loadFxRates()">
+                  <i class="fas fa-sync-alt"></i>
+                  Actualiser (FX)
+                </button>
+              </div>
+
+              <div class="table-container" id="fxTableContainer">
+                <div class="loading">
+                  <div class="spinner"></div>
+                  <p>Chargement des taux de change ECB...</p>
+                </div>
+              </div>
+              <div id="fxPaginationControls" class="pagination-controls"></div>
             </div>
           </div>
-          <div class="table-container" id="fxTableContainer">
-            <div class="loading">
-              <div class="spinner"></div>
-              <p>Chargement des taux de change ECB...</p>
-            </div>
-          </div>
-          <div id="fxPaginationControls" class="pagination-controls"></div>
         </div>
       </div>
 
       <div class="footer">
-        &copy; 2025 AVO Carbon Group. Tous droits réservés.
+        &copy; 2026 AVO Carbon Group. Tous droits réservés.
       </div>
     </div>
 
@@ -3044,6 +3142,28 @@
       }
 
       // ==========================================
+      // COLLAPSIBLE SECTION TOGGLE
+      // ==========================================
+      function toggleFxDetailsSection() {
+        const content = document.getElementById("fxDetailsContent");
+        const icon = document.getElementById("fxDetailsToggleIcon");
+
+        if (content.classList.contains("expanded")) {
+          // Collapse
+          content.classList.remove("expanded");
+          icon.classList.remove("rotated");
+        } else {
+          // Expand
+          content.classList.add("expanded");
+          icon.classList.add("rotated");
+
+          // Load data if not already loaded
+          if (fxData.length === 0) {
+            loadFxRates();
+          }
+        }
+      }
+      // ==========================================
       // PAGE NAVIGATION
       // ==========================================
       function showPage(page) {
@@ -3082,9 +3202,95 @@
       // ==========================================
       // INITIALIZATION
       // ==========================================
+      function setDefaultFxMonth() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const currentMonth = `${year}-${month}`;
+
+        const fxFilterMonth = document.getElementById("fxFilterMonth");
+        if (fxFilterMonth) {
+          fxFilterMonth.value = currentMonth;
+          fxFilters.month = currentMonth;
+        }
+      }
+      setDefaultFxMonth();
       showPage("metals");
       loadData();
       setInterval(loadData, 5 * 60 * 1000);
+      // ==========================================
+      // AUTO-OPEN CALENDAR ON FOCUS (Version compatible)
+      // ==========================================
+      function openPicker(element) {
+        try {
+          if (element && typeof element.showPicker === "function") {
+            element.showPicker();
+          }
+        } catch (error) {
+          // Fallback: click on the element to open picker on older browsers
+          console.log("showPicker not supported, using click fallback");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Filtre par mois - Métaux
+        const filterMonth = document.getElementById("filterMonth");
+        if (filterMonth) {
+          filterMonth.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+
+        // Filtre par mois - FX
+        const fxFilterMonth = document.getElementById("fxFilterMonth");
+        if (fxFilterMonth) {
+          fxFilterMonth.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+
+        // Date de début - Métaux
+        const filterStartDate = document.getElementById("filterStartDate");
+        if (filterStartDate) {
+          filterStartDate.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+
+        // Date de fin - Métaux
+        const filterEndDate = document.getElementById("filterEndDate");
+        if (filterEndDate) {
+          filterEndDate.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+
+        // Date de début - FX
+        const fxStartDate = document.getElementById("fxStartDate");
+        if (fxStartDate) {
+          fxStartDate.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+
+        // Date de fin - FX
+        const fxEndDate = document.getElementById("fxEndDate");
+        if (fxEndDate) {
+          fxEndDate.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+
+        // Rapport Florent
+        const florentReportDate = document.getElementById(
+          "florent_report_date"
+        );
+        if (florentReportDate) {
+          florentReportDate.addEventListener("focus", function () {
+            openPicker(this);
+          });
+        }
+      });
     </script>
   </body>
 </html>
