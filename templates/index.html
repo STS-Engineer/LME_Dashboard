@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -224,6 +224,50 @@
         }
         75% {
           transform: rotate(-10deg);
+        }
+      }
+      /* Language Toggle in Dashboard Header */
+
+      .language-toggle-dashboard {
+        display: flex;
+        gap: 5px;
+        background: rgba(0, 102, 178, 0.1);
+        padding: 5px;
+        border-radius: 25px;
+        border: 1px solid var(--border-color);
+      }
+
+      .lang-btn-dash {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        font-size: 13px;
+        cursor: pointer;
+        padding: 6px 15px;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .lang-btn-dash.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--primary-dark) 100%
+        );
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 102, 178, 0.3);
+      }
+
+      .lang-btn-dash:hover:not(.active) {
+        background: rgba(0, 102, 178, 0.15);
+      }
+
+      @media (max-width: 768px) {
+        .header-right {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-end;
         }
       }
 
@@ -730,7 +774,9 @@
         background: rgba(0, 102, 178, 0.1);
         border-radius: 50%;
         transform: translate(-50%, -50%);
-        transition: width 0.4s ease, height 0.4s ease;
+        transition:
+          width 0.4s ease,
+          height 0.4s ease;
       }
 
       .reset-filters-btn:hover::before {
@@ -794,7 +840,9 @@
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.3);
         transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
+        transition:
+          width 0.6s,
+          height 0.6s;
       }
 
       .btn-success:hover::before,
@@ -1114,7 +1162,9 @@
         background: rgba(255, 255, 255, 0.3);
         border-radius: 50%;
         transform: translate(-50%, -50%);
-        transition: width 0.5s, height 0.5s;
+        transition:
+          width 0.5s,
+          height 0.5s;
       }
 
       .refresh-btn:hover::before,
@@ -1576,11 +1626,32 @@
             alt="AVO Carbon Group"
             class="logo"
           />
-          <h1 class="header-title">Tableau de Bord</h1>
+          <h1 class="header-title" data-i18n="dashboard_title">
+            Tableau de Bord
+          </h1>
         </div>
-        <div class="last-update">
-          <i class="fas fa-clock"></i>
-          <span id="lastUpdate">Chargement...</span>
+        <div class="header-right">
+          <!-- Language Toggle -->
+          <div class="language-toggle-dashboard">
+            <button
+              class="lang-btn-dash active"
+              onclick="switchLanguage('fr')"
+              id="lang-fr"
+            >
+              🇫🇷 FR
+            </button>
+            <button
+              class="lang-btn-dash"
+              onclick="switchLanguage('en')"
+              id="lang-en"
+            >
+              🇬🇧 EN
+            </button>
+          </div>
+          <div class="last-update">
+            <i class="fas fa-clock"></i>
+            <span id="lastUpdate" data-i18n="loading">Chargement...</span>
+          </div>
         </div>
       </div>
 
@@ -1591,22 +1662,25 @@
           class="page-tab active"
           onclick="showPage('metals')"
         >
-          <i class="fas fa-industry"></i> Prix des Métaux
+          <i class="fas fa-industry"></i>
+          <span data-i18n="tab_metals">Prix des Métaux</span>
         </button>
         <button id="tab-fx" class="page-tab" onclick="showPage('fx')">
-          <i class="fas fa-coins"></i> Taux de change ECB
+          <i class="fas fa-coins"></i>
+          <span data-i18n="tab_fx">Taux de change ECB</span>
         </button>
       </div>
-
       <!-- PAGE MÉTAUX -->
       <div id="page-metals">
         <div class="stats-section">
           <div class="stats-header">
             <h3 class="filters-title">
               <i class="fas fa-chart-line"></i>
-              Résumé par métal
+              <span data-i18n="stats_summary">Résumé par métal</span>
             </h3>
-            <span id="statsSummary" class="stats-summary">Chargement...</span>
+            <span id="statsSummary" class="stats-summary" data-i18n="loading"
+              >Chargement...</span
+            >
           </div>
           <div class="stats-grid" id="statsContainer"></div>
         </div>
@@ -1614,34 +1688,43 @@
         <div class="filters-section">
           <h3 class="filters-title">
             <i class="fas fa-filter"></i>
-            Filtres
+            <span data-i18n="filters_title">Filtres</span>
           </h3>
           <div class="filters-grid">
             <div class="filter-group" id="filterGroup-metalType">
-              <label class="filter-label">Type de métal</label>
+              <label class="filter-label" data-i18n="filter_metal_type"
+                >Type de métal</label
+              >
               <select
                 id="filterMetalType"
                 class="filter-select"
                 onchange="handleFilterChange()"
               >
-                <option value="all">Tous les métaux</option>
+                <option value="all" data-i18n="filter_all_metals">
+                  Tous les métaux
+                </option>
               </select>
             </div>
 
             <div class="filter-group" id="filterGroup-source">
-              <label class="filter-label">Source</label>
+              <label class="filter-label" data-i18n="filter_source"
+                >Source</label
+              >
               <select
                 id="filterSource"
                 class="filter-select"
                 onchange="handleFilterChange()"
               >
-                <option value="all">Toutes les sources</option>
+                <option value="all" data-i18n="filter_all_sources">
+                  Toutes les sources
+                </option>
               </select>
             </div>
 
             <div class="filter-group" id="filterGroup-month">
               <label class="filter-label">
-                <i class="fas fa-calendar-alt"></i> Filtre par mois
+                <i class="fas fa-calendar-alt"></i>
+                <span data-i18n="filter_month">Filtre par mois</span>
               </label>
               <input
                 type="month"
@@ -1652,7 +1735,9 @@
             </div>
 
             <div class="filter-group" id="filterGroup-startDate">
-              <label class="filter-label">Date de début</label>
+              <label class="filter-label" data-i18n="filter_start_date"
+                >Date de début</label
+              >
               <input
                 type="date"
                 id="filterStartDate"
@@ -1660,8 +1745,11 @@
                 onchange="handleFilterChange()"
               />
             </div>
+
             <div class="filter-group" id="filterGroup-endDate">
-              <label class="filter-label">Date de fin</label>
+              <label class="filter-label" data-i18n="filter_end_date"
+                >Date de fin</label
+              >
               <input
                 type="date"
                 id="filterEndDate"
@@ -1672,11 +1760,11 @@
 
             <div class="filter-group">
               <button class="reset-filters-btn" onclick="resetFilters()">
-                <i class="fas fa-redo"></i> Réinitialiser
+                <i class="fas fa-redo"></i>
+                <span data-i18n="filter_reset">Réinitialiser</span>
               </button>
             </div>
           </div>
-
           <!-- Active Filters Display -->
           <div
             id="activeFiltersContainer"
@@ -1689,23 +1777,23 @@
           <div class="section-header">
             <h2 class="section-title">
               <i class="fas fa-table"></i>
-              Historique des Prix
+              <span data-i18n="section_history">Historique des Prix</span>
             </h2>
             <div class="actions-group">
               <button class="export-btn" onclick="exportToExcel()">
                 <i class="fas fa-file-excel"></i>
-                Exporter Excel
+                <span data-i18n="btn_export_excel">Exporter Excel</span>
               </button>
               <button class="refresh-btn" onclick="loadData()">
                 <i class="fas fa-sync-alt"></i>
-                Actualiser
+                <span data-i18n="btn_refresh">Actualiser</span>
               </button>
             </div>
           </div>
           <div class="table-container" id="tableContainer">
             <div class="loading">
               <div class="spinner"></div>
-              <p>Chargement des données...</p>
+              <p data-i18n="loading_data">Chargement des données...</p>
             </div>
           </div>
           <div id="paginationControls" class="pagination-controls"></div>
@@ -1718,22 +1806,24 @@
         <div class="card" style="border-top: 4px solid #27ae60">
           <div class="card-header">
             <h3 class="card-title">
-              <i class="fas fa-file-invoice-dollar"></i> Rapport mensuel
+              <i class="fas fa-file-invoice-dollar"></i>
+              <span data-i18n="section_monthly_report">Rapport mensuel</span>
             </h3>
           </div>
           <div class="card-body">
-            <p class="text-muted">
+            <p class="text-muted" data-i18n="monthly_report_desc">
               Génère le rapport mensuel avec Closing Rate, Period Rate Average
               (M-1) et Moyenne YTD.
             </p>
             <div class="row align-items-end">
               <div class="col-md-4">
-                <label class="filter-label">Choisir le mois :</label>
+                <label class="filter-label" data-i18n="monthly_report_choose"
+                  >Choisir le mois :</label
+                >
                 <input
                   type="month"
                   id="florent_report_date"
                   class="filter-input"
-                  value="2024-11"
                 />
               </div>
               <div class="col-md-4">
@@ -1741,7 +1831,9 @@
                   onclick="downloadFlorentReport()"
                   class="btn-success btn-block"
                 >
-                  <i class="fas fa-file-excel"></i> Exporter vers Excel
+                  <i class="fas fa-file-excel"></i
+                  ><span data-i18n="btn_export_excel"></span> Exporter vers
+                  Excel
                 </button>
               </div>
             </div>
@@ -1753,17 +1845,21 @@
           <div class="summary-header">
             <h3 class="summary-title">
               <i class="fas fa-chart-line"></i>
-              Résumé Mensuel des Taux
+              <span data-i18n="section_monthly_summary"
+                >Résumé Mensuel des Taux</span
+              >
             </h3>
             <div class="summary-period">
               <span class="live-indicator"></span>
-              <span id="summaryPeriodText">Chargement...</span>
+              <span id="summaryPeriodText" data-i18n="loading"
+                >Chargement...</span
+              >
             </div>
           </div>
           <div class="summary-table-container" id="monthlySummaryContainer">
             <div class="loading">
               <div class="spinner"></div>
-              <p>Chargement du résumé mensuel...</p>
+              <p data-i18n="loading_data">Chargement du résumé mensuel...</p>
             </div>
           </div>
         </div>
@@ -1771,23 +1867,30 @@
         <div class="filters-section">
           <h3 class="filters-title">
             <i class="fas fa-filter"></i>
-            Filtres Taux de change ECB (EUR base)
+            <span data-i18n="fx_filters"
+              >Filtres Taux de change ECB (EUR base)</span
+            >
           </h3>
           <div class="filters-grid">
             <div class="filter-group" id="fxFilterGroup-currency">
-              <label class="filter-label">Devise cotée (quote_currency)</label>
+              <label class="filter-label" data-i18n="fx_quote_currency"
+                >Devise cotée (quote_currency)</label
+              >
               <select
                 id="fxQuoteCurrency"
                 class="filter-select"
                 onchange="handleFxFilterChange()"
               >
-                <option value="all">Toutes les devises</option>
+                <option value="all" data-i18n="fx_all_currencies">
+                  Toutes les devises
+                </option>
               </select>
             </div>
 
             <div class="filter-group" id="fxFilterGroup-month">
               <label class="filter-label">
-                <i class="fas fa-calendar-alt"></i> Filtre par mois
+                <i class="fas fa-calendar-alt"></i>
+                <span data-i18n="filter_month">Filtre par mois</span>
               </label>
               <input
                 type="month"
@@ -1798,7 +1901,9 @@
             </div>
 
             <div class="filter-group" id="fxFilterGroup-startDate">
-              <label class="filter-label">Date de début</label>
+              <label class="filter-label" data-i18n="filter_start_date"
+                >Date de début</label
+              >
               <input
                 type="date"
                 id="fxStartDate"
@@ -1808,7 +1913,9 @@
             </div>
 
             <div class="filter-group" id="fxFilterGroup-endDate">
-              <label class="filter-label">Date de fin</label>
+              <label class="filter-label" data-i18n="filter_end_date"
+                >Date de fin</label
+              >
               <input
                 type="date"
                 id="fxEndDate"
@@ -1819,7 +1926,8 @@
 
             <div class="filter-group">
               <button class="reset-filters-btn" onclick="resetFxFilters()">
-                <i class="fas fa-redo"></i> Réinitialiser
+                <i class="fas fa-redo"></i>
+                <span data-i18n="filter_reset">Réinitialiser</span>
               </button>
             </div>
           </div>
@@ -1854,18 +1962,20 @@
               <div class="collapsible-actions">
                 <button class="export-btn" onclick="exportFxToExcel()">
                   <i class="fas fa-file-excel"></i>
-                  Exporter Excel (FX)
+                  <span data-i18n="btn_export_excel">Exporter Excel (FX)</span>
                 </button>
                 <button class="refresh-btn" onclick="loadFxRates()">
                   <i class="fas fa-sync-alt"></i>
-                  Actualiser (FX)
+                  <span data-i18n="btn_refresh">Actualiser (FX)</span>
                 </button>
               </div>
 
               <div class="table-container" id="fxTableContainer">
                 <div class="loading">
                   <div class="spinner"></div>
-                  <p>Chargement des taux de change ECB...</p>
+                  <p data-i18n="loading_data">
+                    Chargement des taux de change ECB...
+                  </p>
                 </div>
               </div>
               <div id="fxPaginationControls" class="pagination-controls"></div>
@@ -1875,7 +1985,8 @@
       </div>
 
       <div class="footer">
-        &copy; 2026 AVO Carbon Group. Tous droits réservés.
+        &copy; 2026 AVO Carbon Group.
+        <span data-i18n="footer_rights">Tous droits réservés.</span>
       </div>
     </div>
 
@@ -2042,7 +2153,7 @@
               <span>${badge.label}</span>
               <span class="remove-filter" onclick="removeActiveFilter('${badge.key}')">×</span>
           </div>
-        `
+        `,
             )
             .join("");
         } else {
@@ -2113,7 +2224,7 @@
                         <span>${badge.label}</span>
                         <span class="remove-filter" onclick="removeFxActiveFilter('${badge.key}')">×</span>
                     </div>
-                `
+                `,
             )
             .join("");
         } else {
@@ -2169,6 +2280,223 @@
         }
         fxCurrentPage = 1;
         loadFxRates();
+      }
+      // ==========================================
+      // TRANSLATION SYSTEM
+      // ==========================================
+      const translations = {
+        fr: {
+          // Header
+          dashboard_title: "Tableau de Bord",
+          loading: "Chargement...",
+          last_update: "Dernière mise à jour",
+
+          // Tabs
+          tab_metals: "Prix des Métaux",
+          tab_fx: "Taux de change ECB",
+
+          // Statistics
+          stats_summary: "Résumé par métal",
+          records_tracked: "enregistrements",
+          metals_monitored: "métaux suivis",
+
+          // Filters
+          filters_title: "Filtres",
+          filter_metal_type: "Type de métal",
+          filter_all_metals: "Tous les métaux",
+          filter_source: "Source",
+          filter_all_sources: "Toutes les sources",
+          filter_month: "Filtre par mois",
+          filter_start_date: "Date de début",
+          filter_end_date: "Date de fin",
+          filter_reset: "Réinitialiser",
+
+          // Table Headers
+          table_product: "Produit",
+          table_price: "Prix",
+          table_currency: "Devise",
+          table_unit: "Unité",
+          table_source: "Source",
+          table_price_date: "Date de prix",
+          table_date: "Date",
+          table_rate: "Taux",
+
+          // Buttons
+          btn_export_excel: "Exporter Excel",
+          btn_refresh: "Actualiser",
+          btn_apply_filters: "Appliquer les filtres",
+
+          // Sections
+          section_history: "Historique des Prix",
+          section_fx_rates: "Taux de change ECB",
+          section_monthly_report: "Rapport mensuel",
+          section_monthly_summary: "Résumé Mensuel des Taux",
+
+          // Monthly Report
+          monthly_report_title: "Rapport mensuel",
+          monthly_report_desc:
+            "Génère le rapport mensuel avec Closing Rate, Period Rate Average (M-1) et Moyenne YTD.",
+          monthly_report_choose: "Choisir le mois :",
+
+          // Messages
+          no_data: "Aucune donnée disponible",
+          no_data_filters: "Aucune donnée disponible pour ces filtres",
+          loading_data: "Chargement des données...",
+          error_loading: "Erreur lors du chargement des données",
+
+          // Pagination
+          showing: "Affichage de",
+          to: "à",
+          of: "sur",
+          records: "enregistrements",
+          previous: "Précédent",
+          next: "Suivant",
+          page: "Page",
+
+          // FX Section
+          fx_filters: "Filtres Taux de change ECB (EUR base)",
+          fx_quote_currency: "Devise cotée (quote_currency)",
+          fx_all_currencies: "Toutes les devises",
+          fx_details: "Détail des Taux de change ECB (EUR → devise)",
+          fx_click_show: "Cliquez pour afficher/masquer",
+
+          // Summary
+          closing_rate: "Closing Rate",
+          period_rate: "Period Rate",
+          average_ytd: "Average YTD",
+          live_data: "Données en direct",
+
+          // Footer
+          footer_rights: "Tous droits réservés.",
+
+          // Variation
+          variation_24h: "(24h)",
+        },
+        en: {
+          // Header
+          dashboard_title: "Dashboard",
+          loading: "Loading...",
+          last_update: "Last update",
+
+          // Tabs
+          tab_metals: "Metal Prices",
+          tab_fx: "ECB Exchange Rates",
+
+          // Statistics
+          stats_summary: "Summary by metal",
+          records_tracked: "records",
+          metals_monitored: "metals tracked",
+
+          // Filters
+          filters_title: "Filters",
+          filter_metal_type: "Metal type",
+          filter_all_metals: "All metals",
+          filter_source: "Source",
+          filter_all_sources: "All sources",
+          filter_month: "Filter by month",
+          filter_start_date: "Start date",
+          filter_end_date: "End date",
+          filter_reset: "Reset",
+
+          // Table Headers
+          table_product: "Product",
+          table_price: "Price",
+          table_currency: "Currency",
+          table_unit: "Unit",
+          table_source: "Source",
+          table_price_date: "Price date",
+          table_date: "Date",
+          table_rate: "Rate",
+
+          // Buttons
+          btn_export_excel: "Export Excel",
+          btn_refresh: "Refresh",
+          btn_apply_filters: "Apply filters",
+
+          // Sections
+          section_history: "Price History",
+          section_fx_rates: "ECB Exchange Rates",
+          section_monthly_report: "Monthly Report",
+          section_monthly_summary: "Monthly FX Summary",
+
+          // Monthly Report
+          monthly_report_title: "Monthly Report",
+          monthly_report_desc:
+            "Generate monthly report with Closing Rate, Period Rate Average (M-1) and YTD Average.",
+          monthly_report_choose: "Choose month:",
+
+          // Messages
+          no_data: "No data available",
+          no_data_filters: "No data available for these filters",
+          loading_data: "Loading data...",
+          error_loading: "Error loading data",
+
+          // Pagination
+          showing: "Showing",
+          to: "to",
+          of: "of",
+          records: "records",
+          previous: "Previous",
+          next: "Next",
+          page: "Page",
+
+          // FX Section
+          fx_filters: "ECB Exchange Rate Filters (EUR base)",
+          fx_quote_currency: "Quote currency",
+          fx_all_currencies: "All currencies",
+          fx_details: "ECB Exchange Rate Details (EUR → currency)",
+          fx_click_show: "Click to show/hide",
+
+          // Summary
+          closing_rate: "Closing Rate",
+          period_rate: "Period Rate",
+          average_ytd: "Average YTD",
+          live_data: "Live data",
+
+          // Footer
+          footer_rights: "All rights reserved.",
+
+          // Variation
+          variation_24h: "(24h)",
+        },
+      };
+
+      let currentLang = localStorage.getItem("dashboardLanguage") || "fr";
+
+      // Translation function
+      function t(key) {
+        return translations[currentLang][key] || key;
+      }
+
+      // Update all translatable elements
+      function updateTranslations() {
+        document.querySelectorAll("[data-i18n]").forEach((element) => {
+          const key = element.getAttribute("data-i18n");
+          const translation = t(key);
+
+          // Handle different element types
+          if (element.tagName === "INPUT" && element.type !== "button") {
+            element.placeholder = translation;
+          } else {
+            element.textContent = translation;
+          }
+        });
+
+        // Update language buttons
+        document.querySelectorAll(".lang-btn-dash").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.getElementById(`lang-${currentLang}`)?.classList.add("active");
+      }
+
+      // Switch language
+      function switchLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem("dashboardLanguage", lang);
+        updateTranslations();
+
+        // Reload data with new language
+        loadData();
       }
 
       // ==========================================
@@ -2407,7 +2735,7 @@
             const variations = data.variations || [];
 
             const metalTypes = Array.from(
-              new Set(variations.map((v) => v.metal_type))
+              new Set(variations.map((v) => v.metal_type)),
             ).filter(Boolean);
 
             const totalRecords = data.total_records || 0;
@@ -2503,7 +2831,7 @@
 
         if (currentValue !== "all") {
           const found = Array.from(labelsSet).some(
-            (l) => l.toLowerCase() === currentValue.toLowerCase()
+            (l) => l.toLowerCase() === currentValue.toLowerCase(),
           );
           if (found) {
             select.value = currentValue.toLowerCase();
@@ -2580,16 +2908,16 @@
           tableHTML += `
             <tr>
               <td><span class="metal-badge ${metalClass}">${
-            price.metal_type || ""
-          }</span></td>
+                price.metal_type || ""
+              }</span></td>
               <td><span class="price-value">${formatPrice(
-                price.price
+                price.price,
               )}</span></td>
               <td>${price.currency || ""}</td>
               <td>${price.unit || ""}</td>
               <td><span class="source-badge ${source.class}">${
-            source.label
-          }</span></td>
+                source.label
+              }</span></td>
               <td>${dateValue ? formatDateOnlyDate(dateValue) : ""}</td>
             </tr>
           `;
@@ -2606,9 +2934,9 @@
           paginationControls.innerHTML = `
             <div class="pagination-info">
               Affichage de ${startIndex + 1} à ${Math.min(
-            endIndex,
-            totalRecords
-          )} sur ${totalRecords} enregistrements
+                endIndex,
+                totalRecords,
+              )} sur ${totalRecords} enregistrements
             </div>
             <div class="pagination-buttons">
               <button class="pagination-button" onclick="changePage(${
@@ -2747,7 +3075,7 @@
       function renderFxTable() {
         const container = document.getElementById("fxTableContainer");
         const fxPaginationControls = document.getElementById(
-          "fxPaginationControls"
+          "fxPaginationControls",
         );
 
         if (!fxData || fxData.length === 0) {
@@ -2780,7 +3108,7 @@
       function renderFxTablePage(page, totalPages) {
         const container = document.getElementById("fxTableContainer");
         const fxPaginationControls = document.getElementById(
-          "fxPaginationControls"
+          "fxPaginationControls",
         );
 
         const startIndex = (page - 1) * fxPageSize;
@@ -2826,9 +3154,9 @@
           fxPaginationControls.innerHTML = `
             <div class="pagination-info">
               Affichage de ${startIndex + 1} à ${Math.min(
-            endIndex,
-            totalRecords
-          )} sur ${totalRecords} enregistrements
+                endIndex,
+                totalRecords,
+              )} sur ${totalRecords} enregistrements
             </div>
             <div class="pagination-buttons">
               <button class="pagination-button" onclick="changeFxPage(${
@@ -2924,7 +3252,7 @@
         const [year, month] = picker.split("-");
         window.location.href = `/ecb/export-florent?year=${year}&month=${parseInt(
           month,
-          10
+          10,
         )}`;
       }
 
@@ -2937,9 +3265,9 @@
           const periodText = document.getElementById("summaryPeriodText");
 
           let url = "/ecb/monthly-summary?";
-
           let year, month;
 
+          // Month selection logic
           if (fxFilters.month) {
             const [y, m] = fxFilters.month.split("-");
             year = parseInt(y, 10);
@@ -2952,6 +3280,7 @@
             url += `year=${year}&month=${month}&`;
           }
 
+          // Currency filter
           if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all") {
             url += `quote_currency=${fxFilters.quoteCurrency}&`;
           }
@@ -2959,6 +3288,7 @@
           const response = await fetch(url);
           const result = await response.json();
 
+          // ✅ Success with data
           if (
             result.status === "success" &&
             result.data &&
@@ -2966,6 +3296,7 @@
           ) {
             const metadata = result.metadata || {};
 
+            // Period title display
             if (periodText) {
               const periodStr = metadata.month_name || "Période inconnue";
               const liveText = metadata.is_current_month
@@ -2974,25 +3305,32 @@
               periodText.textContent = periodStr + liveText;
             }
 
+            // ✅ Build Table Header
             let html = `
-              <table class="summary-table">
-                <thead>
-                  <tr>
-                    <th>Devise</th>
-                    <th>Closing Rate<br><small>(${getMonthName(
-                      metadata.month
-                    )} ${metadata.year})</small></th>
-                    <th>Period Rate<br><small>(M-1)</small></th>
-                    <th>Average YTD<br><small>(Jan - ${getMonthName(
-                      metadata.month
-                    )})</small></th>
-                  </tr>
-                </thead>
-                <tbody>
-            `;
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Devise</th>
+              <th>Closing Rate<br>
+                <small>(${getMonthName(metadata.month)} ${metadata.year})</small>
+              </th>
+              <th>Period Rate<br><small>(M-1)</small></th>
 
+              <!-- ✅ NEW Budget Column -->
+              <th>Budget Rate<br><small>(Budget ${metadata.year})</small></th>
+
+              <th>Average YTD<br>
+                <small>(Jan - ${getMonthName(metadata.month)})</small>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+            // ✅ Rows
             result.data.forEach((row) => {
               const currency = row.quote_currency || "";
+
               const closingRate =
                 row.closing_rate != null
                   ? formatPrice(row.closing_rate)
@@ -3000,63 +3338,83 @@
               const closingDate = row.closing_date
                 ? formatDateOnlyDate(row.closing_date)
                 : "";
+
               const periodRate =
                 row.period_rate != null ? formatPrice(row.period_rate) : "N/A";
               const periodDate = row.period_date
                 ? formatDateOnlyDate(row.period_date)
                 : "";
+
+              // ✅ NEW Budget Rate Value
+              const budgetRate =
+                row.budget_rate != null ? formatPrice(row.budget_rate) : "—";
+
               const ytdAvg =
                 row.ytd_average != null ? formatPrice(row.ytd_average) : "N/A";
 
               const badgeClass = getCurrencyBadgeClass(currency);
 
               html += `
-                <tr>
-                  <td><span class="${badgeClass}">${currency}</span></td>
-                  <td>
-                    <span class="rate-value">${closingRate}</span>
-                    ${
-                      closingDate
-                        ? `<span class="rate-date">au ${closingDate}</span>`
-                        : ""
-                    }
-                  </td>
-                  <td>
-                    <span class="rate-value">${periodRate}</span>
-                    ${
-                      periodDate
-                        ? `<span class="rate-date">au ${periodDate}</span>`
-                        : ""
-                    }
-                  </td>
-                  <td>
-                    <span class="rate-value">${ytdAvg}</span>
-                  </td>
-                </tr>
-              `;
+          <tr>
+            <td><span class="${badgeClass}">${currency}</span></td>
+
+            <td>
+              <span class="rate-value">${closingRate}</span>
+              ${
+                closingDate
+                  ? `<span class="rate-date">au ${closingDate}</span>`
+                  : ""
+              }
+            </td>
+
+            <td>
+              <span class="rate-value">${periodRate}</span>
+              ${
+                periodDate
+                  ? `<span class="rate-date">au ${periodDate}</span>`
+                  : ""
+              }
+            </td>
+
+            <!-- ✅ NEW Budget Rate Cell -->
+            <td>
+              <span class="rate-value">${budgetRate}</span>
+            </td>
+
+            <td>
+              <span class="rate-value">${ytdAvg}</span>
+            </td>
+          </tr>
+        `;
             });
 
+            // Close table
             html += `
-                </tbody>
-              </table>
-            `;
+          </tbody>
+        </table>
+      `;
 
             container.innerHTML = html;
-          } else {
-            document.getElementById("monthlySummaryContainer").innerHTML =
+          }
+
+          // ❌ No data case
+          else {
+            container.innerHTML =
               '<div class="no-summary-data">Aucun résumé disponible pour cette période</div>';
-            if (document.getElementById("summaryPeriodText")) {
-              document.getElementById("summaryPeriodText").textContent =
-                "Aucune donnée";
+
+            if (periodText) {
+              periodText.textContent = "Aucune donnée";
             }
           }
         } catch (error) {
           console.error("Erreur chargement résumé mensuel:", error);
+
           const container = document.getElementById("monthlySummaryContainer");
           if (container) {
             container.innerHTML =
               '<div class="no-summary-data">Erreur lors du chargement du résumé</div>';
           }
+
           const periodText = document.getElementById("summaryPeriodText");
           if (periodText) periodText.textContent = "Erreur";
         }
@@ -3122,7 +3480,7 @@
             container.innerHTML =
               '<div class="no-data">Aucun taux disponible pour ces filtres</div>';
             const fxPaginationControls = document.getElementById(
-              "fxPaginationControls"
+              "fxPaginationControls",
             );
             if (fxPaginationControls)
               fxPaginationControls.style.display = "none";
@@ -3135,7 +3493,7 @@
           document.getElementById("fxTableContainer").innerHTML =
             '<div class="no-data">Erreur lors du chargement des taux ECB</div>';
           const fxPaginationControls = document.getElementById(
-            "fxPaginationControls"
+            "fxPaginationControls",
           );
           if (fxPaginationControls) fxPaginationControls.style.display = "none";
         }
@@ -3196,24 +3554,41 @@
           loadFxRates(),
         ]);
         document.getElementById("lastUpdate").textContent = formatDate(
-          new Date()
+          new Date(),
         );
       }
       // ==========================================
       // INITIALIZATION
       // ==========================================
       function setDefaultFxMonth() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const currentMonth = `${year}-${month}`;
+        const previousMonth = getPreviousMonth();
 
         const fxFilterMonth = document.getElementById("fxFilterMonth");
         if (fxFilterMonth) {
-          fxFilterMonth.value = currentMonth;
-          fxFilters.month = currentMonth;
+          fxFilterMonth.value = previousMonth;
+          fxFilters.month = previousMonth;
         }
       }
+      function getPreviousMonth() {
+        const today = new Date();
+
+        // Reculer d’un mois
+        today.setMonth(today.getMonth() - 1);
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+
+        return `${year}-${month}`;
+      }
+      function setDefaultFlorentMonth() {
+        const previousMonth = getPreviousMonth();
+
+        const picker = document.getElementById("florent_report_date");
+        if (picker) {
+          picker.value = previousMonth;
+        }
+      }
+      setDefaultFlorentMonth();
       setDefaultFxMonth();
       showPage("metals");
       loadData();
@@ -3283,7 +3658,7 @@
 
         // Rapport Florent
         const florentReportDate = document.getElementById(
-          "florent_report_date"
+          "florent_report_date",
         );
         if (florentReportDate) {
           florentReportDate.addEventListener("focus", function () {
