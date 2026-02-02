@@ -2,4 +2,6 @@ Flask
 psycopg2-binary
 openpyxl
 gunicorn
+flask-mail 
+apscheduler
 
