@@ -59,7 +59,7 @@ mail = Mail(app)
 # ==============================
 # CONFIGURATION BUDGET RATE
 # ==============================
-FLORENT_EMAIL = "hadil.sakouhi@avocarbon.com"  # ✅ À MODIFIER
+BUDGET_OWNER_EMAIL = "marjana.delija@avocarbon.com"  # ✅ À MODIFIER
 BUDGET_CURRENCIES = ['USD', 'CNY','INR','KRW','MXN','TND']
 
 # Stockage temporaire des tokens (en production, utiliser Redis ou DB)
@@ -496,7 +496,7 @@ def get_form_html_template(year, token, existing_rates=None):
 # ==============================
 # FONCTION: Envoyer l'email Budget Rate
 # ==============================
-def send_budget_rate_email(year, recipient_email=FLORENT_EMAIL, test_mode=False):
+def send_budget_rate_email(year, recipient_email=BUDGET_OWNER_EMAIL, test_mode=False):
     """
     Envoie un email à Florent avec le formulaire Budget Rate
     
@@ -773,7 +773,7 @@ def scheduled_budget_email_job():
 
             success = send_budget_rate_email(
                 year=next_year,
-                recipient_email=FLORENT_EMAIL,
+                recipient_email=BUDGET_OWNER_EMAIL,
                 test_mode=False
             )
 
@@ -792,7 +792,7 @@ scheduler = BackgroundScheduler()
 
 scheduler.add_job(
     func=scheduled_budget_email_job,
-    trigger=CronTrigger(month=12, day=1, hour=9, minute=0),
+    trigger=CronTrigger(month=11, day=1, hour=9, minute=0),
     id="budget_rate_annual_email",
     replace_existing=True
 )
@@ -813,7 +813,7 @@ def test_budget_email():
     URL: http://localhost:5000/test-budget-email?year=2027&email=ton@email.com
     """
     year = request.args.get('year', type=int, default=datetime.now().year + 1)
-    email = request.args.get('email', default=FLORENT_EMAIL)
+    email = request.args.get('email', default=BUDGET_OWNER_EMAIL)
     
     success = send_budget_rate_email(
         year=year,
