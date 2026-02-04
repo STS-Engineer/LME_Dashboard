@@ -800,7 +800,7 @@ scheduler.add_job(
 if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     scheduler.start()
     logger.info("✅ Scheduler démarré une seule fois")
-    logger.info("📧 Email Budget Rate programmé chaque 1er décembre à 09h00")
+    logger.info("📧 Email Budget Rate programmé chaque 1er Novembre à 09h00")
 
 atexit.register(lambda: scheduler.shutdown())
 
