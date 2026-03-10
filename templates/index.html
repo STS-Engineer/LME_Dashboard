@@ -32,7 +32,6 @@
         --shadow-lg: 0 6px 12px rgba(0, 0, 0, 0.15);
         --transition-speed: 0.3s;
       }
-
       [data-theme="dark"] {
         --bg-gradient-start: #1a1a2e;
         --bg-gradient-end: #16213e;
@@ -45,13 +44,11 @@
         --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
         --shadow-lg: 0 6px 12px rgba(0, 0, 0, 0.5);
       }
-
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(
@@ -64,8 +61,6 @@
         transition: background var(--transition-speed) ease;
         position: relative;
       }
-
-      /* Animated background particles */
       .particles {
         position: fixed;
         top: 0;
@@ -76,7 +71,6 @@
         z-index: 0;
         pointer-events: none;
       }
-
       .particle {
         position: absolute;
         width: 4px;
@@ -86,7 +80,6 @@
         opacity: 0.3;
         animation: float 20s infinite;
       }
-
       @keyframes float {
         0%,
         100% {
@@ -99,15 +92,12 @@
           transform: translateY(-200vh) translateX(-50px);
         }
       }
-
       .container {
         max-width: 1400px;
         margin: 0 auto;
         position: relative;
         z-index: 1;
       }
-
-      /* Dark Mode Toggle */
       .theme-toggle {
         position: fixed;
         bottom: 30px;
@@ -126,7 +116,6 @@
         border: 3px solid var(--primary-color);
         animation: pulse 2s infinite;
       }
-
       @keyframes pulse {
         0%,
         100% {
@@ -136,19 +125,14 @@
           box-shadow: 0 0 0 20px rgba(0, 102, 178, 0);
         }
       }
-
       .theme-toggle:hover {
         transform: rotate(180deg) scale(1.1);
         animation: none;
       }
-
       .theme-toggle i {
         font-size: 24px;
         color: var(--primary-color);
-        transition: all var(--transition-speed) ease;
       }
-
-      /* Header */
       .header {
         background: var(--card-bg);
         padding: 20px 30px;
@@ -161,7 +145,6 @@
         animation: slideDown 0.5s ease;
         transition: all var(--transition-speed) ease;
       }
-
       @keyframes slideDown {
         from {
           opacity: 0;
@@ -172,18 +155,15 @@
           transform: translateY(0);
         }
       }
-
       .logo-section {
         display: flex;
         align-items: center;
         gap: 20px;
       }
-
       .logo {
         height: 60px;
         animation: logoFloat 3s ease-in-out infinite;
       }
-
       @keyframes logoFloat {
         0%,
         100% {
@@ -193,41 +173,23 @@
           transform: translateY(-10px);
         }
       }
-
       .header-title {
         font-size: 28px;
         color: var(--text-primary);
         font-weight: 600;
-        transition: color var(--transition-speed) ease;
       }
-
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
       .last-update {
         color: var(--text-secondary);
         font-size: 14px;
         display: flex;
         align-items: center;
         gap: 8px;
-        transition: color var(--transition-speed) ease;
       }
-
-      .last-update i {
-        animation: clockTick 1s ease-in-out infinite;
-      }
-
-      @keyframes clockTick {
-        0%,
-        100% {
-          transform: rotate(0deg);
-        }
-        25% {
-          transform: rotate(10deg);
-        }
-        75% {
-          transform: rotate(-10deg);
-        }
-      }
-      /* Language Toggle in Dashboard Header */
-
       .language-toggle-dashboard {
         display: flex;
         gap: 5px;
@@ -236,7 +198,6 @@
         border-radius: 25px;
         border: 1px solid var(--border-color);
       }
-
       .lang-btn-dash {
         background: transparent;
         border: none;
@@ -248,7 +209,6 @@
         transition: all 0.3s ease;
         font-weight: 600;
       }
-
       .lang-btn-dash.active {
         background: linear-gradient(
           135deg,
@@ -258,27 +218,12 @@
         color: white;
         box-shadow: 0 2px 8px rgba(0, 102, 178, 0.3);
       }
-
-      .lang-btn-dash:hover:not(.active) {
-        background: rgba(0, 102, 178, 0.15);
-      }
-
-      @media (max-width: 768px) {
-        .header-right {
-          flex-direction: column;
-          gap: 10px;
-          align-items: flex-end;
-        }
-      }
-
-      /* Tabs */
       .page-tabs {
         display: flex;
         gap: 10px;
         margin-bottom: 20px;
         animation: slideDown 0.6s ease;
       }
-
       .page-tab {
         flex: 1;
         text-align: center;
@@ -298,33 +243,10 @@
         position: relative;
         overflow: hidden;
       }
-
-      .page-tab::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.3),
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
-
-      .page-tab:hover::before {
-        left: 100%;
-      }
-
       .page-tab:hover {
-        background: var(--card-bg);
         box-shadow: var(--shadow-sm);
         transform: translateY(-2px);
       }
-
       .page-tab.active {
         background: linear-gradient(
           135deg,
@@ -336,16 +258,6 @@
         box-shadow: 0 4px 8px rgba(0, 102, 178, 0.3);
         transform: scale(1.02);
       }
-
-      .page-tab i {
-        transition: transform var(--transition-speed) ease;
-      }
-
-      .page-tab:hover i {
-        transform: scale(1.2);
-      }
-
-      /* Card Styles */
       .card {
         background: var(--card-bg);
         padding: 25px 30px;
@@ -355,7 +267,6 @@
         transition: all var(--transition-speed) ease;
         animation: fadeIn 0.5s ease;
       }
-
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -366,18 +277,15 @@
           transform: translateY(0);
         }
       }
-
       .card:hover {
         box-shadow: var(--shadow-lg);
         transform: translateY(-2px);
       }
-
       .card-header {
         margin-bottom: 20px;
         padding-bottom: 15px;
         border-bottom: 2px solid var(--border-color);
       }
-
       .card-title {
         font-size: 20px;
         color: var(--text-primary);
@@ -385,39 +293,30 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: color var(--transition-speed) ease;
       }
-
-      /* Statistics Section */
       .stats-section {
         background: var(--card-bg);
         padding: 20px 25px;
         border-radius: 15px;
         box-shadow: var(--shadow-md);
         margin-bottom: 30px;
-        transition: all var(--transition-speed) ease;
         animation: fadeIn 0.7s ease;
       }
-
       .stats-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
       }
-
       .stats-summary {
         font-size: 14px;
         color: var(--text-secondary);
-        transition: color var(--transition-speed) ease;
       }
-
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 20px;
       }
-
       .stat-card {
         background: linear-gradient(
           135deg,
@@ -428,11 +327,10 @@
         border-radius: 12px;
         box-shadow: var(--shadow-sm);
         transition: all var(--transition-speed) ease;
+        border: 1px solid var(--border-color);
         animation: scaleIn 0.5s ease;
         animation-fill-mode: backwards;
-        border: 1px solid var(--border-color);
       }
-
       @keyframes scaleIn {
         from {
           opacity: 0;
@@ -443,46 +341,27 @@
           transform: scale(1);
         }
       }
-
-      .stat-card:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .stat-card:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .stat-card:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      .stat-card:nth-child(4) {
-        animation-delay: 0.4s;
-      }
-
       .stat-card:hover {
         transform: translateY(-8px) scale(1.02);
         box-shadow: var(--shadow-lg);
       }
-
       .stat-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
       }
-
       .stat-title {
         color: var(--text-secondary);
         font-size: 14px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        transition: color var(--transition-speed) ease;
       }
-
       .stat-icon {
         font-size: 24px;
         color: var(--primary-color);
         animation: bounce 2s ease-in-out infinite;
       }
-
       @keyframes bounce {
         0%,
         100% {
@@ -492,14 +371,11 @@
           transform: translateY(-5px);
         }
       }
-
       .stat-value {
         font-size: 32px;
         font-weight: 700;
         color: var(--text-primary);
-        transition: color var(--transition-speed) ease;
       }
-
       .stat-change {
         margin-top: 10px;
         font-size: 14px;
@@ -508,52 +384,20 @@
         gap: 5px;
         font-weight: 600;
       }
-
       .change-positive {
         color: var(--success-color);
-        animation: priceUp 0.5s ease;
       }
-
       .change-negative {
         color: var(--danger-color);
-        animation: priceDown 0.5s ease;
       }
-
-      @keyframes priceUp {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-3px);
-        }
-      }
-
-      @keyframes priceDown {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(3px);
-        }
-      }
-
-      /* Filters Section */
       .filters-section {
         background: var(--card-bg);
         padding: 25px 30px;
         border-radius: 15px;
         box-shadow: var(--shadow-md);
         margin-bottom: 30px;
-        transition: all var(--transition-speed) ease;
         animation: fadeIn 0.8s ease;
       }
-
-      .filters-section:hover {
-        box-shadow: var(--shadow-lg);
-      }
-
       .filters-title {
         font-size: 18px;
         color: var(--text-primary);
@@ -562,68 +406,29 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: color var(--transition-speed) ease;
       }
-
       .filters-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 20px;
         align-items: end;
       }
-
       .filter-group {
         display: flex;
         flex-direction: column;
         gap: 8px;
         position: relative;
-        animation: slideUp 0.5s ease;
-        animation-fill-mode: backwards;
       }
-
-      .filter-group:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .filter-group:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .filter-group:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      .filter-group:nth-child(4) {
-        animation-delay: 0.4s;
-      }
-      .filter-group:nth-child(5) {
-        animation-delay: 0.5s;
-      }
-      .filter-group:nth-child(6) {
-        animation-delay: 0.6s;
-      }
-
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
       .filter-label {
         font-size: 13px;
         color: var(--text-secondary);
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        transition: color var(--transition-speed) ease;
       }
-
       .filter-group:focus-within .filter-label {
         color: var(--primary-color);
       }
-
       .filter-input,
       .filter-select {
         padding: 12px 15px;
@@ -634,22 +439,17 @@
         transition: all var(--transition-speed) ease;
         background: var(--card-bg);
       }
-
       .filter-input:hover,
       .filter-select:hover {
         border-color: var(--border-hover);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         transform: translateY(-1px);
       }
-
       .filter-input:focus,
       .filter-select:focus {
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 4px rgba(0, 102, 178, 0.1);
-        transform: translateY(-2px);
       }
-
       .filter-select {
         cursor: pointer;
         appearance: none;
@@ -658,7 +458,6 @@
         background-position: right 12px center;
         padding-right: 35px;
       }
-
       .filter-group.active::before {
         content: "";
         position: absolute;
@@ -672,20 +471,7 @@
           var(--primary-dark) 100%
         );
         border-radius: 3px;
-        animation: slideInLeft 0.3s ease;
       }
-
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
       .active-filters {
         display: flex;
         flex-wrap: wrap;
@@ -694,7 +480,6 @@
         padding-top: 15px;
         border-top: 1px solid var(--border-color);
       }
-
       .filter-badge {
         display: inline-flex;
         align-items: center;
@@ -705,10 +490,7 @@
         border-radius: 20px;
         font-size: 12px;
         font-weight: 600;
-        animation: popIn 0.3s ease;
-        transition: all var(--transition-speed) ease;
       }
-
       [data-theme="dark"] .filter-badge {
         background: linear-gradient(
           135deg,
@@ -717,35 +499,16 @@
         );
         color: #5dade2;
       }
-
-      @keyframes popIn {
-        from {
-          opacity: 0;
-          transform: scale(0.8);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
-      .filter-badge:hover {
-        transform: scale(1.05);
-        box-shadow: var(--shadow-sm);
-      }
-
       .filter-badge .remove-filter {
         cursor: pointer;
         font-size: 14px;
         opacity: 0.7;
         transition: all 0.2s ease;
       }
-
       .filter-badge .remove-filter:hover {
         opacity: 1;
         transform: rotate(90deg);
       }
-
       .reset-filters-btn {
         background: transparent;
         color: var(--text-secondary);
@@ -760,44 +523,18 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        position: relative;
-        overflow: hidden;
       }
-
-      .reset-filters-btn::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(0, 102, 178, 0.1);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        transition:
-          width 0.4s ease,
-          height 0.4s ease;
-      }
-
-      .reset-filters-btn:hover::before {
-        width: 300px;
-        height: 300px;
-      }
-
       .reset-filters-btn:hover {
         border-color: var(--primary-color);
         color: var(--primary-color);
         transform: translateY(-2px);
       }
-
-      .reset-filters-btn i {
-        transition: transform var(--transition-speed) ease;
-      }
-
       .reset-filters-btn:hover i {
         transform: rotate(360deg);
       }
-
+      .reset-filters-btn i {
+        transition: transform var(--transition-speed) ease;
+      }
       .btn-success,
       .btn-primary {
         background: linear-gradient(
@@ -817,10 +554,7 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        position: relative;
-        overflow: hidden;
       }
-
       .btn-primary {
         background: linear-gradient(
           135deg,
@@ -828,65 +562,55 @@
           var(--primary-dark) 100%
         );
       }
-
-      .btn-success::before,
-      .btn-primary::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        transition:
-          width 0.6s,
-          height 0.6s;
-      }
-
-      .btn-success:hover::before,
-      .btn-primary:hover::before {
-        width: 300px;
-        height: 300px;
-      }
-
       .btn-success:hover,
       .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
       }
-
-      .btn-primary:hover {
-        box-shadow: 0 6px 20px rgba(0, 102, 178, 0.4);
-      }
-
-      .btn-success:active,
-      .btn-primary:active {
-        transform: translateY(0);
-      }
-
       .btn-block {
         width: 100%;
       }
 
-      /* Monthly Summary Card Styles */
+      /* ─── Indicateur de chargement filtres ─── */
+      .filter-loading-indicator {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        padding: 8px 12px;
+        background: rgba(0, 102, 178, 0.05);
+        border-radius: 8px;
+      }
+      .filter-loading-indicator.visible {
+        display: flex;
+      }
+      .filter-loading-indicator .mini-spinner {
+        width: 14px;
+        height: 14px;
+        border: 2px solid var(--border-color);
+        border-top: 2px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ─── Monthly Summary ─── */
       .monthly-summary-card {
         background: var(--card-bg);
         padding: 25px 30px;
         border-radius: 15px;
         box-shadow: var(--shadow-md);
         margin-bottom: 30px;
-        transition: all var(--transition-speed) ease;
-        animation: fadeIn 0.5s ease;
         border-left: 4px solid var(--primary-color);
+        transition: all var(--transition-speed) ease;
       }
-
-      .monthly-summary-card:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-2px);
-      }
-
       .summary-header {
         display: flex;
         justify-content: space-between;
@@ -895,7 +619,6 @@
         padding-bottom: 15px;
         border-bottom: 2px solid var(--border-color);
       }
-
       .summary-title {
         font-size: 20px;
         color: var(--text-primary);
@@ -904,7 +627,6 @@
         align-items: center;
         gap: 10px;
       }
-
       .summary-period {
         font-size: 14px;
         color: var(--text-secondary);
@@ -913,7 +635,6 @@
         align-items: center;
         gap: 6px;
       }
-
       .summary-period .live-indicator {
         width: 8px;
         height: 8px;
@@ -921,7 +642,6 @@
         border-radius: 50%;
         animation: pulse-dot 2s infinite;
       }
-
       @keyframes pulse-dot {
         0%,
         100% {
@@ -933,17 +653,13 @@
           transform: scale(1.2);
         }
       }
-
       .summary-table-container {
         overflow-x: auto;
       }
-
       .summary-table {
         width: 100%;
         border-collapse: collapse;
-        animation: tableLoad 0.5s ease;
       }
-
       .summary-table thead {
         background: linear-gradient(
           135deg,
@@ -952,7 +668,6 @@
         );
         color: white;
       }
-
       .summary-table th {
         padding: 12px 15px;
         text-align: left;
@@ -961,34 +676,23 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
-
       .summary-table tbody tr {
         border-bottom: 1px solid var(--border-color);
         transition: all var(--transition-speed) ease;
       }
-
       .summary-table tbody tr:hover {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 102, 178, 0.05),
-          transparent
-        );
-        transform: scale(1.01);
+        background: rgba(0, 102, 178, 0.05);
       }
-
       .summary-table td {
         padding: 12px 15px;
         color: var(--text-primary);
         font-size: 14px;
       }
-
       .rate-value {
         font-weight: 600;
         color: var(--primary-color);
         font-size: 15px;
       }
-
       .rate-date {
         font-size: 11px;
         color: var(--text-secondary);
@@ -996,23 +700,14 @@
         margin-top: 3px;
       }
 
-      .no-summary-data {
-        text-align: center;
-        padding: 30px;
-        color: var(--text-secondary);
-        font-style: italic;
-      }
-      /* Collapsible Section Styles */
+      /* ─── Collapsible ─── */
       .collapsible-section {
         background: var(--card-bg);
         border-radius: 15px;
         box-shadow: var(--shadow-md);
         margin-bottom: 30px;
-        transition: all var(--transition-speed) ease;
-        animation: fadeIn 1s ease;
         overflow: hidden;
       }
-
       .collapsible-header {
         display: flex;
         justify-content: space-between;
@@ -1021,51 +716,33 @@
         cursor: pointer;
         border-bottom: 2px solid var(--border-color);
         transition: all var(--transition-speed) ease;
-        user-select: none;
       }
-
       .collapsible-header:hover {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 102, 178, 0.05),
-          transparent
-        );
+        background: rgba(0, 102, 178, 0.03);
       }
-
       .collapsible-header-left {
         display: flex;
         align-items: center;
         gap: 15px;
       }
-
       .collapsible-toggle-icon {
         font-size: 20px;
         color: var(--primary-color);
         transition: transform var(--transition-speed) ease;
       }
-
       .collapsible-toggle-icon.rotated {
         transform: rotate(90deg);
       }
-
       .collapsible-content {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.5s ease-out;
         padding: 0 30px;
       }
-
       .collapsible-content.expanded {
-        max-height: 5000px; /* Large enough value */
+        max-height: 5000px;
         padding: 30px;
-        transition: max-height 0.5s ease-in;
       }
-
-      .collapsible-content-inner {
-        padding-top: 20px;
-      }
-
       .collapsible-actions {
         display: flex;
         gap: 10px;
@@ -1073,30 +750,14 @@
         flex-wrap: wrap;
       }
 
-      @media (max-width: 768px) {
-        .collapsible-header {
-          flex-direction: column;
-          gap: 15px;
-          align-items: flex-start;
-        }
-
-        .collapsible-actions {
-          flex-direction: column;
-          width: 100%;
-        }
-      }
-
-      /* Table Section */
+      /* ─── Table Section ─── */
       .table-section {
         background: var(--card-bg);
         padding: 30px;
         border-radius: 15px;
         box-shadow: var(--shadow-md);
         margin-bottom: 30px;
-        transition: all var(--transition-speed) ease;
-        animation: fadeIn 1s ease;
       }
-
       .section-header {
         display: flex;
         justify-content: space-between;
@@ -1105,7 +766,6 @@
         padding-bottom: 15px;
         border-bottom: 2px solid var(--border-color);
       }
-
       .section-title {
         font-size: 22px;
         color: var(--text-primary);
@@ -1113,15 +773,12 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: color var(--transition-speed) ease;
       }
-
       .actions-group {
         display: flex;
         gap: 10px;
         align-items: center;
       }
-
       .refresh-btn,
       .export-btn {
         background: linear-gradient(
@@ -1139,10 +796,7 @@
         align-items: center;
         gap: 8px;
         transition: all var(--transition-speed) ease;
-        position: relative;
-        overflow: hidden;
       }
-
       .export-btn {
         background: linear-gradient(
           135deg,
@@ -1150,69 +804,22 @@
           var(--success-dark) 100%
         );
       }
-
-      .refresh-btn::before,
-      .export-btn::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        transition:
-          width 0.5s,
-          height 0.5s;
-      }
-
-      .refresh-btn:hover::before,
-      .export-btn:hover::before {
-        width: 200px;
-        height: 200px;
-      }
-
       .refresh-btn:hover,
       .export-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 102, 178, 0.3);
       }
-
-      .export-btn:hover {
-        box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
-      }
-
-      .refresh-btn i {
-        transition: transform 0.5s ease;
-      }
-
       .refresh-btn:hover i {
         transform: rotate(360deg);
+        transition: transform 0.5s ease;
       }
-
-      /* Table Styles */
       .table-container {
         overflow-x: auto;
       }
-
       table {
         width: 100%;
         border-collapse: collapse;
-        animation: tableLoad 0.5s ease;
       }
-
-      @keyframes tableLoad {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
       thead {
         background: linear-gradient(
           135deg,
@@ -1221,7 +828,6 @@
         );
         color: white;
       }
-
       th {
         padding: 15px;
         text-align: left;
@@ -1229,48 +835,18 @@
         font-size: 14px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        position: relative;
       }
-
-      th::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: white;
-        transition: width 0.3s ease;
-      }
-
-      th:hover::after {
-        width: 100%;
-      }
-
       tbody tr {
         border-bottom: 1px solid var(--border-color);
         transition: all var(--transition-speed) ease;
-        animation: rowLoad 0.5s ease;
-        animation-fill-mode: backwards;
       }
-
       tbody tr:hover {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 102, 178, 0.05),
-          transparent
-        );
-        transform: scale(1.01);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        background: rgba(0, 102, 178, 0.05);
       }
-
       td {
         padding: 15px;
         color: var(--text-primary);
-        transition: color var(--transition-speed) ease;
       }
-
       .metal-badge {
         display: inline-block;
         padding: 5px 12px;
@@ -1278,48 +854,24 @@
         font-size: 12px;
         font-weight: 600;
         text-transform: uppercase;
-        animation: badgePop 0.3s ease;
-        transition: transform 0.2s ease;
       }
-
-      @keyframes badgePop {
-        0% {
-          transform: scale(0);
-        }
-        50% {
-          transform: scale(1.1);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      .metal-badge:hover {
-        transform: scale(1.1);
-      }
-
       .metal-copper {
         background-color: #e8f4fd;
         color: #0066b2;
       }
-
       .metal-zinc {
         background-color: #fef3e8;
         color: #f39c12;
       }
-
       .metal-tin {
         background-color: #e8f8f5;
         color: #16a085;
       }
-
       .price-value {
         font-size: 18px;
         font-weight: 700;
         color: var(--primary-color);
-        transition: all var(--transition-speed) ease;
       }
-
       .source-badge {
         display: inline-block;
         padding: 4px 10px;
@@ -1328,43 +880,31 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        transition: transform 0.2s ease;
       }
-
-      .source-badge:hover {
-        transform: scale(1.05);
-      }
-
       .source-agosi {
         background-color: #fff3cd;
         color: #856404;
       }
-
       .source-girm {
         background-color: #d1ecf1;
         color: #0c5460;
       }
-
       .source-comex {
         background-color: #f8d7da;
         color: #721c24;
       }
-
       .source-shmet {
         background-color: #d4edda;
         color: #155724;
       }
-
       .source-brent {
         background-color: #e2e3e5;
         color: #383d41;
       }
-
       .source-unknown {
         background-color: #f8f9fa;
         color: #6c757d;
       }
-
       .currency-badge {
         display: inline-block;
         padding: 4px 10px;
@@ -1372,46 +912,32 @@
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: transform 0.2s ease;
       }
-
-      .currency-badge:hover {
-        transform: scale(1.05);
-      }
-
       .currency-eur {
         background-color: #e8f4fd;
         color: #004d8c;
       }
-
       .currency-usd {
         background-color: #e8f8f5;
         color: #16a085;
       }
-
       .currency-cny {
         background-color: #fef3e8;
         color: #e67e22;
       }
-
       .currency-gbp {
         background-color: #fce4ec;
         color: #c2185b;
       }
-
       .currency-other {
         background-color: #f8f9fa;
         color: #6c757d;
       }
-
       .loading {
         text-align: center;
         padding: 40px;
         color: var(--text-secondary);
-        animation: fadeIn 0.5s ease;
       }
-
       .spinner {
         border: 3px solid var(--border-color);
         border-top: 3px solid var(--primary-color);
@@ -1421,46 +947,38 @@
         animation: spin 1s linear infinite;
         margin: 0 auto 15px;
       }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
       .no-data {
         text-align: center;
         padding: 40px;
         color: var(--text-secondary);
         font-style: italic;
-        animation: fadeIn 0.5s ease;
       }
-
+      .error-message {
+        text-align: center;
+        padding: 20px;
+        color: #e74c3c;
+        background: #fdf2f2;
+        border-radius: 10px;
+        border-left: 4px solid #e74c3c;
+        margin: 10px 0;
+      }
       .text-muted {
         color: var(--text-secondary);
         font-size: 14px;
         margin-bottom: 15px;
-        transition: color var(--transition-speed) ease;
       }
-
       .row {
         display: flex;
         gap: 15px;
         flex-wrap: wrap;
       }
-
       .row.align-items-end {
         align-items: flex-end;
       }
-
       .col-md-4 {
         flex: 1;
         min-width: 200px;
       }
-
       .pagination-controls {
         margin-top: 15px;
         display: none;
@@ -1470,19 +988,12 @@
         gap: 10px;
         font-size: 13px;
         color: var(--text-secondary);
-        animation: fadeIn 0.5s ease;
       }
-
-      .pagination-info {
-        white-space: nowrap;
-      }
-
       .pagination-buttons {
         display: flex;
         align-items: center;
         gap: 8px;
       }
-
       .pagination-button {
         padding: 6px 12px;
         border-radius: 6px;
@@ -1494,125 +1005,364 @@
         transition: all 0.2s ease;
         color: var(--text-primary);
       }
-
       .pagination-button:hover:not(:disabled) {
         border-color: var(--border-hover);
         transform: translateY(-1px);
-        box-shadow: var(--shadow-sm);
       }
-
       .pagination-button:disabled {
         opacity: 0.5;
         cursor: not-allowed;
       }
-
       .footer {
         text-align: center;
         padding: 20px;
         color: var(--text-secondary);
         font-size: 14px;
-        transition: color var(--transition-speed) ease;
-        animation: fadeIn 1.2s ease;
       }
 
-      /* Responsive */
+      /* ─── Workbook ─── */
+      .wb-tab {
+        padding: 10px 18px;
+        background: #d4d8dd;
+        border: 1px solid #c0c4c9;
+        border-bottom: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+        margin-right: 2px;
+        border-radius: 6px 6px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.2s;
+      }
+      .wb-tab:hover {
+        background: #c8ccd1;
+      }
+      .wb-tab.active {
+        background: white;
+        color: #0066b2;
+        border-top: 3px solid #0066b2;
+        padding-top: 7px;
+        font-weight: 700;
+      }
+      .wb-badge {
+        background: rgba(0, 102, 178, 0.15);
+        color: #0066b2;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 10px;
+      }
+      .wb-tab.active .wb-badge {
+        background: #0066b2;
+        color: white;
+      }
+      .wb-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        align-items: flex-end;
+      }
+      .wb-filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .wb-filter-label {
+        font-size: 11px;
+        color: #7f8c8d;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .wb-filter-select,
+      .wb-filter-input {
+        padding: 7px 10px;
+        border: 2px solid #ecf0f1;
+        border-radius: 6px;
+        font-size: 13px;
+        min-width: 130px;
+        background: white;
+        transition: border-color 0.2s;
+      }
+      .wb-filter-select:focus,
+      .wb-filter-input:focus {
+        border-color: #0066b2;
+        outline: none;
+      }
+      .wb-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+      }
+      .wb-btn-primary {
+        background: linear-gradient(135deg, #0066b2, #004d8c);
+        color: white;
+      }
+      .wb-btn-success {
+        background: linear-gradient(135deg, #27ae60, #229954);
+        color: white;
+      }
+      .wb-btn-gray {
+        background: #6c757d;
+        color: white;
+      }
+      .wb-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+      .wb-sheet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid #ecf0f1;
+      }
+      .wb-sheet-title {
+        font-size: 19px;
+        font-weight: 700;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .wb-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .wb-table-wrap {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .wb-table-scroll {
+        overflow-x: auto;
+        max-height: 520px;
+        overflow-y: auto;
+      }
+      .wb-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .wb-table thead {
+        position: sticky;
+        top: 0;
+        background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+        z-index: 10;
+      }
+      .wb-table th {
+        padding: 11px 14px;
+        text-align: left;
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #495057;
+        border-right: 1px solid #dee2e6;
+        white-space: nowrap;
+      }
+      .wb-table tbody tr {
+        border-bottom: 1px solid #f1f3f5;
+      }
+      .wb-table tbody tr:hover {
+        background: #f0f4ff;
+      }
+      .wb-table td {
+        padding: 9px 14px;
+        border-right: 1px solid #f1f3f5;
+        white-space: nowrap;
+      }
+      .wb-num {
+        text-align: right;
+        font-family: "Courier New", monospace;
+        font-weight: 600;
+      }
+      .wb-formula {
+        background: #fff9e6;
+        font-style: italic;
+        color: #6c757d;
+        text-align: right;
+        font-family: "Courier New", monospace;
+        font-weight: 600;
+      }
+      .wb-formula-note {
+        margin-top: 12px;
+        font-size: 12px;
+        color: #6c757d;
+        padding: 9px 13px;
+        background: #f8f9fa;
+        border-left: 3px solid #0066b2;
+        border-radius: 4px;
+      }
+      .wb-no-data {
+        text-align: center;
+        padding: 60px 20px;
+        color: #7f8c8d;
+      }
+      .wb-loading {
+        text-align: center;
+        padding: 50px 20px;
+        color: #7f8c8d;
+      }
+      .wb-spinner {
+        border: 3px solid #ecf0f1;
+        border-top: 3px solid #0066b2;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 16px;
+      }
+      .wb-dt-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .wb-dt-search {
+        position: relative;
+      }
+      .wb-dt-search input {
+        padding: 7px 10px 7px 32px;
+        border: 2px solid #ecf0f1;
+        border-radius: 6px;
+        font-size: 13px;
+        width: 220px;
+      }
+      .wb-dt-search input:focus {
+        border-color: #0066b2;
+        outline: none;
+      }
+      .wb-dt-search i {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #95a5a6;
+        font-size: 12px;
+      }
+      .wb-dt-info {
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+      .wb-dt-pagination {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .wb-dt-page {
+        padding: 5px 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        background: white;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .wb-dt-page:hover {
+        background: #e8f4fd;
+        border-color: #0066b2;
+        color: #0066b2;
+      }
+      .wb-dt-page.active {
+        background: #0066b2;
+        color: white;
+        border-color: #0066b2;
+        font-weight: 700;
+      }
+      .wb-dt-page:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .wb-dt-pagesize {
+        padding: 5px 8px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        font-size: 12px;
+        background: white;
+        cursor: pointer;
+      }
+      .wb-row-hidden {
+        display: none;
+      }
+      .wb-row-base {
+        background: #fafafa;
+      }
+      .wb-row-brass {
+        background: #fffbf0;
+      }
+      .wb-row-bronze {
+        background: #f5f0fb;
+      }
+      .wb-row-avg {
+        background: #e8f4fd;
+        font-weight: 700;
+      }
+
       @media (max-width: 768px) {
         .header {
           flex-direction: column;
           gap: 15px;
           text-align: center;
         }
-
+        .header-right {
+          flex-direction: column;
+          gap: 10px;
+          align-items: center;
+        }
         .stats-grid {
           grid-template-columns: 1fr;
         }
-
         .section-header {
           flex-direction: column;
           gap: 15px;
         }
-
         .actions-group {
           flex-direction: column;
           width: 100%;
         }
-
         .refresh-btn,
         .export-btn {
           width: 100%;
           justify-content: center;
         }
-
         .filters-grid {
           grid-template-columns: 1fr;
         }
-
-        table {
-          font-size: 14px;
-        }
-
-        th,
-        td {
-          padding: 10px;
-        }
-
-        .pagination-controls {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
         .page-tabs {
           flex-direction: column;
         }
-
         .row {
           flex-direction: column;
         }
-
         .col-md-4 {
           width: 100%;
         }
-
         .theme-toggle {
           bottom: 20px;
           right: 20px;
           width: 50px;
           height: 50px;
         }
-
-        /* Monthly Summary responsive */
-        .summary-header {
-          flex-direction: column;
-          gap: 10px;
-          align-items: flex-start;
-        }
-
-        .summary-table {
-          font-size: 12px;
-        }
-
-        .summary-table th,
-        .summary-table td {
-          padding: 8px 10px;
-        }
-      }
-
-      /* Performance optimizations */
-      * {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-
-      .will-change {
-        will-change: transform, opacity;
       }
     </style>
   </head>
   <body>
-    <!-- Animated Background Particles -->
     <div class="particles" id="particles"></div>
-
-    <!-- Dark Mode Toggle -->
     <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
       <i class="fas fa-moon" id="themeIcon"></i>
     </div>
@@ -1631,7 +1381,6 @@
           </h1>
         </div>
         <div class="header-right">
-          <!-- Language Toggle -->
           <div class="language-toggle-dashboard">
             <button
               class="lang-btn-dash active"
@@ -1650,7 +1399,7 @@
           </div>
           <div class="last-update">
             <i class="fas fa-clock"></i>
-            <span id="lastUpdate" data-i18n="loading">Chargement...</span>
+            <span id="lastUpdate">Chargement...</span>
           </div>
         </div>
       </div>
@@ -1662,33 +1411,39 @@
           class="page-tab active"
           onclick="showPage('metals')"
         >
-          <i class="fas fa-industry"></i>
-          <span data-i18n="tab_metals">Prix des Métaux</span>
+          <i class="fas fa-industry"></i
+          ><span data-i18n="tab_metals">Prix des Métaux</span>
         </button>
         <button id="tab-fx" class="page-tab" onclick="showPage('fx')">
-          <i class="fas fa-coins"></i>
-          <span data-i18n="tab_fx">Taux de change ECB</span>
+          <i class="fas fa-coins"></i
+          ><span data-i18n="tab_fx">Taux de change ECB</span>
+        </button>
+        <button
+          id="tab-workbook"
+          class="page-tab"
+          onclick="showPage('workbook')"
+        >
+          <i class="fas fa-file-excel"></i><span>LME Workbook</span>
         </button>
       </div>
-      <!-- PAGE MÉTAUX -->
+
+      <!-- ══════════ PAGE MÉTAUX ══════════ -->
       <div id="page-metals">
         <div class="stats-section">
           <div class="stats-header">
             <h3 class="filters-title">
-              <i class="fas fa-chart-line"></i>
-              <span data-i18n="stats_summary">Résumé par métal</span>
+              <i class="fas fa-chart-line"></i
+              ><span data-i18n="stats_summary">Résumé par métal</span>
             </h3>
-            <span id="statsSummary" class="stats-summary" data-i18n="loading"
-              >Chargement...</span
-            >
+            <span id="statsSummary" class="stats-summary">Chargement...</span>
           </div>
           <div class="stats-grid" id="statsContainer"></div>
         </div>
 
         <div class="filters-section">
           <h3 class="filters-title">
-            <i class="fas fa-filter"></i>
-            <span data-i18n="filters_title">Filtres</span>
+            <i class="fas fa-filter"></i
+            ><span data-i18n="filters_title">Filtres</span>
           </h3>
           <div class="filters-grid">
             <div class="filter-group" id="filterGroup-metalType">
@@ -1700,12 +1455,10 @@
                 class="filter-select"
                 onchange="handleFilterChange()"
               >
-                <option value="all" data-i18n="filter_all_metals">
-                  Tous les métaux
-                </option>
+                <option value="all">Tous les métaux</option>
+                <!-- ✅ Peuplé dynamiquement depuis /api/metals/metal-types -->
               </select>
             </div>
-
             <div class="filter-group" id="filterGroup-source">
               <label class="filter-label" data-i18n="filter_source"
                 >Source</label
@@ -1715,17 +1468,15 @@
                 class="filter-select"
                 onchange="handleFilterChange()"
               >
-                <option value="all" data-i18n="filter_all_sources">
-                  Toutes les sources
-                </option>
+                <option value="all">Toutes les sources</option>
+                <!-- ✅ Peuplé dynamiquement depuis /api/metals/sources -->
               </select>
             </div>
-
             <div class="filter-group" id="filterGroup-month">
-              <label class="filter-label">
-                <i class="fas fa-calendar-alt"></i>
-                <span data-i18n="filter_month">Filtre par mois</span>
-              </label>
+              <label class="filter-label"
+                ><i class="fas fa-calendar-alt"></i>
+                <span data-i18n="filter_month">Filtre par mois</span></label
+              >
               <input
                 type="month"
                 id="filterMonth"
@@ -1733,7 +1484,6 @@
                 onchange="handleMonthFilterChange()"
               />
             </div>
-
             <div class="filter-group" id="filterGroup-startDate">
               <label class="filter-label" data-i18n="filter_start_date"
                 >Date de début</label
@@ -1745,7 +1495,6 @@
                 onchange="handleFilterChange()"
               />
             </div>
-
             <div class="filter-group" id="filterGroup-endDate">
               <label class="filter-label" data-i18n="filter_end_date"
                 >Date de fin</label
@@ -1757,15 +1506,22 @@
                 onchange="handleFilterChange()"
               />
             </div>
-
             <div class="filter-group">
               <button class="reset-filters-btn" onclick="resetFilters()">
-                <i class="fas fa-redo"></i>
-                <span data-i18n="filter_reset">Réinitialiser</span>
+                <i class="fas fa-redo"></i
+                ><span data-i18n="filter_reset">Réinitialiser</span>
               </button>
             </div>
           </div>
-          <!-- Active Filters Display -->
+          <!-- Indicateur chargement filtres -->
+          <div
+            id="metalsFilterLoading"
+            class="filter-loading-indicator"
+            style="margin-top: 10px"
+          >
+            <div class="mini-spinner"></div>
+            <span>Chargement des filtres...</span>
+          </div>
           <div
             id="activeFiltersContainer"
             class="active-filters"
@@ -1776,38 +1532,37 @@
         <div class="table-section">
           <div class="section-header">
             <h2 class="section-title">
-              <i class="fas fa-table"></i>
-              <span data-i18n="section_history">Historique des Prix</span>
+              <i class="fas fa-table"></i
+              ><span data-i18n="section_history">Historique des Prix</span>
             </h2>
             <div class="actions-group">
               <button class="export-btn" onclick="exportToExcel()">
-                <i class="fas fa-file-excel"></i>
-                <span data-i18n="btn_export_excel">Exporter Excel</span>
+                <i class="fas fa-file-excel"></i
+                ><span data-i18n="btn_export_excel">Exporter Excel</span>
               </button>
               <button class="refresh-btn" onclick="loadData()">
-                <i class="fas fa-sync-alt"></i>
-                <span data-i18n="btn_refresh">Actualiser</span>
+                <i class="fas fa-sync-alt"></i
+                ><span data-i18n="btn_refresh">Actualiser</span>
               </button>
             </div>
           </div>
           <div class="table-container" id="tableContainer">
             <div class="loading">
               <div class="spinner"></div>
-              <p data-i18n="loading_data">Chargement des données...</p>
+              <p>Chargement des données...</p>
             </div>
           </div>
           <div id="paginationControls" class="pagination-controls"></div>
         </div>
       </div>
 
-      <!-- PAGE FX (ECB) - UPDATED WITH MONTHLY SUMMARY -->
+      <!-- ══════════ PAGE FX ══════════ -->
       <div id="page-fx" style="display: none">
-        <!-- RAPPORT FLORENT -->
         <div class="card" style="border-top: 4px solid #27ae60">
           <div class="card-header">
             <h3 class="card-title">
-              <i class="fas fa-file-invoice-dollar"></i>
-              <span data-i18n="section_monthly_report">Rapport mensuel</span>
+              <i class="fas fa-file-invoice-dollar"></i
+              ><span data-i18n="section_monthly_report">Rapport mensuel</span>
             </h3>
           </div>
           <div class="card-body">
@@ -1831,67 +1586,60 @@
                   onclick="downloadFlorentReport()"
                   class="btn-success btn-block"
                 >
-                  <i class="fas fa-file-excel"></i
-                  ><span data-i18n="btn_export_excel"></span> Exporter vers
-                  Excel
+                  <i class="fas fa-file-excel"></i> Exporter vers Excel
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- NEW: MONTHLY SUMMARY DISPLAY -->
         <div class="monthly-summary-card">
           <div class="summary-header">
             <h3 class="summary-title">
-              <i class="fas fa-chart-line"></i>
-              <span data-i18n="section_monthly_summary"
+              <i class="fas fa-chart-line"></i
+              ><span data-i18n="section_monthly_summary"
                 >Résumé Mensuel des Taux</span
               >
             </h3>
             <div class="summary-period">
               <span class="live-indicator"></span>
-              <span id="summaryPeriodText" data-i18n="loading"
-                >Chargement...</span
-              >
+              <span id="summaryPeriodText">Chargement...</span>
             </div>
           </div>
           <div class="summary-table-container" id="monthlySummaryContainer">
             <div class="loading">
               <div class="spinner"></div>
-              <p data-i18n="loading_data">Chargement du résumé mensuel...</p>
+              <p>Chargement du résumé mensuel...</p>
             </div>
           </div>
         </div>
 
         <div class="filters-section">
           <h3 class="filters-title">
-            <i class="fas fa-filter"></i>
-            <span data-i18n="fx_filters"
+            <i class="fas fa-filter"></i
+            ><span data-i18n="fx_filters"
               >Filtres Taux de change ECB (EUR base)</span
             >
           </h3>
           <div class="filters-grid">
             <div class="filter-group" id="fxFilterGroup-currency">
               <label class="filter-label" data-i18n="fx_quote_currency"
-                >Devise cotée (quote_currency)</label
+                >Devise cotée</label
               >
               <select
                 id="fxQuoteCurrency"
                 class="filter-select"
                 onchange="handleFxFilterChange()"
               >
-                <option value="all" data-i18n="fx_all_currencies">
-                  Toutes les devises
-                </option>
+                <option value="all">Toutes les devises</option>
+                <!-- ✅ Peuplé dynamiquement depuis /api/fx/currencies -->
               </select>
             </div>
-
             <div class="filter-group" id="fxFilterGroup-month">
-              <label class="filter-label">
-                <i class="fas fa-calendar-alt"></i>
-                <span data-i18n="filter_month">Filtre par mois</span>
-              </label>
+              <label class="filter-label"
+                ><i class="fas fa-calendar-alt"></i>
+                <span data-i18n="filter_month">Filtre par mois</span></label
+              >
               <input
                 type="month"
                 id="fxFilterMonth"
@@ -1899,7 +1647,6 @@
                 onchange="handleFxFilterChange()"
               />
             </div>
-
             <div class="filter-group" id="fxFilterGroup-startDate">
               <label class="filter-label" data-i18n="filter_start_date"
                 >Date de début</label
@@ -1911,7 +1658,6 @@
                 onchange="handleFxFilterChange()"
               />
             </div>
-
             <div class="filter-group" id="fxFilterGroup-endDate">
               <label class="filter-label" data-i18n="filter_end_date"
                 >Date de fin</label
@@ -1923,16 +1669,22 @@
                 onchange="handleFxFilterChange()"
               />
             </div>
-
             <div class="filter-group">
               <button class="reset-filters-btn" onclick="resetFxFilters()">
-                <i class="fas fa-redo"></i>
-                <span data-i18n="filter_reset">Réinitialiser</span>
+                <i class="fas fa-redo"></i
+                ><span data-i18n="filter_reset">Réinitialiser</span>
               </button>
             </div>
           </div>
-
-          <!-- Active FX Filters Display -->
+          <!-- Indicateur chargement filtres FX -->
+          <div
+            id="fxFilterLoading"
+            class="filter-loading-indicator"
+            style="margin-top: 10px"
+          >
+            <div class="mini-spinner"></div>
+            <span>Chargement des filtres...</span>
+          </div>
           <div
             id="fxActiveFiltersContainer"
             class="active-filters"
@@ -1948,39 +1700,86 @@
                 id="fxDetailsToggleIcon"
               ></i>
               <h2 class="section-title">
-                <i class="fas fa-coins"></i>
-                Détail des Taux de change ECB (EUR → devise)
+                <i class="fas fa-coins"></i>Détail des Taux de change ECB (EUR →
+                devise)
               </h2>
             </div>
-            <span style="font-size: 13px; color: var(--text-secondary)">
-              Cliquez pour afficher/masquer
-            </span>
+            <span style="font-size: 13px; color: var(--text-secondary)"
+              >Cliquez pour afficher/masquer</span
+            >
           </div>
-
           <div class="collapsible-content" id="fxDetailsContent">
             <div class="collapsible-content-inner">
               <div class="collapsible-actions">
                 <button class="export-btn" onclick="exportFxToExcel()">
-                  <i class="fas fa-file-excel"></i>
-                  <span data-i18n="btn_export_excel">Exporter Excel (FX)</span>
+                  <i class="fas fa-file-excel"></i> Exporter Excel (FX)
                 </button>
                 <button class="refresh-btn" onclick="loadFxRates()">
-                  <i class="fas fa-sync-alt"></i>
-                  <span data-i18n="btn_refresh">Actualiser (FX)</span>
+                  <i class="fas fa-sync-alt"></i> Actualiser (FX)
                 </button>
               </div>
-
               <div class="table-container" id="fxTableContainer">
                 <div class="loading">
                   <div class="spinner"></div>
-                  <p data-i18n="loading_data">
-                    Chargement des taux de change ECB...
-                  </p>
+                  <p>Chargement des taux de change ECB...</p>
                 </div>
               </div>
               <div id="fxPaginationControls" class="pagination-controls"></div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- ══════════ PAGE WORKBOOK ══════════ -->
+      <div id="page-workbook" style="display: none">
+        <div
+          style="
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: 85vh;
+          "
+        >
+          <div
+            style="
+              background: linear-gradient(135deg, #0066b2 0%, #004d8c 100%);
+              color: white;
+              padding: 20px 30px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                font-size: 22px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              "
+            >
+              <i class="fas fa-file-excel"></i>LME Main Raw Material Prices
+              Follow-Up
+            </div>
+            <div id="wbLastUpdate" style="font-size: 13px; opacity: 0.85">
+              Chargement...
+            </div>
+          </div>
+          <div
+            id="wbTabBar"
+            style="
+              background: #e9ecef;
+              display: flex;
+              overflow-x: auto;
+              border-bottom: 2px solid #dee2e6;
+            "
+          ></div>
+          <div
+            id="wbSheetContainer"
+            style="padding: 30px; min-height: 500px"
+          ></div>
         </div>
       </div>
 
@@ -1992,14 +1791,12 @@
 
     <script>
       // ==========================================
-      // DARK MODE FUNCTIONALITY
+      // DARK MODE
       // ==========================================
       function toggleTheme() {
         const html = document.documentElement;
         const icon = document.getElementById("themeIcon");
-        const currentTheme = html.getAttribute("data-theme");
-
-        if (currentTheme === "dark") {
+        if (html.getAttribute("data-theme") === "dark") {
           html.removeAttribute("data-theme");
           icon.className = "fas fa-moon";
           localStorage.setItem("theme", "light");
@@ -2010,297 +1807,51 @@
         }
       }
 
-      // Load saved theme on page load
       window.addEventListener("DOMContentLoaded", () => {
         const savedTheme = localStorage.getItem("theme");
-        const icon = document.getElementById("themeIcon");
-
         if (savedTheme === "dark") {
           document.documentElement.setAttribute("data-theme", "dark");
-          icon.className = "fas fa-sun";
+          document.getElementById("themeIcon").className = "fas fa-sun";
         }
-
-        // Initialize particles
         createParticles();
       });
 
       // ==========================================
-      // ANIMATED PARTICLES
+      // PARTICLES
       // ==========================================
       function createParticles() {
         const container = document.getElementById("particles");
-        const particleCount = 15;
-
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement("div");
-          particle.className = "particle";
-          particle.style.left = Math.random() * 100 + "%";
-          particle.style.animationDelay = Math.random() * 20 + "s";
-          particle.style.animationDuration = 15 + Math.random() * 10 + "s";
-          container.appendChild(particle);
+        for (let i = 0; i < 15; i++) {
+          const p = document.createElement("div");
+          p.className = "particle";
+          p.style.left = Math.random() * 100 + "%";
+          p.style.animationDelay = Math.random() * 20 + "s";
+          p.style.animationDuration = 15 + Math.random() * 10 + "s";
+          container.appendChild(p);
         }
       }
 
       // ==========================================
-      // GLOBAL VARIABLES
+      // ✅ TRANSLATION SYSTEM
+      // Défini AVANT translations{} pour que t() soit disponible
       // ==========================================
-      let currentFilters = {
-        metalType: "all",
-        startDate: null,
-        endDate: null,
-        source: "all",
-        month: null,
-      };
+      let currentLang = localStorage.getItem("dashboardLanguage") || "fr";
 
-      let allPrices = [];
-      let filteredPrices = [];
-      let currentPage = 1;
-      const pageSize = 15;
-
-      let fxFilters = {
-        quoteCurrency: "all",
-        startDate: null,
-        endDate: null,
-        month: null,
-      };
-      let fxData = [];
-      let fxFilteredData = [];
-      let fxCurrentPage = 1;
-      const fxPageSize = 15;
-
-      // ==========================================
-      // AUTO-APPLY FILTER FUNCTIONS
-      // ==========================================
-      function handleFilterChange() {
-        applyFilters();
+      function t(key) {
+        return translations[currentLang] && translations[currentLang][key]
+          ? translations[currentLang][key]
+          : key;
       }
 
-      function handleFxFilterChange() {
-        applyFxFilters();
-      }
-
-      function updateActiveFiltersDisplay() {
-        const container = document.getElementById("activeFiltersContainer");
-        const badges = [];
-
-        if (currentFilters.metalType && currentFilters.metalType !== "all") {
-          const select = document.getElementById("filterMetalType");
-          const text = select.options[select.selectedIndex].text;
-          badges.push({ key: "metalType", label: `Métal: ${text}` });
-          document
-            .getElementById("filterGroup-metalType")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("filterGroup-metalType")
-            .classList.remove("active");
-        }
-
-        if (currentFilters.source && currentFilters.source !== "all") {
-          const select = document.getElementById("filterSource");
-          const text = select.options[select.selectedIndex].text;
-          badges.push({ key: "source", label: `Source: ${text}` });
-          document.getElementById("filterGroup-source").classList.add("active");
-        } else {
-          document
-            .getElementById("filterGroup-source")
-            .classList.remove("active");
-        }
-
-        if (currentFilters.month) {
-          badges.push({ key: "month", label: `Mois: ${currentFilters.month}` });
-          document.getElementById("filterGroup-month").classList.add("active");
-        } else {
-          document
-            .getElementById("filterGroup-month")
-            .classList.remove("active");
-        }
-
-        if (currentFilters.startDate) {
-          const label = currentFilters.month
-            ? `Début (dans le mois): ${currentFilters.startDate}`
-            : `Début: ${currentFilters.startDate}`;
-          badges.push({ key: "startDate", label });
-          document
-            .getElementById("filterGroup-startDate")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("filterGroup-startDate")
-            .classList.remove("active");
-        }
-
-        if (currentFilters.endDate) {
-          const label = currentFilters.month
-            ? `Fin (dans le mois): ${currentFilters.endDate}`
-            : `Fin: ${currentFilters.endDate}`;
-          badges.push({ key: "endDate", label });
-          document
-            .getElementById("filterGroup-endDate")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("filterGroup-endDate")
-            .classList.remove("active");
-        }
-
-        if (badges.length > 0) {
-          container.style.display = "flex";
-          container.innerHTML = badges
-            .map(
-              (badge) => `
-          <div class="filter-badge">
-              <span>${badge.label}</span>
-              <span class="remove-filter" onclick="removeActiveFilter('${badge.key}')">×</span>
-          </div>
-        `,
-            )
-            .join("");
-        } else {
-          container.style.display = "none";
-        }
-      }
-
-      function updateFxActiveFiltersDisplay() {
-        const container = document.getElementById("fxActiveFiltersContainer");
-        const badges = [];
-
-        if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all") {
-          badges.push({
-            key: "quoteCurrency",
-            label: `Devise: ${fxFilters.quoteCurrency}`,
-          });
-          document
-            .getElementById("fxFilterGroup-currency")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("fxFilterGroup-currency")
-            .classList.remove("active");
-        }
-
-        if (fxFilters.month) {
-          badges.push({ key: "month", label: `Mois: ${fxFilters.month}` });
-          document
-            .getElementById("fxFilterGroup-month")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("fxFilterGroup-month")
-            .classList.remove("active");
-        }
-
-        if (fxFilters.startDate) {
-          badges.push({
-            key: "startDate",
-            label: `Début: ${fxFilters.startDate}`,
-          });
-          document
-            .getElementById("fxFilterGroup-startDate")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("fxFilterGroup-startDate")
-            .classList.remove("active");
-        }
-
-        if (fxFilters.endDate) {
-          badges.push({ key: "endDate", label: `Fin: ${fxFilters.endDate}` });
-          document
-            .getElementById("fxFilterGroup-endDate")
-            .classList.add("active");
-        } else {
-          document
-            .getElementById("fxFilterGroup-endDate")
-            .classList.remove("active");
-        }
-
-        if (badges.length > 0) {
-          container.style.display = "flex";
-          container.innerHTML = badges
-            .map(
-              (badge) => `
-                    <div class="filter-badge">
-                        <span>${badge.label}</span>
-                        <span class="remove-filter" onclick="removeFxActiveFilter('${badge.key}')">×</span>
-                    </div>
-                `,
-            )
-            .join("");
-        } else {
-          container.style.display = "none";
-        }
-      }
-
-      function removeActiveFilter(filterKey) {
-        switch (filterKey) {
-          case "metalType":
-            document.getElementById("filterMetalType").value = "all";
-            currentFilters.metalType = "all";
-            break;
-          case "source":
-            document.getElementById("filterSource").value = "all";
-            currentFilters.source = "all";
-            break;
-          case "month":
-            document.getElementById("filterMonth").value = "";
-            currentFilters.month = null;
-            break;
-          case "startDate":
-            document.getElementById("filterStartDate").value = "";
-            currentFilters.startDate = null;
-            break;
-          case "endDate":
-            document.getElementById("filterEndDate").value = "";
-            currentFilters.endDate = null;
-            break;
-        }
-        currentPage = 1;
-        loadPriceHistory();
-      }
-
-      function removeFxActiveFilter(filterKey) {
-        switch (filterKey) {
-          case "quoteCurrency":
-            document.getElementById("fxQuoteCurrency").value = "all";
-            fxFilters.quoteCurrency = "all";
-            break;
-          case "month":
-            document.getElementById("fxFilterMonth").value = "";
-            fxFilters.month = null;
-            break;
-          case "startDate":
-            document.getElementById("fxStartDate").value = "";
-            fxFilters.startDate = null;
-            break;
-          case "endDate":
-            document.getElementById("fxEndDate").value = "";
-            fxFilters.endDate = null;
-            break;
-        }
-        fxCurrentPage = 1;
-        loadFxRates();
-      }
-      // ==========================================
-      // TRANSLATION SYSTEM
-      // ==========================================
+      // ⚠️ IMPORTANT: Ne plus appeler t() à l'intérieur de translations{}
+      // L'objet est défini statiquement ici
       const translations = {
         fr: {
-          // Header
           dashboard_title: "Tableau de Bord",
           loading: "Chargement...",
-          last_update: "Dernière mise à jour",
-
-          // Tabs
           tab_metals: "Prix des Métaux",
           tab_fx: "Taux de change ECB",
-
-          // Statistics
           stats_summary: "Résumé par métal",
-          records_tracked: "enregistrements",
-          metals_monitored: "métaux suivis",
-
-          // Filters
           filters_title: "Filtres",
           filter_metal_type: "Type de métal",
           filter_all_metals: "Tous les métaux",
@@ -2310,8 +1861,6 @@
           filter_start_date: "Date de début",
           filter_end_date: "Date de fin",
           filter_reset: "Réinitialiser",
-
-          // Table Headers
           table_product: "Produit",
           table_price: "Prix",
           table_currency: "Devise",
@@ -2320,74 +1869,52 @@
           table_price_date: "Date de prix",
           table_date: "Date",
           table_rate: "Taux",
-
-          // Buttons
           btn_export_excel: "Exporter Excel",
           btn_refresh: "Actualiser",
-          btn_apply_filters: "Appliquer les filtres",
-
-          // Sections
           section_history: "Historique des Prix",
-          section_fx_rates: "Taux de change ECB",
           section_monthly_report: "Rapport mensuel",
           section_monthly_summary: "Résumé Mensuel des Taux",
-
-          // Monthly Report
-          monthly_report_title: "Rapport mensuel",
           monthly_report_desc:
             "Génère le rapport mensuel avec Closing Rate, Period Rate Average (M-1) et Moyenne YTD.",
           monthly_report_choose: "Choisir le mois :",
-
-          // Messages
           no_data: "Aucune donnée disponible",
-          no_data_filters: "Aucune donnée disponible pour ces filtres",
           loading_data: "Chargement des données...",
           error_loading: "Erreur lors du chargement des données",
-
-          // Pagination
-          showing: "Affichage de",
-          to: "à",
-          of: "sur",
-          records: "enregistrements",
-          previous: "Précédent",
-          next: "Suivant",
-          page: "Page",
-
-          // FX Section
           fx_filters: "Filtres Taux de change ECB (EUR base)",
-          fx_quote_currency: "Devise cotée (quote_currency)",
+          fx_quote_currency: "Devise cotée",
           fx_all_currencies: "Toutes les devises",
-          fx_details: "Détail des Taux de change ECB (EUR → devise)",
-          fx_click_show: "Cliquez pour afficher/masquer",
-
-          // Summary
-          closing_rate: "Closing Rate",
-          period_rate: "Period Rate",
-          average_ytd: "Average YTD",
-          live_data: "Données en direct",
-
-          // Footer
           footer_rights: "Tous droits réservés.",
-
-          // Variation
-          variation_24h: "(24h)",
+          wb_year: "Année",
+          wb_month: "Mois",
+          wb_all_years: "Toutes",
+          wb_all_months: "Tous",
+          wb_start_date: "Début",
+          wb_end_date: "Fin",
+          wb_metal: "Métal",
+          wb_all_metals: "Tous",
+          wb_reset: "Réinitialiser",
+          wb_refresh: "Actualiser",
+          wb_export: "Export Excel",
+          wb_search: "Rechercher...",
+          wb_per_page: "/ page",
+          wb_rows_of: "sur",
+          wb_rows: "lignes",
+          wb_no_data: "Aucune donnée disponible",
+          wb_no_data_period: "Aucune donnée pour la période sélectionnée",
+          wb_avg_annual: "Moy. annuelle = AVG(Jan→Déc)",
+          wb_base_metals: "Métaux de base (Non-VAT CNY/t)",
+          wb_alloy_brass: "Alliages Laiton (Non-VAT CNY/kg)",
+          wb_alloy_bronze: "Alliages Bronze (Non-VAT CNY/kg)",
+          wb_dev_title: "En cours de développement",
+          wb_dev_msg:
+            "La synthèse multi-sources sera disponible prochainement.",
         },
         en: {
-          // Header
           dashboard_title: "Dashboard",
           loading: "Loading...",
-          last_update: "Last update",
-
-          // Tabs
           tab_metals: "Metal Prices",
           tab_fx: "ECB Exchange Rates",
-
-          // Statistics
           stats_summary: "Summary by metal",
-          records_tracked: "records",
-          metals_monitored: "metals tracked",
-
-          // Filters
           filters_title: "Filters",
           filter_metal_type: "Metal type",
           filter_all_metals: "All metals",
@@ -2397,8 +1924,6 @@
           filter_start_date: "Start date",
           filter_end_date: "End date",
           filter_reset: "Reset",
-
-          // Table Headers
           table_product: "Product",
           table_price: "Price",
           table_currency: "Currency",
@@ -2407,105 +1932,78 @@
           table_price_date: "Price date",
           table_date: "Date",
           table_rate: "Rate",
-
-          // Buttons
           btn_export_excel: "Export Excel",
           btn_refresh: "Refresh",
-          btn_apply_filters: "Apply filters",
-
-          // Sections
           section_history: "Price History",
-          section_fx_rates: "ECB Exchange Rates",
           section_monthly_report: "Monthly Report",
           section_monthly_summary: "Monthly FX Summary",
-
-          // Monthly Report
-          monthly_report_title: "Monthly Report",
           monthly_report_desc:
             "Generate monthly report with Closing Rate, Period Rate Average (M-1) and YTD Average.",
           monthly_report_choose: "Choose month:",
-
-          // Messages
           no_data: "No data available",
-          no_data_filters: "No data available for these filters",
           loading_data: "Loading data...",
           error_loading: "Error loading data",
-
-          // Pagination
-          showing: "Showing",
-          to: "to",
-          of: "of",
-          records: "records",
-          previous: "Previous",
-          next: "Next",
-          page: "Page",
-
-          // FX Section
           fx_filters: "ECB Exchange Rate Filters (EUR base)",
           fx_quote_currency: "Quote currency",
           fx_all_currencies: "All currencies",
-          fx_details: "ECB Exchange Rate Details (EUR → currency)",
-          fx_click_show: "Click to show/hide",
-
-          // Summary
-          closing_rate: "Closing Rate",
-          period_rate: "Period Rate",
-          average_ytd: "Average YTD",
-          live_data: "Live data",
-
-          // Footer
           footer_rights: "All rights reserved.",
-
-          // Variation
-          variation_24h: "(24h)",
+          wb_year: "Year",
+          wb_month: "Month",
+          wb_all_years: "All",
+          wb_all_months: "All",
+          wb_start_date: "Start",
+          wb_end_date: "End",
+          wb_metal: "Metal",
+          wb_all_metals: "All",
+          wb_reset: "Reset",
+          wb_refresh: "Refresh",
+          wb_export: "Export Excel",
+          wb_search: "Search...",
+          wb_per_page: "/ page",
+          wb_rows_of: "of",
+          wb_rows: "rows",
+          wb_no_data: "No data available",
+          wb_no_data_period: "No data available for selected period",
+          wb_avg_annual: "Annual avg = AVG(Jan→Dec)",
+          wb_base_metals: "Base metals (Non-VAT CNY/t)",
+          wb_alloy_brass: "Brass alloys (Non-VAT CNY/kg)",
+          wb_alloy_bronze: "Bronze alloys (Non-VAT CNY/kg)",
+          wb_dev_title: "Under Development",
+          wb_dev_msg: "Multi-source synthesis coming soon.",
         },
       };
 
-      let currentLang = localStorage.getItem("dashboardLanguage") || "fr";
-
-      // Translation function
-      function t(key) {
-        return translations[currentLang][key] || key;
-      }
-
-      // Update all translatable elements
       function updateTranslations() {
-        document.querySelectorAll("[data-i18n]").forEach((element) => {
-          const key = element.getAttribute("data-i18n");
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
           const translation = t(key);
-
-          // Handle different element types
-          if (element.tagName === "INPUT" && element.type !== "button") {
-            element.placeholder = translation;
+          if (el.tagName === "INPUT" && el.type !== "button") {
+            el.placeholder = translation;
           } else {
-            element.textContent = translation;
+            el.textContent = translation;
           }
         });
-
-        // Update language buttons
-        document.querySelectorAll(".lang-btn-dash").forEach((btn) => {
-          btn.classList.remove("active");
-        });
-        document.getElementById(`lang-${currentLang}`)?.classList.add("active");
+        document
+          .querySelectorAll(".lang-btn-dash")
+          .forEach((btn) => btn.classList.remove("active"));
+        const langBtn = document.getElementById(`lang-${currentLang}`);
+        if (langBtn) langBtn.classList.add("active");
       }
 
-      // Switch language
       function switchLanguage(lang) {
         currentLang = lang;
         localStorage.setItem("dashboardLanguage", lang);
         updateTranslations();
-
-        // Reload data with new language
         loadData();
       }
 
       // ==========================================
-      // UTILITY FUNCTIONS
+      // UTILITIES
       // ==========================================
       function formatDate(dateInput) {
-        const date = new Date(dateInput);
-        if (isNaN(date.getTime())) return "";
-        return date.toLocaleString("fr-FR", {
+        const d = new Date(dateInput);
+        if (isNaN(d.getTime())) return "";
+        return d.toLocaleString("fr-FR", {
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
@@ -2513,17 +2011,15 @@
           minute: "2-digit",
         });
       }
-
-      function formatDateOnlyDate(dateInput) {
-        const date = new Date(dateInput);
-        if (isNaN(date.getTime())) return "";
-        return date.toLocaleDateString("fr-FR", {
+      function formatDateOnly(dateInput) {
+        const d = new Date(dateInput);
+        if (isNaN(d.getTime())) return "";
+        return d.toLocaleDateString("fr-FR", {
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
         });
       }
-
       function formatPrice(price) {
         if (price === null || price === undefined || isNaN(price)) return "--";
         return new Intl.NumberFormat("fr-FR", {
@@ -2531,534 +2027,25 @@
           maximumFractionDigits: 4,
         }).format(price);
       }
-
       function formatSource(sourceUrl) {
         if (!sourceUrl) return { label: "--", class: "source-unknown" };
-
         const url = String(sourceUrl).trim().toLowerCase();
-
-        if (url.includes("agosi.de")) {
+        if (url.includes("agosi.de"))
           return { label: "AGOSI", class: "source-agosi" };
-        }
-        if (url.includes("m-lego.com")) {
+        if (url.includes("m-lego.com"))
           return { label: "GIRM", class: "source-girm" };
-        }
-        if (url.includes("comexlive.org")) {
+        if (url.includes("comexlive.org"))
           return { label: "COMEX", class: "source-comex" };
-        }
-        if (url.includes("shmet.com")) {
+        if (url.includes("shmet.com"))
           return { label: "SHMET", class: "source-shmet" };
-        }
-        if (url.includes("insee.fr")) {
+        if (url.includes("insee.fr"))
           return { label: "BRENT LONDON", class: "source-brent" };
-        }
-
+        if (url.includes("metals.dev") || url.includes("metal.dev"))
+          return { label: "LME", class: "source-girm" };
         return { label: "AUTRE", class: "source-unknown" };
       }
-
-      // ==========================================
-      // METALS FILTERS
-      // ==========================================
-      function handleMonthFilterChange() {
-        const monthValue = document.getElementById("filterMonth").value;
-        const startDateInput = document.getElementById("filterStartDate");
-        const endDateInput = document.getElementById("filterEndDate");
-
-        if (monthValue) {
-          // Enable date inputs and set min/max constraints
-          const [year, month] = monthValue.split("-");
-          const firstDay = new Date(year, month - 1, 1)
-            .toISOString()
-            .split("T")[0];
-          const lastDay = new Date(year, month, 0).toISOString().split("T")[0];
-
-          startDateInput.disabled = false;
-          endDateInput.disabled = false;
-          startDateInput.min = firstDay;
-          startDateInput.max = lastDay;
-          endDateInput.min = firstDay;
-          endDateInput.max = lastDay;
-
-          // Visual feedback: change placeholder
-          startDateInput.placeholder = `Min: ${firstDay}`;
-          endDateInput.placeholder = `Max: ${lastDay}`;
-
-          // Clear existing values if they're outside the month
-          if (
-            startDateInput.value &&
-            (startDateInput.value < firstDay || startDateInput.value > lastDay)
-          ) {
-            startDateInput.value = "";
-          }
-          if (
-            endDateInput.value &&
-            (endDateInput.value < firstDay || endDateInput.value > lastDay)
-          ) {
-            endDateInput.value = "";
-          }
-        } else {
-          // No month selected: remove constraints
-          startDateInput.disabled = false;
-          endDateInput.disabled = false;
-          startDateInput.removeAttribute("min");
-          startDateInput.removeAttribute("max");
-          endDateInput.removeAttribute("min");
-          endDateInput.removeAttribute("max");
-          startDateInput.placeholder = "jj/mm/aaaa";
-          endDateInput.placeholder = "jj/mm/aaaa";
-        }
-
-        applyFilters();
-      }
-      function applyFilters() {
-        currentFilters.metalType =
-          document.getElementById("filterMetalType").value;
-        currentFilters.month =
-          document.getElementById("filterMonth").value || null;
-        currentFilters.source = document.getElementById("filterSource").value;
-
-        // NEW LOGIC: Month filter sets the range, but dates can override within that month
-        if (currentFilters.month) {
-          // Get the month boundaries
-          const [year, month] = currentFilters.month.split("-");
-          const firstDay = new Date(year, month - 1, 1);
-          const lastDay = new Date(year, month, 0);
-
-          const startDateInput =
-            document.getElementById("filterStartDate").value;
-          const endDateInput = document.getElementById("filterEndDate").value;
-
-          // If user specifies dates, validate they're within the month
-          if (startDateInput) {
-            const startDate = new Date(startDateInput);
-            if (startDate >= firstDay && startDate <= lastDay) {
-              currentFilters.startDate = startDateInput;
-            } else {
-              alert(`La date de début doit être dans ${month}/${year}`);
-              currentFilters.startDate = firstDay.toISOString().split("T")[0];
-              document.getElementById("filterStartDate").value =
-                currentFilters.startDate;
-            }
-          } else {
-            // No start date specified: use first day of month
-            currentFilters.startDate = firstDay.toISOString().split("T")[0];
-          }
-
-          if (endDateInput) {
-            const endDate = new Date(endDateInput);
-            if (endDate >= firstDay && endDate <= lastDay) {
-              currentFilters.endDate = endDateInput;
-            } else {
-              alert(`La date de fin doit être dans ${month}/${year}`);
-              currentFilters.endDate = lastDay.toISOString().split("T")[0];
-              document.getElementById("filterEndDate").value =
-                currentFilters.endDate;
-            }
-          } else {
-            // No end date specified: use last day of month
-            currentFilters.endDate = lastDay.toISOString().split("T")[0];
-          }
-        } else {
-          // No month filter: use dates as is
-          currentFilters.startDate =
-            document.getElementById("filterStartDate").value || null;
-          currentFilters.endDate =
-            document.getElementById("filterEndDate").value || null;
-        }
-
-        currentPage = 1;
-        loadPriceHistory();
-      }
-
-      function resetFilters() {
-        document.getElementById("filterMetalType").value = "all";
-        document.getElementById("filterMonth").value = "";
-        document.getElementById("filterStartDate").value = "";
-        document.getElementById("filterEndDate").value = "";
-        document.getElementById("filterSource").value = "all";
-
-        // Remove date constraints
-        const startDateInput = document.getElementById("filterStartDate");
-        const endDateInput = document.getElementById("filterEndDate");
-        startDateInput.removeAttribute("min");
-        startDateInput.removeAttribute("max");
-        endDateInput.removeAttribute("min");
-        endDateInput.removeAttribute("max");
-        startDateInput.disabled = false;
-        endDateInput.disabled = false;
-        startDateInput.placeholder = "jj/mm/aaaa";
-        endDateInput.placeholder = "jj/mm/aaaa";
-
-        currentFilters = {
-          metalType: "all",
-          startDate: null,
-          endDate: null,
-          source: "all",
-          month: null,
-        };
-
-        currentPage = 1;
-        loadPriceHistory();
-      }
-
-      function exportToExcel() {
-        let url = "/export/excel?";
-
-        if (currentFilters.metalType !== "all") {
-          url += `metal_type=${currentFilters.metalType}&`;
-        }
-        if (currentFilters.month) {
-          url += `month=${currentFilters.month}&`;
-        } else {
-          if (currentFilters.startDate) {
-            url += `start_date=${currentFilters.startDate}&`;
-          }
-          if (currentFilters.endDate) {
-            url += `end_date=${currentFilters.endDate}&`;
-          }
-          if (!currentFilters.startDate && !currentFilters.endDate) {
-            url += "days=30";
-          }
-        }
-        window.location.href = url;
-      }
-      // ==========================================
-      // STATISTICS
-      // ==========================================
-      async function loadStatistics() {
-        try {
-          const response = await fetch("/api/statistics");
-          const result = await response.json();
-
-          if (result.status === "success") {
-            const data = result.data || {};
-            const variations = data.variations || [];
-
-            const metalTypes = Array.from(
-              new Set(variations.map((v) => v.metal_type)),
-            ).filter(Boolean);
-
-            const totalRecords = data.total_records || 0;
-            const totalMetals = data.total_metals || variations.length || 0;
-            const summaryEl = document.getElementById("statsSummary");
-            if (summaryEl) {
-              summaryEl.textContent = `${totalRecords} enregistrements • ${totalMetals} métaux suivis`;
-            }
-
-            const filterSelect = document.getElementById("filterMetalType");
-            if (filterSelect.options.length === 1) {
-              metalTypes.forEach((type) => {
-                const option = document.createElement("option");
-                option.value = type.toLowerCase();
-                option.textContent = type;
-                filterSelect.appendChild(option);
-              });
-            }
-
-            const container = document.getElementById("statsContainer");
-            container.innerHTML = "";
-
-            if (variations.length === 0) {
-              container.innerHTML =
-                '<div class="no-data">Aucune statistique disponible</div>';
-              return;
-            }
-
-            variations.forEach((v) => {
-              const variation = parseFloat(v.variation_percent);
-              const isPositive = variation >= 0;
-              const metalLabel = (v.metal_type || "").toUpperCase();
-              const currency = v.currency || "CNY";
-
-              const card = document.createElement("div");
-              card.className = "stat-card";
-
-              card.innerHTML = `
-                <div class="stat-header">
-                  <span class="stat-title">${metalLabel}</span>
-                  <i class="fas fa-medal stat-icon"></i>
-                </div>
-                <div class="stat-value">
-                  ${
-                    v.current_price != null
-                      ? formatPrice(v.current_price) + " " + currency
-                      : "--"
-                  }
-                </div>
-                <div class="stat-change ${
-                  isPositive ? "change-positive" : "change-negative"
-                }">
-                  <i class="fas fa-arrow-${isPositive ? "up" : "down"}"></i>
-                  <span>${
-                    isNaN(variation)
-                      ? "0"
-                      : (isPositive ? "+" : "") + formatPrice(variation)
-                  }% (24h)</span>
-                </div>
-              `;
-              container.appendChild(card);
-            });
-          }
-        } catch (error) {
-          console.error("Erreur chargement statistiques:", error);
-        }
-      }
-
-      function populateSourceFilterOptions() {
-        const select = document.getElementById("filterSource");
-        if (!select) return;
-
-        const currentValue = select.value || "all";
-        const labelsSet = new Set();
-
-        allPrices.forEach((price) => {
-          const s = formatSource(price.source_url);
-          if (s.label && s.label !== "--") {
-            labelsSet.add(s.label);
-          }
-        });
-
-        select.innerHTML = '<option value="all">Toutes les sources</option>';
-
-        Array.from(labelsSet)
-          .sort()
-          .forEach((label) => {
-            const option = document.createElement("option");
-            option.value = label.toLowerCase();
-            option.textContent = label;
-            select.appendChild(option);
-          });
-
-        if (currentValue !== "all") {
-          const found = Array.from(labelsSet).some(
-            (l) => l.toLowerCase() === currentValue.toLowerCase(),
-          );
-          if (found) {
-            select.value = currentValue.toLowerCase();
-            currentFilters.source = currentValue.toLowerCase();
-          }
-        }
-      }
-
-      function applyTableFiltersAndRender() {
-        const tableContainer = document.getElementById("tableContainer");
-        const paginationControls =
-          document.getElementById("paginationControls");
-
-        if (!Array.isArray(allPrices) || allPrices.length === 0) {
-          tableContainer.innerHTML =
-            '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
-          if (paginationControls) paginationControls.style.display = "none";
-          return;
-        }
-
-        const sourceFilter = (currentFilters.source || "all").toLowerCase();
-
-        filteredPrices = allPrices.filter((price) => {
-          if (sourceFilter === "all") return true;
-          const s = formatSource(price.source_url);
-          return (s.label || "").toLowerCase() === sourceFilter;
-        });
-
-        if (filteredPrices.length === 0) {
-          tableContainer.innerHTML =
-            '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
-          if (paginationControls) paginationControls.style.display = "none";
-          return;
-        }
-
-        const totalPages = Math.ceil(filteredPrices.length / pageSize) || 1;
-        if (currentPage > totalPages) currentPage = totalPages;
-
-        renderTablePage(currentPage, totalPages);
-      }
-
-      function renderTablePage(page, totalPages) {
-        const tableContainer = document.getElementById("tableContainer");
-        const paginationControls =
-          document.getElementById("paginationControls");
-
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        const pageData = filteredPrices.slice(startIndex, endIndex);
-        const totalRecords = filteredPrices.length;
-
-        let tableHTML = `
-          <table>
-            <thead>
-              <tr>
-                <th>Produit</th>
-                <th>Prix</th>
-                <th>Devise</th>
-                <th>Unité</th>
-                <th>Source</th>
-                <th>Date de prix</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-
-        pageData.forEach((price) => {
-          const metalClass = `metal-${
-            price.metal_type ? price.metal_type.toLowerCase() : "default"
-          }`;
-          const source = formatSource(price.source_url);
-          const dateValue = price.price_date;
-
-          tableHTML += `
-            <tr>
-              <td><span class="metal-badge ${metalClass}">${
-                price.metal_type || ""
-              }</span></td>
-              <td><span class="price-value">${formatPrice(
-                price.price,
-              )}</span></td>
-              <td>${price.currency || ""}</td>
-              <td>${price.unit || ""}</td>
-              <td><span class="source-badge ${source.class}">${
-                source.label
-              }</span></td>
-              <td>${dateValue ? formatDateOnlyDate(dateValue) : ""}</td>
-            </tr>
-          `;
-        });
-
-        tableHTML += `
-            </tbody>
-          </table>
-        `;
-
-        tableContainer.innerHTML = tableHTML;
-
-        if (paginationControls) {
-          paginationControls.innerHTML = `
-            <div class="pagination-info">
-              Affichage de ${startIndex + 1} à ${Math.min(
-                endIndex,
-                totalRecords,
-              )} sur ${totalRecords} enregistrements
-            </div>
-            <div class="pagination-buttons">
-              <button class="pagination-button" onclick="changePage(${
-                page - 1
-              })" ${page <= 1 ? "disabled" : ""}>
-                &laquo; Précédent
-              </button>
-              <span>Page ${page} / ${totalPages}</span>
-              <button class="pagination-button" onclick="changePage(${
-                page + 1
-              })" ${page >= totalPages ? "disabled" : ""}>
-                Suivant &raquo;
-              </button>
-            </div>
-          `;
-          paginationControls.style.display = "flex";
-        }
-      }
-
-      function changePage(newPage) {
-        const totalPages = Math.ceil(filteredPrices.length / pageSize) || 1;
-        if (newPage < 1 || newPage > totalPages) return;
-        currentPage = newPage;
-        renderTablePage(currentPage, totalPages);
-      }
-
-      async function loadPriceHistory() {
-        try {
-          let url = "/api/prices/history?";
-
-          if (currentFilters.metalType !== "all") {
-            url += `metal_type=${currentFilters.metalType}&`;
-          }
-
-          if (currentFilters.month) {
-            url += `month=${currentFilters.month}&`;
-
-            // ✅ IMPORTANT: allow narrowing inside the month
-            if (currentFilters.startDate) {
-              url += `start_date=${currentFilters.startDate}&`;
-            }
-            if (currentFilters.endDate) {
-              url += `end_date=${currentFilters.endDate}&`;
-            }
-          } else {
-            if (currentFilters.startDate) {
-              url += `start_date=${currentFilters.startDate}&`;
-            }
-            if (currentFilters.endDate) {
-              url += `end_date=${currentFilters.endDate}&`;
-            }
-          }
-
-          const response = await fetch(url);
-          const result = await response.json();
-
-          const tableContainer = document.getElementById("tableContainer");
-
-          if (result.status === "success" && result.data.length > 0) {
-            allPrices = result.data;
-            populateSourceFilterOptions();
-            applyTableFiltersAndRender();
-            updateActiveFiltersDisplay();
-          } else {
-            allPrices = [];
-            filteredPrices = [];
-            tableContainer.innerHTML =
-              '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
-
-            const paginationControls =
-              document.getElementById("paginationControls");
-            if (paginationControls) paginationControls.style.display = "none";
-
-            updateActiveFiltersDisplay();
-          }
-        } catch (error) {
-          console.error("Erreur chargement historique:", error);
-          document.getElementById("tableContainer").innerHTML =
-            '<div class="no-data">Erreur lors du chargement des données</div>';
-
-          const paginationControls =
-            document.getElementById("paginationControls");
-          if (paginationControls) paginationControls.style.display = "none";
-        }
-      }
-
-      // ==========================================
-      // FX (ECB) FUNCTIONS
-      // ==========================================
-      function populateFxCurrencyFilter() {
-        const select = document.getElementById("fxQuoteCurrency");
-        if (!select) return;
-
-        const currentValue = select.value || "all";
-        const set = new Set();
-
-        fxData.forEach((row) => {
-          if (row.quote_currency) {
-            set.add(row.quote_currency);
-          }
-        });
-
-        select.innerHTML = '<option value="all">Toutes les devises</option>';
-
-        Array.from(set)
-          .sort()
-          .forEach((code) => {
-            const opt = document.createElement("option");
-            opt.value = code;
-            opt.textContent = code;
-            select.appendChild(opt);
-          });
-
-        if (currentValue !== "all" && set.has(currentValue)) {
-          select.value = currentValue;
-          fxFilters.quoteCurrency = currentValue;
-        }
-      }
-
       function getCurrencyBadgeClass(code) {
-        const c = (code || "").toUpperCase();
-        switch (c) {
+        switch ((code || "").toUpperCase()) {
           case "EUR":
             return "currency-badge currency-eur";
           case "USD":
@@ -3072,115 +2059,677 @@
         }
       }
 
+      // ==========================================
+      // GLOBAL STATE
+      // ==========================================
+      let currentFilters = {
+        metalType: "all",
+        startDate: null,
+        endDate: null,
+        source: "all",
+        month: null,
+      };
+      let allPrices = [],
+        filteredPrices = [];
+      let currentPage = 1;
+      const pageSize = 15;
+
+      let fxFilters = {
+        quoteCurrency: "all",
+        startDate: null,
+        endDate: null,
+        month: null,
+      };
+      let fxData = [],
+        fxFilteredData = [];
+      let fxCurrentPage = 1;
+      const fxPageSize = 15;
+
+      // ==========================================
+      // ✅ CHARGEMENT DYNAMIQUE DES FILTRES
+      // ==========================================
+
+      /** Charge les types de métaux depuis la DB et peuple le dropdown */
+      async function loadMetalTypeOptions() {
+        const indicator = document.getElementById("metalsFilterLoading");
+        if (indicator) indicator.classList.add("visible");
+        try {
+          const r = await fetch("/api/metals/metal-types");
+          const j = await r.json();
+          if (j.status === "success" && j.data.length > 0) {
+            const select = document.getElementById("filterMetalType");
+            const current = select.value;
+            select.innerHTML = `<option value="all">${t("filter_all_metals")}</option>`;
+            j.data.forEach((type) => {
+              const opt = document.createElement("option");
+              opt.value = type.toLowerCase();
+              opt.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+              select.appendChild(opt);
+            });
+            if (current && current !== "all") select.value = current;
+          }
+        } catch (e) {
+          console.warn("Impossible de charger les types de métaux:", e);
+        } finally {
+          if (indicator) indicator.classList.remove("visible");
+        }
+      }
+
+      /** Charge les sources depuis la DB et peuple le dropdown */
+      async function loadSourceOptions() {
+        try {
+          const r = await fetch("/api/metals/sources");
+          const j = await r.json();
+          if (j.status === "success" && j.data.length > 0) {
+            const select = document.getElementById("filterSource");
+            const current = select.value;
+            select.innerHTML = `<option value="all">${t("filter_all_sources")}</option>`;
+            const labelsSet = new Set();
+            j.data.forEach((url) => {
+              const s = formatSource(url);
+              if (s.label && s.label !== "--" && !labelsSet.has(s.label)) {
+                labelsSet.add(s.label);
+              }
+            });
+            Array.from(labelsSet)
+              .sort()
+              .forEach((label) => {
+                const opt = document.createElement("option");
+                opt.value = label.toLowerCase();
+                opt.textContent = label;
+                select.appendChild(opt);
+              });
+            if (current && current !== "all") select.value = current;
+          }
+        } catch (e) {
+          console.warn("Impossible de charger les sources:", e);
+        }
+      }
+
+      /** Charge les date ranges depuis la DB et configure les datepickers */
+      async function loadMetalsDateRange() {
+        try {
+          const r = await fetch("/api/metals/date-range");
+          const j = await r.json();
+          if (j.status === "success" && j.data) {
+            const { min_date, max_date } = j.data;
+            ["filterStartDate", "filterEndDate"].forEach((id) => {
+              const el = document.getElementById(id);
+              if (el) {
+                if (min_date) el.min = min_date;
+                if (max_date) el.max = max_date;
+              }
+            });
+            // Configurer le filtre mois aussi
+            if (min_date) {
+              const minMonth = min_date.substring(0, 7);
+              document.getElementById("filterMonth").min = minMonth;
+            }
+            if (max_date) {
+              const maxMonth = max_date.substring(0, 7);
+              document.getElementById("filterMonth").max = maxMonth;
+            }
+          }
+        } catch (e) {
+          console.warn("Impossible de charger date range métaux:", e);
+        }
+      }
+
+      /** Charge les devises FX depuis la DB et peuple le dropdown */
+      async function loadFxCurrencyOptions() {
+        const indicator = document.getElementById("fxFilterLoading");
+        if (indicator) indicator.classList.add("visible");
+        try {
+          const r = await fetch("/api/fx/currencies");
+          const j = await r.json();
+          if (j.status === "success" && j.data.length > 0) {
+            const select = document.getElementById("fxQuoteCurrency");
+            const current = select.value;
+            select.innerHTML = `<option value="all">${t("fx_all_currencies")}</option>`;
+            j.data.forEach((code) => {
+              const opt = document.createElement("option");
+              opt.value = code;
+              opt.textContent = code;
+              select.appendChild(opt);
+            });
+            if (current && current !== "all") select.value = current;
+          }
+        } catch (e) {
+          console.warn("Impossible de charger les devises FX:", e);
+        } finally {
+          if (indicator) indicator.classList.remove("visible");
+        }
+      }
+
+      /** Charge les date ranges FX depuis la DB */
+      async function loadFxDateRange() {
+        try {
+          const r = await fetch("/api/fx/date-range");
+          const j = await r.json();
+          if (j.status === "success" && j.data) {
+            const { min_date, max_date } = j.data;
+            ["fxStartDate", "fxEndDate"].forEach((id) => {
+              const el = document.getElementById(id);
+              if (el) {
+                if (min_date) el.min = min_date;
+                if (max_date) el.max = max_date;
+              }
+            });
+            if (min_date)
+              document.getElementById("fxFilterMonth").min = min_date.substring(
+                0,
+                7,
+              );
+            if (max_date)
+              document.getElementById("fxFilterMonth").max = max_date.substring(
+                0,
+                7,
+              );
+          }
+        } catch (e) {
+          console.warn("Impossible de charger date range FX:", e);
+        }
+      }
+
+      // ==========================================
+      // METALS FILTERS
+      // ==========================================
+      function handleFilterChange() {
+        applyFilters();
+      }
+      function handleFxFilterChange() {
+        applyFxFilters();
+      }
+
+      function handleMonthFilterChange() {
+        const monthValue = document.getElementById("filterMonth").value;
+        const startInput = document.getElementById("filterStartDate");
+        const endInput = document.getElementById("filterEndDate");
+        if (monthValue) {
+          const [year, month] = monthValue.split("-");
+          const firstDay = new Date(year, month - 1, 1)
+            .toISOString()
+            .split("T")[0];
+          const lastDay = new Date(year, month, 0).toISOString().split("T")[0];
+          startInput.min = firstDay;
+          startInput.max = lastDay;
+          endInput.min = firstDay;
+          endInput.max = lastDay;
+          if (
+            startInput.value &&
+            (startInput.value < firstDay || startInput.value > lastDay)
+          )
+            startInput.value = "";
+          if (
+            endInput.value &&
+            (endInput.value < firstDay || endInput.value > lastDay)
+          )
+            endInput.value = "";
+        } else {
+          startInput.removeAttribute("min");
+          startInput.removeAttribute("max");
+          endInput.removeAttribute("min");
+          endInput.removeAttribute("max");
+        }
+        applyFilters();
+      }
+
+      function applyFilters() {
+        currentFilters.metalType =
+          document.getElementById("filterMetalType").value;
+        currentFilters.month =
+          document.getElementById("filterMonth").value || null;
+        currentFilters.source = document.getElementById("filterSource").value;
+
+        if (currentFilters.month) {
+          const [year, month] = currentFilters.month.split("-");
+          const firstDay = new Date(year, month - 1, 1);
+          const lastDay = new Date(year, month, 0);
+          const sd = document.getElementById("filterStartDate").value;
+          const ed = document.getElementById("filterEndDate").value;
+          currentFilters.startDate = sd
+            ? sd
+            : firstDay.toISOString().split("T")[0];
+          currentFilters.endDate = ed
+            ? ed
+            : lastDay.toISOString().split("T")[0];
+        } else {
+          currentFilters.startDate =
+            document.getElementById("filterStartDate").value || null;
+          currentFilters.endDate =
+            document.getElementById("filterEndDate").value || null;
+        }
+        currentPage = 1;
+        loadPriceHistory();
+      }
+
+      function resetFilters() {
+        [
+          "filterMetalType",
+          "filterSource",
+          "filterMonth",
+          "filterStartDate",
+          "filterEndDate",
+        ].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.value = "";
+        });
+        ["filterStartDate", "filterEndDate"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.removeAttribute("min");
+            el.removeAttribute("max");
+            el.disabled = false;
+          }
+        });
+        currentFilters = {
+          metalType: "all",
+          startDate: null,
+          endDate: null,
+          source: "all",
+          month: null,
+        };
+        currentPage = 1;
+        loadPriceHistory();
+      }
+
+      function updateActiveFiltersDisplay() {
+        const container = document.getElementById("activeFiltersContainer");
+        const badges = [];
+        if (currentFilters.metalType && currentFilters.metalType !== "all") {
+          const sel = document.getElementById("filterMetalType");
+          badges.push({
+            key: "metalType",
+            label: `Métal: ${sel.options[sel.selectedIndex]?.text || currentFilters.metalType}`,
+          });
+        }
+        if (currentFilters.source && currentFilters.source !== "all") {
+          const sel = document.getElementById("filterSource");
+          badges.push({
+            key: "source",
+            label: `Source: ${sel.options[sel.selectedIndex]?.text || currentFilters.source}`,
+          });
+        }
+        if (currentFilters.month)
+          badges.push({ key: "month", label: `Mois: ${currentFilters.month}` });
+        if (currentFilters.startDate)
+          badges.push({
+            key: "startDate",
+            label: `Début: ${currentFilters.startDate}`,
+          });
+        if (currentFilters.endDate)
+          badges.push({
+            key: "endDate",
+            label: `Fin: ${currentFilters.endDate}`,
+          });
+
+        if (badges.length > 0) {
+          container.style.display = "flex";
+          container.innerHTML = badges
+            .map(
+              (b) => `
+          <div class="filter-badge">
+            <span>${b.label}</span>
+            <span class="remove-filter" onclick="removeActiveFilter('${b.key}')">×</span>
+          </div>`,
+            )
+            .join("");
+        } else {
+          container.style.display = "none";
+        }
+      }
+
+      function removeActiveFilter(key) {
+        const map = {
+          metalType: () => {
+            document.getElementById("filterMetalType").value = "all";
+            currentFilters.metalType = "all";
+          },
+          source: () => {
+            document.getElementById("filterSource").value = "all";
+            currentFilters.source = "all";
+          },
+          month: () => {
+            document.getElementById("filterMonth").value = "";
+            currentFilters.month = null;
+          },
+          startDate: () => {
+            document.getElementById("filterStartDate").value = "";
+            currentFilters.startDate = null;
+          },
+          endDate: () => {
+            document.getElementById("filterEndDate").value = "";
+            currentFilters.endDate = null;
+          },
+        };
+        if (map[key]) {
+          map[key]();
+          currentPage = 1;
+          loadPriceHistory();
+        }
+      }
+
+      function updateFxActiveFiltersDisplay() {
+        const container = document.getElementById("fxActiveFiltersContainer");
+        const badges = [];
+        if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all")
+          badges.push({
+            key: "quoteCurrency",
+            label: `Devise: ${fxFilters.quoteCurrency}`,
+          });
+        if (fxFilters.month)
+          badges.push({ key: "month", label: `Mois: ${fxFilters.month}` });
+        if (fxFilters.startDate)
+          badges.push({
+            key: "startDate",
+            label: `Début: ${fxFilters.startDate}`,
+          });
+        if (fxFilters.endDate)
+          badges.push({ key: "endDate", label: `Fin: ${fxFilters.endDate}` });
+        if (badges.length > 0) {
+          container.style.display = "flex";
+          container.innerHTML = badges
+            .map(
+              (b) => `
+          <div class="filter-badge">
+            <span>${b.label}</span>
+            <span class="remove-filter" onclick="removeFxActiveFilter('${b.key}')">×</span>
+          </div>`,
+            )
+            .join("");
+        } else {
+          container.style.display = "none";
+        }
+      }
+
+      function removeFxActiveFilter(key) {
+        const map = {
+          quoteCurrency: () => {
+            document.getElementById("fxQuoteCurrency").value = "all";
+            fxFilters.quoteCurrency = "all";
+          },
+          month: () => {
+            document.getElementById("fxFilterMonth").value = "";
+            fxFilters.month = null;
+          },
+          startDate: () => {
+            document.getElementById("fxStartDate").value = "";
+            fxFilters.startDate = null;
+          },
+          endDate: () => {
+            document.getElementById("fxEndDate").value = "";
+            fxFilters.endDate = null;
+          },
+        };
+        if (map[key]) {
+          map[key]();
+          fxCurrentPage = 1;
+          loadFxRates();
+        }
+      }
+
+      function exportToExcel() {
+        let url = "/export/excel?";
+        if (currentFilters.metalType !== "all")
+          url += `metal_type=${currentFilters.metalType}&`;
+        if (currentFilters.month) {
+          url += `month=${currentFilters.month}&`;
+        } else {
+          if (currentFilters.startDate)
+            url += `start_date=${currentFilters.startDate}&`;
+          if (currentFilters.endDate)
+            url += `end_date=${currentFilters.endDate}&`;
+          if (!currentFilters.startDate && !currentFilters.endDate)
+            url += "days=30";
+        }
+        window.location.href = url;
+      }
+
+      // ==========================================
+      // STATISTICS
+      // ==========================================
+      async function loadStatistics() {
+        try {
+          const r = await fetch("/api/statistics");
+          const result = await r.json();
+          if (result.status === "success") {
+            const data = result.data || {};
+            const variations = data.variations || [];
+            const summaryEl = document.getElementById("statsSummary");
+            if (summaryEl) {
+              summaryEl.textContent = `${data.total_records || 0} enregistrements • ${data.total_metals || 0} métaux suivis`;
+            }
+            const container = document.getElementById("statsContainer");
+            container.innerHTML = "";
+            if (!variations.length) {
+              container.innerHTML =
+                '<div class="no-data">Aucune statistique disponible</div>';
+              return;
+            }
+            variations.forEach((v, i) => {
+              const variation = parseFloat(v.variation_percent);
+              const isPositive = isNaN(variation) || variation >= 0;
+              const card = document.createElement("div");
+              card.className = "stat-card";
+              card.style.animationDelay = `${i * 0.1}s`;
+              card.innerHTML = `
+              <div class="stat-header">
+                <span class="stat-title">${(v.metal_type || "").toUpperCase()}</span>
+                <i class="fas fa-medal stat-icon"></i>
+              </div>
+              <div class="stat-value">${v.current_price != null ? formatPrice(v.current_price) + " " + (v.currency || "") : "--"}</div>
+              <div class="stat-change ${isPositive ? "change-positive" : "change-negative"}">
+                <i class="fas fa-arrow-${isPositive ? "up" : "down"}"></i>
+                <span>${isNaN(variation) ? "0" : (isPositive ? "+" : "") + formatPrice(variation)}% (24h)</span>
+              </div>`;
+              container.appendChild(card);
+            });
+          }
+        } catch (err) {
+          console.error("Erreur statistiques:", err);
+          document.getElementById("statsContainer").innerHTML =
+            '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Erreur de connexion à la base de données</div>';
+        }
+      }
+
+      // ==========================================
+      // PRICE HISTORY TABLE
+      // ==========================================
+      function applyTableFiltersAndRender() {
+        const tableContainer = document.getElementById("tableContainer");
+        const paginationCtrls = document.getElementById("paginationControls");
+        if (!allPrices.length) {
+          tableContainer.innerHTML =
+            '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
+          if (paginationCtrls) paginationCtrls.style.display = "none";
+          return;
+        }
+        const sourceFilter = (currentFilters.source || "all").toLowerCase();
+        filteredPrices =
+          sourceFilter === "all"
+            ? allPrices.slice()
+            : allPrices.filter(
+                (p) =>
+                  (formatSource(p.source_url).label || "").toLowerCase() ===
+                  sourceFilter,
+              );
+
+        if (!filteredPrices.length) {
+          tableContainer.innerHTML =
+            '<div class="no-data">Aucune donnée pour ces filtres</div>';
+          if (paginationCtrls) paginationCtrls.style.display = "none";
+          return;
+        }
+        const totalPages = Math.max(
+          1,
+          Math.ceil(filteredPrices.length / pageSize),
+        );
+        if (currentPage > totalPages) currentPage = totalPages;
+        renderTablePage(currentPage, totalPages);
+      }
+
+      function renderTablePage(page, totalPages) {
+        const tableContainer = document.getElementById("tableContainer");
+        const paginationCtrls = document.getElementById("paginationControls");
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = filteredPrices.slice(start, end);
+
+        let html = `<table><thead><tr>
+        <th>Produit</th><th>Prix</th><th>Devise</th><th>Unité</th><th>Source</th><th>Date de prix</th>
+      </tr></thead><tbody>`;
+
+        pageData.forEach((price) => {
+          const metalClass = `metal-${(price.metal_type || "default").toLowerCase()}`;
+          const source = formatSource(price.source_url);
+          html += `<tr>
+          <td><span class="metal-badge ${metalClass}">${price.metal_type || ""}</span></td>
+          <td><span class="price-value">${formatPrice(price.price)}</span></td>
+          <td>${price.currency || ""}</td>
+          <td>${price.unit || ""}</td>
+          <td><span class="source-badge ${source.class}">${source.label}</span></td>
+          <td>${price.price_date ? formatDateOnly(price.price_date) : ""}</td>
+        </tr>`;
+        });
+        html += "</tbody></table>";
+        tableContainer.innerHTML = html;
+
+        if (paginationCtrls) {
+          paginationCtrls.innerHTML = `
+          <div class="pagination-info">Affichage de ${start + 1} à ${Math.min(end, filteredPrices.length)} sur ${filteredPrices.length}</div>
+          <div class="pagination-buttons">
+            <button class="pagination-button" onclick="changePage(${page - 1})" ${page <= 1 ? "disabled" : ""}>‹ Précédent</button>
+            <span>Page ${page} / ${totalPages}</span>
+            <button class="pagination-button" onclick="changePage(${page + 1})" ${page >= totalPages ? "disabled" : ""}>Suivant ›</button>
+          </div>`;
+          paginationCtrls.style.display = "flex";
+        }
+      }
+
+      function changePage(p) {
+        const total = Math.max(1, Math.ceil(filteredPrices.length / pageSize));
+        if (p < 1 || p > total) return;
+        currentPage = p;
+        renderTablePage(currentPage, total);
+      }
+
+      async function loadPriceHistory() {
+        const tableContainer = document.getElementById("tableContainer");
+        tableContainer.innerHTML =
+          '<div class="loading"><div class="spinner"></div><p>Chargement...</p></div>';
+        try {
+          let url = "/api/prices/history?";
+          if (currentFilters.metalType !== "all")
+            url += `metal_type=${currentFilters.metalType}&`;
+          if (currentFilters.month) {
+            url += `month=${currentFilters.month}&`;
+            if (currentFilters.startDate)
+              url += `start_date=${currentFilters.startDate}&`;
+            if (currentFilters.endDate)
+              url += `end_date=${currentFilters.endDate}&`;
+          } else {
+            if (currentFilters.startDate)
+              url += `start_date=${currentFilters.startDate}&`;
+            if (currentFilters.endDate)
+              url += `end_date=${currentFilters.endDate}&`;
+          }
+          const r = await fetch(url);
+          // ✅ Vérifier le Content-Type avant de parser JSON
+          const contentType = r.headers.get("content-type");
+          if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Réponse non-JSON reçue (${r.status})`);
+          }
+          const result = await r.json();
+          if (result.status === "success" && result.data.length > 0) {
+            allPrices = result.data;
+            applyTableFiltersAndRender();
+            updateActiveFiltersDisplay();
+          } else {
+            allPrices = [];
+            filteredPrices = [];
+            tableContainer.innerHTML =
+              '<div class="no-data">Aucune donnée disponible pour ces filtres</div>';
+            document.getElementById("paginationControls").style.display =
+              "none";
+            updateActiveFiltersDisplay();
+          }
+        } catch (err) {
+          console.error("Erreur historique:", err);
+          tableContainer.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> ${err.message || "Erreur de connexion"}</div>`;
+          document.getElementById("paginationControls").style.display = "none";
+        }
+      }
+
+      // ==========================================
+      // FX FUNCTIONS
+      // ==========================================
       function renderFxTable() {
         const container = document.getElementById("fxTableContainer");
-        const fxPaginationControls = document.getElementById(
-          "fxPaginationControls",
-        );
-
-        if (!fxData || fxData.length === 0) {
+        const fxPagCtrl = document.getElementById("fxPaginationControls");
+        if (!fxData.length) {
           container.innerHTML =
             '<div class="no-data">Aucun taux disponible</div>';
-          if (fxPaginationControls) fxPaginationControls.style.display = "none";
+          if (fxPagCtrl) fxPagCtrl.style.display = "none";
           return;
         }
-
         const quoteFilter = fxFilters.quoteCurrency || "all";
-        fxFilteredData = fxData.filter((row) => {
-          if (!row.quote_currency) return false;
-          if (quoteFilter === "all") return true;
-          return row.quote_currency === quoteFilter;
-        });
+        fxFilteredData =
+          quoteFilter === "all"
+            ? fxData.slice()
+            : fxData.filter((r) => r.quote_currency === quoteFilter);
 
-        if (fxFilteredData.length === 0) {
+        if (!fxFilteredData.length) {
           container.innerHTML =
-            '<div class="no-data">Aucun taux disponible pour ces filtres</div>';
-          if (fxPaginationControls) fxPaginationControls.style.display = "none";
+            '<div class="no-data">Aucun taux pour ces filtres</div>';
+          if (fxPagCtrl) fxPagCtrl.style.display = "none";
           return;
         }
-
-        const totalPages = Math.ceil(fxFilteredData.length / fxPageSize) || 1;
+        const totalPages = Math.max(
+          1,
+          Math.ceil(fxFilteredData.length / fxPageSize),
+        );
         if (fxCurrentPage > totalPages) fxCurrentPage = totalPages;
-
         renderFxTablePage(fxCurrentPage, totalPages);
       }
 
       function renderFxTablePage(page, totalPages) {
         const container = document.getElementById("fxTableContainer");
-        const fxPaginationControls = document.getElementById(
-          "fxPaginationControls",
-        );
+        const fxPagCtrl = document.getElementById("fxPaginationControls");
+        const start = (page - 1) * fxPageSize;
+        const end = start + fxPageSize;
+        const pageData = fxFilteredData.slice(start, end);
 
-        const startIndex = (page - 1) * fxPageSize;
-        const endIndex = startIndex + fxPageSize;
-        const pageData = fxFilteredData.slice(startIndex, endIndex);
-        const totalRecords = fxFilteredData.length;
-
-        let html = `
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Devise</th>
-                <th>Taux</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-
+        let html = `<table><thead><tr><th>Date</th><th>Devise</th><th>Taux</th></tr></thead><tbody>`;
         pageData.forEach((row) => {
-          const d = row.ref_date ? formatDateOnlyDate(row.ref_date) : "";
-          const code = row.quote_currency || "";
-          const rate = row.rate != null ? formatPrice(row.rate) : "--";
-          const badgeClass = getCurrencyBadgeClass(code);
-
-          html += `
-            <tr>
-              <td>${d}</td>
-              <td><span class="${badgeClass}">${code}</span></td>
-              <td>${rate}</td>
-            </tr>
-          `;
+          html += `<tr>
+          <td>${row.ref_date ? formatDateOnly(row.ref_date) : ""}</td>
+          <td><span class="${getCurrencyBadgeClass(row.quote_currency)}">${row.quote_currency || ""}</span></td>
+          <td>${row.rate != null ? formatPrice(row.rate) : "--"}</td>
+        </tr>`;
         });
-
-        html += `
-            </tbody>
-          </table>
-        `;
-
+        html += "</tbody></table>";
         container.innerHTML = html;
 
-        if (fxPaginationControls) {
-          fxPaginationControls.innerHTML = `
-            <div class="pagination-info">
-              Affichage de ${startIndex + 1} à ${Math.min(
-                endIndex,
-                totalRecords,
-              )} sur ${totalRecords} enregistrements
-            </div>
-            <div class="pagination-buttons">
-              <button class="pagination-button" onclick="changeFxPage(${
-                page - 1
-              })" ${page <= 1 ? "disabled" : ""}>
-                &laquo; Précédent
-              </button>
-              <span>Page ${page} / ${totalPages}</span>
-              <button class="pagination-button" onclick="changeFxPage(${
-                page + 1
-              })" ${page >= totalPages ? "disabled" : ""}>
-                Suivant &raquo;
-              </button>
-            </div>
-          `;
-          fxPaginationControls.style.display = "flex";
+        if (fxPagCtrl) {
+          fxPagCtrl.innerHTML = `
+          <div>Affichage de ${start + 1} à ${Math.min(end, fxFilteredData.length)} sur ${fxFilteredData.length}</div>
+          <div class="pagination-buttons">
+            <button class="pagination-button" onclick="changeFxPage(${page - 1})" ${page <= 1 ? "disabled" : ""}>‹ Précédent</button>
+            <span>Page ${page} / ${totalPages}</span>
+            <button class="pagination-button" onclick="changeFxPage(${page + 1})" ${page >= totalPages ? "disabled" : ""}>Suivant ›</button>
+          </div>`;
+          fxPagCtrl.style.display = "flex";
         }
       }
 
-      function changeFxPage(newPage) {
-        const totalPages = Math.ceil(fxFilteredData.length / fxPageSize) || 1;
-        if (newPage < 1 || newPage > totalPages) return;
-        fxCurrentPage = newPage;
-        renderFxTablePage(fxCurrentPage, totalPages);
+      function changeFxPage(p) {
+        const total = Math.max(
+          1,
+          Math.ceil(fxFilteredData.length / fxPageSize),
+        );
+        if (p < 1 || p > total) return;
+        fxCurrentPage = p;
+        renderFxTablePage(fxCurrentPage, total);
       }
 
       function applyFxFilters() {
@@ -3191,58 +2740,50 @@
         fxFilters.startDate =
           document.getElementById("fxStartDate").value || null;
         fxFilters.endDate = document.getElementById("fxEndDate").value || null;
-
         if (fxFilters.month) {
-          document.getElementById("fxStartDate").value = "";
-          document.getElementById("fxEndDate").value = "";
           fxFilters.startDate = null;
           fxFilters.endDate = null;
         }
-
         fxCurrentPage = 1;
         loadFxRates();
       }
 
       function resetFxFilters() {
-        document.getElementById("fxQuoteCurrency").value = "all";
-        document.getElementById("fxFilterMonth").value = "";
-        document.getElementById("fxStartDate").value = "";
-        document.getElementById("fxEndDate").value = "";
-
+        [
+          "fxQuoteCurrency",
+          "fxFilterMonth",
+          "fxStartDate",
+          "fxEndDate",
+        ].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.value = "";
+        });
         fxFilters = {
           quoteCurrency: "all",
           startDate: null,
           endDate: null,
           month: null,
         };
-
+        // Restaurer le mois précédent par défaut
+        const prev = getPreviousMonth();
+        document.getElementById("fxFilterMonth").value = prev;
+        fxFilters.month = prev;
         fxCurrentPage = 1;
         loadFxRates();
       }
 
       function exportFxToExcel() {
         let url = "/ecb/rates/export?";
-
-        if (fxFilters.month) {
-          url += `month=${fxFilters.month}&`;
-        } else {
-          if (fxFilters.startDate) {
-            url += `start_date=${fxFilters.startDate}&`;
-          }
-          if (fxFilters.endDate) {
-            url += `end_date=${fxFilters.endDate}&`;
-          }
+        if (fxFilters.month) url += `month=${fxFilters.month}&`;
+        else {
+          if (fxFilters.startDate) url += `start_date=${fxFilters.startDate}&`;
+          if (fxFilters.endDate) url += `end_date=${fxFilters.endDate}&`;
         }
-        if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all") {
+        if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all")
           url += `quote_currency=${fxFilters.quoteCurrency}&`;
-        }
-
         window.location.href = url;
       }
 
-      // ==========================================
-      // FLORENT REPORT
-      // ==========================================
       function downloadFlorentReport() {
         const picker = document.getElementById("florent_report_date").value;
         if (!picker) {
@@ -3250,422 +2791,872 @@
           return;
         }
         const [year, month] = picker.split("-");
-        window.location.href = `/ecb/export-florent?year=${year}&month=${parseInt(
-          month,
-          10,
-        )}`;
+        window.location.href = `/ecb/export-florent?year=${year}&month=${parseInt(month, 10)}`;
       }
 
       // ==========================================
-      // MONTHLY FX SUMMARY FUNCTIONS (NEW)
+      // MONTHLY FX SUMMARY
       // ==========================================
       async function loadMonthlySummary() {
+        const container = document.getElementById("monthlySummaryContainer");
+        const periodText = document.getElementById("summaryPeriodText");
         try {
-          const container = document.getElementById("monthlySummaryContainer");
-          const periodText = document.getElementById("summaryPeriodText");
-
           let url = "/ecb/monthly-summary?";
-          let year, month;
-
-          // Month selection logic
           if (fxFilters.month) {
             const [y, m] = fxFilters.month.split("-");
-            year = parseInt(y, 10);
-            month = parseInt(m, 10);
-            url += `year=${year}&month=${month}&`;
+            url += `year=${y}&month=${parseInt(m, 10)}&`;
           } else if (fxFilters.startDate) {
-            const date = new Date(fxFilters.startDate);
-            year = date.getFullYear();
-            month = date.getMonth() + 1;
-            url += `year=${year}&month=${month}&`;
+            const d = new Date(fxFilters.startDate);
+            url += `year=${d.getFullYear()}&month=${d.getMonth() + 1}&`;
           }
-
-          // Currency filter
-          if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all") {
+          if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all")
             url += `quote_currency=${fxFilters.quoteCurrency}&`;
-          }
 
-          const response = await fetch(url);
-          const result = await response.json();
+          const r = await fetch(url);
+          const result = await r.json();
 
-          // ✅ Success with data
           if (
             result.status === "success" &&
             result.data &&
             result.data.length > 0
           ) {
-            const metadata = result.metadata || {};
+            const meta = result.metadata || {};
+            if (periodText)
+              periodText.textContent =
+                (meta.month_name || "") +
+                (meta.is_current_month ? " (En direct)" : "");
 
-            // Period title display
-            if (periodText) {
-              const periodStr = metadata.month_name || "Période inconnue";
-              const liveText = metadata.is_current_month
-                ? " (Données en direct)"
-                : "";
-              periodText.textContent = periodStr + liveText;
-            }
+            const getMonthAbbr = (n) =>
+              [
+                "Jan",
+                "Fév",
+                "Mar",
+                "Avr",
+                "Mai",
+                "Jun",
+                "Jul",
+                "Aoû",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Déc",
+              ][(n || 1) - 1];
 
-            // ✅ Build Table Header
-            let html = `
-        <table class="summary-table">
-          <thead>
-            <tr>
-              <th>Devise</th>
-              <th>Closing Rate<br>
-                <small>(${getMonthName(metadata.month)} ${metadata.year})</small>
-              </th>
-              <th>Period Rate<br><small>(M-1)</small></th>
+            let html = `<table class="summary-table"><thead><tr>
+            <th>Devise</th>
+            <th>Closing Rate<br><small>(${getMonthAbbr(meta.month)} ${meta.year})</small></th>
+            <th>Period Rate<br><small>(M-1)</small></th>
+            <th>Budget Rate<br><small>(Budget ${meta.year})</small></th>
+            <th>Average YTD<br><small>(Jan - ${getMonthAbbr(meta.month)})</small></th>
+          </tr></thead><tbody>`;
 
-              <!-- ✅ NEW Budget Column -->
-              <th>Budget Rate<br><small>(Budget ${metadata.year})</small></th>
-
-              <th>Average YTD<br>
-                <small>(Jan - ${getMonthName(metadata.month)})</small>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-            // ✅ Rows
             result.data.forEach((row) => {
-              const currency = row.quote_currency || "";
-
-              const closingRate =
+              const cr =
                 row.closing_rate != null
                   ? formatPrice(row.closing_rate)
                   : "N/A";
-              const closingDate = row.closing_date
-                ? formatDateOnlyDate(row.closing_date)
-                : "";
-
-              const periodRate =
+              const pr =
                 row.period_rate != null ? formatPrice(row.period_rate) : "N/A";
-              const periodDate = row.period_date
-                ? formatDateOnlyDate(row.period_date)
-                : "";
-
-              // ✅ NEW Budget Rate Value
-              const budgetRate =
+              const br =
                 row.budget_rate != null ? formatPrice(row.budget_rate) : "—";
-
-              const ytdAvg =
+              const ya =
                 row.ytd_average != null ? formatPrice(row.ytd_average) : "N/A";
-
-              const badgeClass = getCurrencyBadgeClass(currency);
-
-              html += `
-          <tr>
-            <td><span class="${badgeClass}">${currency}</span></td>
-
-            <td>
-              <span class="rate-value">${closingRate}</span>
-              ${
-                closingDate
-                  ? `<span class="rate-date">au ${closingDate}</span>`
-                  : ""
-              }
-            </td>
-
-            <td>
-              <span class="rate-value">${periodRate}</span>
-              ${
-                periodDate
-                  ? `<span class="rate-date">au ${periodDate}</span>`
-                  : ""
-              }
-            </td>
-
-            <!-- ✅ NEW Budget Rate Cell -->
-            <td>
-              <span class="rate-value">${budgetRate}</span>
-            </td>
-
-            <td>
-              <span class="rate-value">${ytdAvg}</span>
-            </td>
-          </tr>
-        `;
+              const cd = row.closing_date
+                ? formatDateOnly(row.closing_date)
+                : "";
+              const pd = row.period_date ? formatDateOnly(row.period_date) : "";
+              html += `<tr>
+              <td><span class="${getCurrencyBadgeClass(row.quote_currency)}">${row.quote_currency || ""}</span></td>
+              <td><span class="rate-value">${cr}</span>${cd ? `<span class="rate-date">au ${cd}</span>` : ""}</td>
+              <td><span class="rate-value">${pr}</span>${pd ? `<span class="rate-date">au ${pd}</span>` : ""}</td>
+              <td><span class="rate-value">${br}</span></td>
+              <td><span class="rate-value">${ya}</span></td>
+            </tr>`;
             });
-
-            // Close table
-            html += `
-          </tbody>
-        </table>
-      `;
-
+            html += "</tbody></table>";
             container.innerHTML = html;
-          }
-
-          // ❌ No data case
-          else {
+          } else {
             container.innerHTML =
-              '<div class="no-summary-data">Aucun résumé disponible pour cette période</div>';
-
-            if (periodText) {
-              periodText.textContent = "Aucune donnée";
-            }
+              '<div style="text-align:center;padding:30px;color:var(--text-secondary);">Aucun résumé disponible pour cette période</div>';
+            if (periodText) periodText.textContent = "Aucune donnée";
           }
-        } catch (error) {
-          console.error("Erreur chargement résumé mensuel:", error);
-
-          const container = document.getElementById("monthlySummaryContainer");
-          if (container) {
-            container.innerHTML =
-              '<div class="no-summary-data">Erreur lors du chargement du résumé</div>';
-          }
-
-          const periodText = document.getElementById("summaryPeriodText");
+        } catch (err) {
+          console.error("Erreur résumé mensuel:", err);
+          container.innerHTML =
+            '<div class="error-message">Erreur chargement résumé mensuel</div>';
           if (periodText) periodText.textContent = "Erreur";
         }
       }
 
-      function getMonthName(monthNum) {
-        const months = [
-          "Jan",
-          "Fév",
-          "Mar",
-          "Avr",
-          "Mai",
-          "Jun",
-          "Jul",
-          "Aoû",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Déc",
-        ];
-        return months[(monthNum || 0) - 1] || "";
-      }
-
-      // UPDATED loadFxRates: now loads monthly summary too
       async function loadFxRates() {
+        const container = document.getElementById("fxTableContainer");
+        if (container)
+          container.innerHTML =
+            '<div class="loading"><div class="spinner"></div><p>Chargement...</p></div>';
         try {
           let url = "/ecb/rates?";
-
-          if (fxFilters.month) {
-            url += `month=${fxFilters.month}&`;
-          } else {
-            if (fxFilters.startDate) {
+          if (fxFilters.month) url += `month=${fxFilters.month}&`;
+          else {
+            if (fxFilters.startDate)
               url += `start_date=${fxFilters.startDate}&`;
-            }
-            if (fxFilters.endDate) {
-              url += `end_date=${fxFilters.endDate}&`;
-            }
+            if (fxFilters.endDate) url += `end_date=${fxFilters.endDate}&`;
           }
-          if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all") {
+          if (fxFilters.quoteCurrency && fxFilters.quoteCurrency !== "all")
             url += `quote_currency=${fxFilters.quoteCurrency}&`;
+
+          const r = await fetch(url);
+          const contentType = r.headers.get("content-type");
+          if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Réponse non-JSON (${r.status})`);
           }
-
-          const response = await fetch(url);
-          const result = await response.json();
-
-          const container = document.getElementById("fxTableContainer");
+          const result = await r.json();
 
           if (
             result.status === "success" &&
-            Array.isArray(result.data) &&
+            result.data &&
             result.data.length > 0
           ) {
             fxData = result.data;
-            populateFxCurrencyFilter();
             fxCurrentPage = 1;
             renderFxTable();
             updateFxActiveFiltersDisplay();
-
-            await loadMonthlySummary();
           } else {
             fxData = [];
             fxFilteredData = [];
-            container.innerHTML =
-              '<div class="no-data">Aucun taux disponible pour ces filtres</div>';
-            const fxPaginationControls = document.getElementById(
-              "fxPaginationControls",
-            );
-            if (fxPaginationControls)
-              fxPaginationControls.style.display = "none";
-            updateFxActiveFiltersDisplay();
-
-            await loadMonthlySummary();
+            if (container)
+              container.innerHTML =
+                '<div class="no-data">Aucun taux pour ces filtres</div>';
           }
-        } catch (error) {
-          console.error("Erreur chargement FX:", error);
-          document.getElementById("fxTableContainer").innerHTML =
-            '<div class="no-data">Erreur lors du chargement des taux ECB</div>';
-          const fxPaginationControls = document.getElementById(
-            "fxPaginationControls",
-          );
-          if (fxPaginationControls) fxPaginationControls.style.display = "none";
+          await loadMonthlySummary();
+        } catch (err) {
+          console.error("Erreur FX:", err);
+          if (container)
+            container.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> ${err.message}</div>`;
         }
       }
 
       // ==========================================
-      // COLLAPSIBLE SECTION TOGGLE
+      // COLLAPSIBLE
       // ==========================================
       function toggleFxDetailsSection() {
         const content = document.getElementById("fxDetailsContent");
         const icon = document.getElementById("fxDetailsToggleIcon");
-
         if (content.classList.contains("expanded")) {
-          // Collapse
           content.classList.remove("expanded");
           icon.classList.remove("rotated");
         } else {
-          // Expand
           content.classList.add("expanded");
           icon.classList.add("rotated");
-
-          // Load data if not already loaded
-          if (fxData.length === 0) {
-            loadFxRates();
-          }
+          if (!fxData.length) loadFxRates();
         }
       }
+
       // ==========================================
-      // PAGE NAVIGATION
+      // PAGE NAVIGATION — ✅ FX chargé en lazy
       // ==========================================
+      let fxInitialized = false;
+      let wbInitialized = false;
+
       function showPage(page) {
-        const metalsPage = document.getElementById("page-metals");
-        const fxPage = document.getElementById("page-fx");
-        const tabMetals = document.getElementById("tab-metals");
-        const tabFx = document.getElementById("tab-fx");
+        ["metals", "fx", "workbook"].forEach((p) => {
+          document.getElementById(`page-${p}`).style.display = "none";
+          document.getElementById(`tab-${p}`).classList.remove("active");
+        });
+        document.getElementById(`page-${page}`).style.display = "block";
+        document.getElementById(`tab-${page}`).classList.add("active");
 
-        if (page === "metals") {
-          metalsPage.style.display = "block";
-          fxPage.style.display = "none";
-          tabMetals.classList.add("active");
-          tabFx.classList.remove("active");
-        } else {
-          metalsPage.style.display = "none";
-          fxPage.style.display = "block";
-          tabMetals.classList.remove("active");
-          tabFx.classList.add("active");
+        if (page === "fx" && !fxInitialized) {
+          fxInitialized = true;
+          // Charger filtres dynamiques FX + données
+          loadFxCurrencyOptions();
+          loadFxDateRange();
+          loadFxRates();
+        } else if (page === "fx") {
+          // Juste recharger le résumé si changement onglet
+          loadMonthlySummary();
+        }
+        if (page === "workbook" && !wbInitialized) {
+          wbInitialized = true;
+          wbInit();
         }
       }
+
       // ==========================================
-      // MAIN DATA LOADING (UPDATED)
+      // MAIN LOAD — ✅ FX non chargé au démarrage
       // ==========================================
       async function loadData() {
         document.getElementById("lastUpdate").textContent =
           "Mise à jour en cours...";
-        await Promise.all([
-          loadStatistics(),
-          loadPriceHistory(),
-          loadFxRates(),
-        ]);
+        await Promise.all([loadStatistics(), loadPriceHistory()]);
+        // FX seulement si la page est visible
+        if (document.getElementById("page-fx").style.display !== "none") {
+          await loadFxRates();
+        }
         document.getElementById("lastUpdate").textContent = formatDate(
           new Date(),
         );
       }
-      // ==========================================
-      // INITIALIZATION
-      // ==========================================
-      function setDefaultFxMonth() {
-        const previousMonth = getPreviousMonth();
 
-        const fxFilterMonth = document.getElementById("fxFilterMonth");
-        if (fxFilterMonth) {
-          fxFilterMonth.value = previousMonth;
-          fxFilters.month = previousMonth;
-        }
-      }
+      // ==========================================
+      // HELPERS DATE
+      // ==========================================
       function getPreviousMonth() {
-        const today = new Date();
-
-        // Reculer d’un mois
-        today.setMonth(today.getMonth() - 1);
-
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-
-        return `${year}-${month}`;
+        const d = new Date();
+        d.setMonth(d.getMonth() - 1);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
       }
-      function setDefaultFlorentMonth() {
-        const previousMonth = getPreviousMonth();
 
-        const picker = document.getElementById("florent_report_date");
-        if (picker) {
-          picker.value = previousMonth;
-        }
-      }
-      setDefaultFlorentMonth();
-      setDefaultFxMonth();
-      showPage("metals");
-      loadData();
-      setInterval(loadData, 5 * 60 * 1000);
       // ==========================================
-      // AUTO-OPEN CALENDAR ON FOCUS (Version compatible)
+      // INITIALISATION
       // ==========================================
-      function openPicker(element) {
-        try {
-          if (element && typeof element.showPicker === "function") {
-            element.showPicker();
-          }
-        } catch (error) {
-          // Fallback: click on the element to open picker on older browsers
-          console.log("showPicker not supported, using click fallback");
-        }
+      function initDefaults() {
+        const prev = getPreviousMonth();
+        const florentPicker = document.getElementById("florent_report_date");
+        if (florentPicker) florentPicker.value = prev;
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        // Filtre par mois - Métaux
-        const filterMonth = document.getElementById("filterMonth");
-        if (filterMonth) {
-          filterMonth.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
-
-        // Filtre par mois - FX
-        const fxFilterMonth = document.getElementById("fxFilterMonth");
-        if (fxFilterMonth) {
-          fxFilterMonth.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
-
-        // Date de début - Métaux
-        const filterStartDate = document.getElementById("filterStartDate");
-        if (filterStartDate) {
-          filterStartDate.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
-
-        // Date de fin - Métaux
-        const filterEndDate = document.getElementById("filterEndDate");
-        if (filterEndDate) {
-          filterEndDate.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
-
-        // Date de début - FX
-        const fxStartDate = document.getElementById("fxStartDate");
-        if (fxStartDate) {
-          fxStartDate.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
-
-        // Date de fin - FX
-        const fxEndDate = document.getElementById("fxEndDate");
-        if (fxEndDate) {
-          fxEndDate.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
-
-        // Rapport Florent
-        const florentReportDate = document.getElementById(
-          "florent_report_date",
-        );
-        if (florentReportDate) {
-          florentReportDate.addEventListener("focus", function () {
-            openPicker(this);
-          });
-        }
+      // ✅ Démarrage
+      initDefaults();
+      // 1. Charger les filtres dynamiques (metals) en parallèle
+      Promise.all([
+        loadMetalTypeOptions(),
+        loadSourceOptions(),
+        loadMetalsDateRange(),
+      ]).then(() => {
+        // 2. Charger les données
+        loadData();
       });
+      showPage("metals");
+      // Auto-refresh toutes les 5 minutes
+      setInterval(loadData, 5 * 60 * 1000);
+
+      // ==========================================
+      // AUTO-OPEN CALENDAR
+      // ==========================================
+      document.addEventListener("DOMContentLoaded", () => {
+        [
+          "filterMonth",
+          "fxFilterMonth",
+          "filterStartDate",
+          "filterEndDate",
+          "fxStartDate",
+          "fxEndDate",
+          "florent_report_date",
+        ].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el)
+            el.addEventListener("focus", () => {
+              try {
+                if (el.showPicker) el.showPicker();
+              } catch (e) {}
+            });
+        });
+      });
+
+      // ============================================================
+      // WORKBOOK ENGINE — (identique, conservé intégralement)
+      // ============================================================
+      const WB_SHEETS = [
+        {
+          id: "brent",
+          name: "Brent London",
+          icon: "fa-oil-can",
+          color: "#e67e22",
+        },
+        { id: "comex", name: "COMEX", icon: "fa-building", color: "#2980b9" },
+        { id: "girm", name: "GIRM", icon: "fa-industry", color: "#27ae60" },
+        { id: "shme", name: "SHME", icon: "fa-chart-bar", color: "#c0392b" },
+        {
+          id: "lsnikko",
+          name: "LS NIKKO",
+          icon: "fa-yen-sign",
+          color: "#8e44ad",
+        },
+        { id: "silver", name: "SILVER", icon: "fa-coins", color: "#7f8c8d" },
+        { id: "lme", name: "LME", icon: "fa-globe", color: "#16a085" },
+        { id: "summary", name: "SUMMARY", icon: "fa-table", color: "#2c3e50" },
+      ];
+      let wbCurrentSheet = null,
+        wbCache = {},
+        wbFilters = {};
+      const WB_MN = [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin",
+        "Juil",
+        "Août",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc",
+      ];
+
+      async function wbInit() {
+        wbBuildTabs();
+        const now = new Date();
+        const prevM = now.getMonth() === 0 ? 12 : now.getMonth();
+        const prevY =
+          now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+        wbFilters["silver"] = { year: prevY, month: prevM };
+        await wbLoadBadges();
+        wbSwitchSheet(WB_SHEETS[0].id);
+      }
+
+      function wbBuildTabs() {
+        const bar = document.getElementById("wbTabBar");
+        bar.innerHTML = "";
+        WB_SHEETS.forEach((s) => {
+          const tab = document.createElement("div");
+          tab.className = "wb-tab";
+          tab.id = `wbtab-${s.id}`;
+          tab.onclick = () => wbSwitchSheet(s.id);
+          tab.innerHTML = `<i class="fas ${s.icon}" style="color:${s.color}"></i><span>${s.name}</span><span class="wb-badge" id="wbbadge-${s.id}">–</span>`;
+          bar.appendChild(tab);
+        });
+      }
+
+      async function wbLoadBadges() {
+        try {
+          const r = await fetch("/api/metals/sheets");
+          const j = await r.json();
+          if (j.status === "success") {
+            WB_SHEETS.forEach((s) => {
+              const b = document.getElementById(`wbbadge-${s.id}`);
+              if (b && j.sheets[s.id])
+                b.textContent = j.sheets[s.id].count || 0;
+            });
+            const lu = document.getElementById("wbLastUpdate");
+            if (lu)
+              lu.textContent =
+                "Dernière MàJ: " + new Date().toLocaleString("fr-FR");
+          }
+        } catch (e) {
+          console.warn("wbLoadBadges", e);
+        }
+      }
+
+      async function wbSwitchSheet(id) {
+        document
+          .querySelectorAll(".wb-tab")
+          .forEach((t) => t.classList.remove("active"));
+        const tab = document.getElementById(`wbtab-${id}`);
+        if (tab) tab.classList.add("active");
+        wbCurrentSheet = id;
+        if (wbCache[id]) {
+          wbRender(id, wbCache[id]);
+          return;
+        }
+        await wbLoad(id);
+      }
+
+      function wbQS(id) {
+        const f = wbFilters[id] || {};
+        return Object.entries(f)
+          .filter(([, v]) => v)
+          .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+          .join("&");
+      }
+
+      async function wbLoad(id) {
+        const c = document.getElementById("wbSheetContainer");
+        const sh = WB_SHEETS.find((s) => s.id === id);
+        c.innerHTML = `<div class="wb-loading"><div class="wb-spinner"></div><p>Chargement ${sh.name}…</p></div>`;
+        try {
+          const qs = wbQS(id);
+          const r = await fetch(`/api/metals/sheet/${id}${qs ? "?" + qs : ""}`);
+          const j = await r.json();
+          if (j.status === "success") {
+            wbCache[id] = j;
+            wbRender(id, j);
+          } else
+            c.innerHTML = `<div class="wb-no-data"><i class="fas fa-exclamation-triangle"></i><p>${j.message || "Erreur"}</p></div>`;
+        } catch (e) {
+          c.innerHTML = `<div class="wb-no-data"><i class="fas fa-wifi"></i><p>Erreur réseau</p></div>`;
+        }
+      }
+
+      async function wbOnFilterChange(id) {
+        const f = {};
+        const mapping = {
+          wbfy: "year",
+          wbfm: "month",
+          wbfsd: "start_date",
+          wbfed: "end_date",
+          wbfmt: "metal_type",
+        };
+        Object.entries(mapping).forEach(([pfx, key]) => {
+          const el = document.getElementById(`${pfx}-${id}`);
+          if (el && el.value) f[key] = el.value;
+        });
+        wbFilters[id] = f;
+        delete wbCache[id];
+        await wbLoad(id);
+      }
+
+      async function wbReset(id) {
+        wbFilters[id] = {};
+        delete wbCache[id];
+        ["wbfy", "wbfm", "wbfsd", "wbfed", "wbfmt"].forEach((pfx) => {
+          const el = document.getElementById(`${pfx}-${id}`);
+          if (el) el.value = "";
+        });
+        await wbLoad(id);
+      }
+
+      function wbExport(id) {
+        window.location.href = `/api/metals/export/${id}`;
+      }
+      async function wbRefresh(id) {
+        delete wbCache[id];
+        await wbLoad(id);
+      }
+
+      function wbFilterPanel(id, opts = {}) {
+        const f = wbFilters[id] || {};
+        const years = [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019];
+        const change = `wbOnFilterChange('${id}')`;
+        const yearSel = `<div class="wb-filter-group"><label class="wb-filter-label">${t("wb_year")}</label>
+        <select class="wb-filter-select" id="wbfy-${id}" onchange="${change}">
+          <option value="">${t("wb_all_years")}</option>
+          ${years.map((y) => `<option value="${y}" ${f.year == y ? "selected" : ""}>${y}</option>`).join("")}
+        </select></div>`;
+        const monthSel = opts.noMonth
+          ? ""
+          : `<div class="wb-filter-group"><label class="wb-filter-label">${t("wb_month")}</label>
+        <select class="wb-filter-select" id="wbfm-${id}" onchange="${change}">
+          <option value="">${t("wb_all_months")}</option>
+          ${WB_MN.map((n, i) => `<option value="${i + 1}" ${f.month == i + 1 ? "selected" : ""}>${n}</option>`).join("")}
+        </select></div>`;
+        const dateRange = opts.noDate
+          ? ""
+          : `<div class="wb-filter-group"><label class="wb-filter-label">${t("wb_start_date")}</label>
+        <input type="date" class="wb-filter-input" id="wbfsd-${id}" value="${f.start_date || ""}" onchange="${change}"></div>
+        <div class="wb-filter-group"><label class="wb-filter-label">${t("wb_end_date")}</label>
+        <input type="date" class="wb-filter-input" id="wbfed-${id}" value="${f.end_date || ""}" onchange="${change}"></div>`;
+        const metalSel = opts.hasMetal
+          ? `<div class="wb-filter-group"><label class="wb-filter-label">${t("wb_metal")}</label>
+        <select class="wb-filter-select" id="wbfmt-${id}" onchange="${change}">
+          <option value="">${t("wb_all_metals")}</option>
+          <option value="copper"  ${f.metal_type === "copper" ? "selected" : ""}>Copper</option>
+          <option value="zinc"    ${f.metal_type === "zinc" ? "selected" : ""}>Zinc</option>
+          <option value="tin"     ${f.metal_type === "tin" ? "selected" : ""}>Tin</option>
+          <option value="silver"  ${f.metal_type === "silver" ? "selected" : ""}>Silver</option>
+        </select></div>`
+          : "";
+        const resetBtn = `<div class="wb-filter-group"><label class="wb-filter-label">&nbsp;</label>
+        <button class="wb-btn wb-btn-gray" onclick="wbReset('${id}')"><i class="fas fa-times"></i> ${t("wb_reset")}</button></div>`;
+        return `<div class="wb-filters">${yearSel}${monthSel}${dateRange}${metalSel}${resetBtn}</div>`;
+      }
+
+      function wbRender(id, data) {
+        const c = document.getElementById("wbSheetContainer");
+        const sh = WB_SHEETS.find((s) => s.id === id);
+        const fmt = data.config?.format;
+        let html = `<div class="wb-sheet-header">
+        <div class="wb-sheet-title"><i class="fas ${sh.icon}" style="color:${sh.color}"></i>${sh.name}</div>
+        <div class="wb-actions">
+          <button class="wb-btn wb-btn-primary" onclick="wbRefresh('${id}')"><i class="fas fa-sync-alt"></i> ${t("wb_refresh")}</button>
+          <button class="wb-btn wb-btn-success" onclick="wbExport('${id}')"><i class="fas fa-file-excel"></i> ${t("wb_export")}</button>
+        </div></div>`;
+
+        if (fmt === "year_month") html += wbBrent(id, data);
+        else if (fmt === "monthly_matrix") html += wbSHME(id, data);
+        else if (fmt === "yearly_columns") html += wbYearly(id, data);
+        else if (fmt === "monthly_with_conversion") html += wbCOMEX(id, data);
+        else if (id === "silver") html += wbSilver(id, data);
+        else if (id === "summary") {
+          html += `<div style="text-align:center;padding:60px 30px;">
+          <div style="display:inline-block;background:#f0f6ff;border:2px solid #0066b2;border-radius:16px;padding:40px 50px;max-width:540px;box-shadow:0 4px 20px rgba(0,102,178,0.12);">
+            <div style="margin-bottom:18px;">
+              <span style="display:inline-flex;align-items:center;gap:8px;background:#0066b2;color:white;font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;">
+                <span style="width:8px;height:8px;background:#4fc3f7;border-radius:50%;display:inline-block;animation:pulse-dot 1.5s infinite;"></span>
+                Phase Enhancement
+              </span>
+            </div>
+            <i class="fas fa-tools" style="font-size:48px;color:#0066b2;margin-bottom:16px;display:block;"></i>
+            <h3 style="margin:0 0 10px;color:#2c3e50;font-size:20px;">En cours de développement</h3>
+            <p style="margin:0 0 18px;color:#7f8c8d;font-size:14px;line-height:1.6;">La synthèse multi-sources est en cours d'amélioration.<br>Cette fonctionnalité sera disponible prochainement.</p>
+            <div style="background:white;border:1px solid #dee2e6;border-radius:10px;padding:14px 20px;display:inline-block;">
+              <span style="font-size:13px;color:#495057;font-weight:600;"><i class="fas fa-code-branch" style="color:#0066b2;margin-right:6px;"></i>Enhancement in progress…</span>
+            </div>
+          </div>
+        </div>`;
+          c.innerHTML = html;
+          return;
+        } else html += wbStandard(id, data);
+
+        html += wbFormulaNote(id);
+        html = html.replace(
+          '<div class="wb-table-wrap">',
+          `<div class="wb-table-wrap" id="${id}-tablewrap">`,
+        );
+        c.innerHTML = html;
+        requestAnimationFrame(() => wbMakeTableDynamic(`${id}-tablewrap`, 25));
+      }
+
+      function wbBrent(id, data) {
+        let html = wbFilterPanel(id);
+        if (!data.data?.length)
+          return (
+            html +
+            `<div class="wb-no-data"><i class="fas fa-database"></i><p>${t("wb_no_data")}</p></div>`
+          );
+        const rows = [...data.data]
+          .sort((a, b) => b.year - a.year || b.month - a.month)
+          .map(
+            (r) => `<tr>
+        <td>${r.year}</td><td>${WB_MN[(r.month || 1) - 1]}</td>
+        <td class="wb-num">${r.price != null ? Number(r.price).toFixed(2) : "–"}</td></tr>`,
+          )
+          .join("");
+        return (
+          html +
+          `<div class="wb-table-wrap"><div class="wb-table-scroll"><table class="wb-table"><thead><tr>
+        <th>${t("wb_year")}</th><th>${t("wb_month")}</th><th>Prix moy. (€/baril)</th>
+      </tr></thead><tbody>${rows}</tbody></table></div></div>`
+        );
+      }
+
+      function wbCOMEX(id, data) {
+        let html = wbFilterPanel(id);
+        if (!data.data?.length)
+          return (
+            html +
+            `<div class="wb-no-data"><i class="fas fa-database"></i><p>${t("wb_no_data")}</p></div>`
+          );
+        const rows = [...data.data]
+          .sort((a, b) => b.year - a.year || b.month - a.month)
+          .map(
+            (r) => `<tr>
+        <td>${r.year}</td><td>${WB_MN[(r.month || 1) - 1]}</td>
+        <td class="wb-num">${r.price_lb != null ? Number(r.price_lb).toFixed(4) : "–"}</td>
+        <td class="wb-formula" title="= price_lb × 2.203">${r.price_kg_usd != null ? Number(r.price_kg_usd).toFixed(4) : "–"}</td></tr>`,
+          )
+          .join("");
+        return (
+          html +
+          `<div class="wb-table-wrap"><div class="wb-table-scroll"><table class="wb-table"><thead><tr>
+        <th>${t("wb_year")}</th><th>${t("wb_month")}</th><th>Prix USD/lb</th><th>🔢 Prix USD/kg</th>
+      </tr></thead><tbody>${rows}</tbody></table></div></div>`
+        );
+      }
+
+      function wbYearly(id, data) {
+        let html = wbFilterPanel(id, { noMonth: true });
+        const inner = data.data || {};
+        const years = inner.years || [];
+        const rows = inner.data || [];
+        if (!rows.length)
+          return (
+            html +
+            `<div class="wb-no-data"><i class="fas fa-database"></i><p>${t("wb_no_data")}</p></div>`
+          );
+        const isGirm = id === "girm";
+        const unitLabel = isGirm ? "€/kg" : "USD/t";
+        let body = "";
+        for (let m = 1; m <= 12; m++) {
+          const rd = rows.find((r) => r.month === m);
+          body += `<tr><td><strong>${WB_MN[m - 1]}</strong></td>`;
+          years.forEach((yr) => {
+            let v = rd?.[`year_${yr}`];
+            if (isGirm && v != null && Number(v) > 30) v = Number(v) / 100;
+            body += `<td class="wb-num">${v != null ? Number(v).toFixed(4) : "–"}</td>`;
+          });
+          body += `</tr>`;
+        }
+        body += `<tr class="wb-row-avg"><td>📊 ${t("wb_avg_annual")}</td>`;
+        years.forEach((yr) => {
+          let prices = rows
+            .map((r) => r[`year_${yr}`])
+            .filter((v) => v != null);
+          if (isGirm)
+            prices = prices.map((v) =>
+              Number(v) > 30 ? Number(v) / 100 : Number(v),
+            );
+          const avg = prices.length
+            ? (
+                prices.reduce((a, b) => a + Number(b), 0) / prices.length
+              ).toFixed(4)
+            : "–";
+          body += `<td class="wb-num" style="color:#0066b2;">${avg}</td>`;
+        });
+        body += `</tr>`;
+        return (
+          html +
+          `<div class="wb-table-wrap"><div class="wb-table-scroll"><table class="wb-table"><thead><tr>
+        <th>Mois</th>${years.map((y) => `<th>${y} (${unitLabel})</th>`).join("")}
+      </tr></thead><tbody>${body}</tbody></table></div></div>`
+        );
+      }
+
+      function calcSHMEAlloys(cu, zn, sn) {
+        if (cu == null) return {};
+        const V = 1.13;
+        return {
+          H62: (
+            (cu * 0.62 * 1.05 + zn * 0.38 * 1.05 + 4000 / V) /
+            1000
+          ).toFixed(3),
+          H65: (
+            (cu * 0.65 * 1.05 + zn * 0.35 * 1.05 + 4000 / V) /
+            1000
+          ).toFixed(3),
+          H68: (
+            (cu * 0.68 * 1.05 + zn * 0.32 * 1.05 + 4000 / V) /
+            1000
+          ).toFixed(3),
+          H70: ((cu * 0.7 * 1.05 + zn * 0.3 * 1.05 + 4500 / V) / 1000).toFixed(
+            3,
+          ),
+          H85: (
+            (cu * 0.85 * 1.05 + zn * 0.15 * 1.05 + 5800 / V) /
+            1000
+          ).toFixed(3),
+          Qsn4:
+            sn != null
+              ? (
+                  (cu * 0.96 * 1.05 + sn * 0.04 * 1.05 + 3000 / V) /
+                  1000
+                ).toFixed(3)
+              : null,
+          Qsn65:
+            sn != null
+              ? (
+                  (cu * 0.935 * 1.05 + sn * 0.065 * 1.05 + 3000 / V) /
+                  1000
+                ).toFixed(3)
+              : null,
+          Qsn8:
+            sn != null
+              ? (
+                  (cu * 0.92 * 1.05 + sn * 0.08 * 1.05 + 5750 / V) /
+                  1000
+                ).toFixed(3)
+              : null,
+          T2: ((cu * 1.05 + 5500 / V) / 1000).toFixed(3),
+        };
+      }
+
+      function wbSHME(id, data) {
+        let html = wbFilterPanel(id);
+        if (!data.data?.length)
+          return (
+            html +
+            `<div class="wb-no-data"><i class="fas fa-database"></i><p>${t("wb_no_data")}</p></div>`
+          );
+        const rows = [...data.data]
+          .sort((a, b) => b.year - a.year || b.month - a.month)
+          .map((r) => {
+            const al = calcSHMEAlloys(r.copper_base, r.zinc_base, r.tin_base);
+            const f0 = (v) => (v != null ? Number(v).toFixed(0) : "–");
+            const fa = (v) => (v != null ? v : "–");
+            return `<tr>
+          <td><strong>${r.year}-${String(r.month).padStart(2, "0")}</strong></td>
+          <td class="wb-num wb-row-base">${f0(r.copper_base)}</td>
+          <td class="wb-num wb-row-base">${f0(r.zinc_base)}</td>
+          <td class="wb-num wb-row-base">${f0(r.tin_base)}</td>
+          <td class="wb-formula wb-row-brass">${fa(al.H62)}</td>
+          <td class="wb-formula wb-row-brass">${fa(al.H65)}</td>
+          <td class="wb-formula wb-row-brass">${fa(al.H68)}</td>
+          <td class="wb-formula wb-row-brass">${fa(al.H70)}</td>
+          <td class="wb-formula wb-row-brass">${fa(al.H85)}</td>
+          <td class="wb-formula wb-row-bronze">${fa(al.Qsn4)}</td>
+          <td class="wb-formula wb-row-bronze">${fa(al.Qsn65)}</td>
+          <td class="wb-formula wb-row-bronze">${fa(al.Qsn8)}</td>
+          <td class="wb-formula wb-row-bronze">${fa(al.T2)}</td>
+        </tr>`;
+          })
+          .join("");
+        return (
+          html +
+          `<div class="wb-table-wrap"><div class="wb-table-scroll"><table class="wb-table"><thead>
+        <tr>
+          <th rowspan="2" style="vertical-align:middle;">${t("wb_month")}</th>
+          <th colspan="3" style="text-align:center;background:#f0f0f0;">${t("wb_base_metals")}</th>
+          <th colspan="5" style="text-align:center;background:#fffbf0;">${t("wb_alloy_brass")}</th>
+          <th colspan="4" style="text-align:center;background:#f5f0fb;">${t("wb_alloy_bronze")}</th>
+        </tr>
+        <tr>
+          <th>Copper</th><th>0# Zn99.995</th><th>Tin</th>
+          <th>H62</th><th>H65</th><th>H68</th><th>H70</th><th>H85</th>
+          <th>Qsn4-0.1</th><th>Qsn6.5-0.1</th><th>Qsn8-0.3</th><th>T2</th>
+        </tr>
+      </thead><tbody>${rows}</tbody></table></div></div>`
+        );
+      }
+
+      function wbSilver(id, data) {
+        let html = wbFilterPanel(id);
+        if (!data.data?.length)
+          return (
+            html +
+            `<div class="wb-no-data"><i class="fas fa-database"></i><p>${t("wb_no_data_period")}</p></div>`
+          );
+        const rows = [...data.data]
+          .sort((a, b) => new Date(b.price_date) - new Date(a.price_date))
+          .map(
+            (r) => `<tr>
+        <td>${r.price_date ? new Date(r.price_date).toLocaleDateString("fr-FR") : "–"}</td>
+        <td class="wb-num">${r.price != null ? Number(r.price).toFixed(2) : "–"}</td>
+        <td style="text-align:center;">${r.currency || "–"}</td>
+        <td style="text-align:center;">${r.unit || "–"}</td>
+      </tr>`,
+          )
+          .join("");
+        return (
+          html +
+          `<div class="wb-table-wrap"><div class="wb-table-scroll"><table class="wb-table"><thead><tr>
+        <th>${t("table_date")}</th><th>Prix</th><th>${t("table_currency")}</th><th>${t("table_unit")}</th>
+      </tr></thead><tbody>${rows}</tbody></table></div></div>`
+        );
+      }
+
+      function wbStandard(id, data) {
+        const isYearly = data.config?.format === "yearly_columns";
+        if (isYearly) return wbYearly(id, data);
+        let html = wbFilterPanel(id, { hasMetal: true });
+        if (!data.data?.length)
+          return (
+            html +
+            `<div class="wb-no-data"><i class="fas fa-database"></i><p>${t("wb_no_data")}</p></div>`
+          );
+        const rows = [...data.data]
+          .sort((a, b) => new Date(b.price_date) - new Date(a.price_date))
+          .map(
+            (r) => `<tr>
+        <td>${r.price_date ? new Date(r.price_date).toLocaleDateString("fr-FR") : "–"}</td>
+        <td><span style="background:#e8f4fd;color:#0066b2;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;">${r.metal_type || "–"}</span></td>
+        <td class="wb-num">${r.price != null ? Number(r.price).toFixed(4) : "–"}</td>
+        <td style="text-align:center;">${r.currency || "–"}</td>
+        <td style="text-align:center;">${r.unit || "–"}</td>
+      </tr>`,
+          )
+          .join("");
+        return (
+          html +
+          `<div class="wb-table-wrap"><div class="wb-table-scroll"><table class="wb-table"><thead><tr>
+        <th>${t("table_date")}</th><th>${t("table_product")}</th><th>Prix</th><th>${t("table_currency")}</th><th>${t("table_unit")}</th>
+      </tr></thead><tbody>${rows}</tbody></table></div></div>`
+        );
+      }
+
+      function wbFormulaNote(id) {
+        const notes = {
+          brent:
+            "📐 <strong>Brent London (INSEE)</strong> — <code>AVG(prix quotidiens)</code> · EUR/baril",
+          comex:
+            "📐 <strong>COMEX</strong> — <code>Prix USD/kg = Prix USD/lb × 2.203</code>",
+          girm: "📐 <strong>GIRM</strong> — Cuivre EUR/kg · <code>Moy. annuelle = AVG(Jan→Déc)</code>",
+          shme: "📐 <strong>SHME</strong> — Laiton: <code>H62=(Cu×0.62×1.05+Zn×0.38×1.05+4000/1.13)/1000</code> · TVA diviseur=1.13",
+          lsnikko: "📐 <strong>LS NIKKO</strong> — Cuivre USD/tonne",
+          silver:
+            "📐 <strong>Silver (AGOSI)</strong> — Prix journalier EUR · mois précédent par défaut",
+          lme: "📐 <strong>LME</strong> — Cu, Zn, Sn, Ag en USD/tonne",
+        };
+        return notes[id]
+          ? `<div class="wb-formula-note">${notes[id]}</div>`
+          : "";
+      }
+
+      function wbMakeTableDynamic(containerId, pageSize = 20) {
+        const wrap = document.getElementById(containerId);
+        if (!wrap) return;
+        const table = wrap.querySelector(".wb-table");
+        if (!table) return;
+        const tbody = table.querySelector("tbody");
+        if (!tbody) return;
+        let allRows = Array.from(tbody.querySelectorAll("tr"));
+        let filtered = allRows.slice();
+        let page = 1;
+        const ctrl = document.createElement("div");
+        ctrl.className = "wb-dt-controls";
+        ctrl.innerHTML = `<div style="display:flex;align-items:center;gap:10px;">
+        <div class="wb-dt-search"><i class="fas fa-search"></i><input type="text" placeholder="${t("wb_search")}" id="${containerId}-search" autocomplete="off"></div>
+        <select class="wb-dt-pagesize" id="${containerId}-psize">
+          ${[10, 20, 50, 100].map((n) => `<option value="${n}" ${n == pageSize ? "selected" : ""}>${n} ${t("wb_per_page")}</option>`).join("")}
+        </select></div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="wb-dt-info" id="${containerId}-info"></span>
+          <div class="wb-dt-pagination" id="${containerId}-pages"></div>
+        </div>`;
+        wrap.insertBefore(ctrl, wrap.querySelector(".wb-table-wrap"));
+
+        function getPS() {
+          return parseInt(
+            document.getElementById(`${containerId}-psize`)?.value || pageSize,
+          );
+        }
+        function updateInfo() {
+          const ps = getPS(),
+            total = filtered.length,
+            from = total ? (page - 1) * ps + 1 : 0,
+            to = Math.min(page * ps, total);
+          const el = document.getElementById(`${containerId}-info`);
+          if (el)
+            el.textContent = `${from}–${to} ${t("wb_rows_of")} ${total} ${t("wb_rows")}`;
+        }
+        function renderPage() {
+          const ps = getPS(),
+            totalP = Math.max(1, Math.ceil(filtered.length / ps));
+          if (page > totalP) page = 1;
+          const start = (page - 1) * ps,
+            end = start + ps;
+          allRows.forEach((r) => r.classList.add("wb-row-hidden"));
+          filtered
+            .slice(start, end)
+            .forEach((r) => r.classList.remove("wb-row-hidden"));
+          updateInfo();
+          const pagesEl = document.getElementById(`${containerId}-pages`);
+          if (!pagesEl) return;
+          let btns = `<button class="wb-dt-page" ${page <= 1 ? "disabled" : ""} onclick="wbDTGoPage('${containerId}',${page - 1})">‹</button>`;
+          const range = [];
+          for (let i = 1; i <= totalP; i++) {
+            if (i === 1 || i === totalP || (i >= page - 2 && i <= page + 2))
+              range.push(i);
+            else if (range[range.length - 1] !== "…") range.push("…");
+          }
+          range.forEach((i) => {
+            if (i === "…")
+              btns += `<span style="padding:5px 4px;color:#999;">…</span>`;
+            else
+              btns += `<button class="wb-dt-page${i === page ? " active" : ""}" onclick="wbDTGoPage('${containerId}',${i})">${i}</button>`;
+          });
+          btns += `<button class="wb-dt-page" ${page >= totalP ? "disabled" : ""} onclick="wbDTGoPage('${containerId}',${page + 1})">›</button>`;
+          pagesEl.innerHTML = btns;
+        }
+        function applySearch() {
+          const q = (
+            document.getElementById(`${containerId}-search`)?.value || ""
+          ).toLowerCase();
+          filtered = q
+            ? allRows.filter((r) => r.textContent.toLowerCase().includes(q))
+            : allRows.slice();
+          page = 1;
+          renderPage();
+        }
+        const searchEl = document.getElementById(`${containerId}-search`);
+        if (searchEl) searchEl.addEventListener("input", applySearch);
+        const psizeEl = document.getElementById(`${containerId}-psize`);
+        if (psizeEl)
+          psizeEl.addEventListener("change", () => {
+            page = 1;
+            renderPage();
+          });
+        wrap._wbDTRenderPage = renderPage;
+        wrap._wbDTSetPage = (p) => {
+          page = p;
+          renderPage();
+        };
+        renderPage();
+      }
+
+      function wbDTGoPage(containerId, p) {
+        const wrap = document.getElementById(containerId);
+        if (wrap?._wbDTSetPage) wrap._wbDTSetPage(p);
+      }
     </script>
   </body>
 </html>
