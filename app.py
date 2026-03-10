@@ -1,16 +1,6 @@
-# app.py - Dashboard AVO Carbon Group - VERSION CORRIGÉE
+# app.py - Dashboard AVO Carbon Group 
 """
 Dashboard Flask pour visualiser les prix des métaux et les taux de change ECB.
-
-CORRECTIONS v2:
-  1. Sérialisation JSON : Decimal → float dans TOUTES les routes API
-  2. get_statistics() : variation_percent Decimal → float
-  3. get_florent_report_data() : paramètres SQL corrigés
-  4. get_monthly_fx_summary() : guard fx_budget_rates (table peut ne pas exister)
-  5. get_bme_data() : utilise ecb_exchange_rates (et non ecb_rates)
-  6. Route /api/statistics : sérialise correctement les Decimal
-  7. Ajout route /api/fx/currencies pour peupler les dropdowns dynamiquement
-  8. Ajout route /api/metals/metal-types pour peupler les dropdowns dynamiquement
 """
 
 from flask import Flask, render_template, jsonify, request, send_file
@@ -1557,6 +1547,10 @@ def api_metals_sheets():
 
 @app.route('/api/metals/sheet/<sheet_id>')
 def api_get_sheet_data(sheet_id):
+    # SUMMARY tab is under enhancement — return 200 instead of 400
+    if sheet_id == 'summary':
+        return jsonify({'status': 'enhancement', 'sheet_id': 'summary', 'message': 'En cours — Phase Enhancement', 'data': []}), 200
+
     if sheet_id not in METALS_SOURCE_CONFIGS:
         return jsonify({'status': 'error',
                         'message': f"Sheet '{sheet_id}' invalide."}), 400
