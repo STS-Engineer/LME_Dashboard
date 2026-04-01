@@ -597,7 +597,19 @@ def get_latest_prices():
     finally:
         conn.close()
 
-def get_price_history(days=None, metal_type=None, start_date=None, end_date=None, month=None):
+# ==============================================================
+# ✅ MODIFIÉ: get_price_history — ajout du paramètre `source`
+# ==============================================================
+def get_price_history(days=None, metal_type=None, start_date=None, end_date=None, month=None, source=None):
+    """
+    Récupère l'historique des prix avec filtres :
+      - days        : nb de jours en arrière
+      - metal_type  : type de métal (ex: 'copper')
+      - start_date  : date de début 'YYYY-MM-DD'
+      - end_date    : date de fin   'YYYY-MM-DD'
+      - month       : mois au format 'YYYY-MM' (prioritaire sur start/end si présent)
+      - source      : filtre sur source_url ILIKE '%source%' (ex: 'shmet', 'metals.dev')
+    """
     conn = get_db_connection()
     if not conn:
         return []
@@ -608,6 +620,8 @@ def get_price_history(days=None, metal_type=None, start_date=None, end_date=None
                 FROM metal_prices WHERE 1=1
             """
             params = []
+
+            # --- Filtre temporel ---
             if month and not start_date and not end_date:
                 sd, ed = month_to_range(month)
                 if sd and ed:
@@ -629,9 +643,17 @@ def get_price_history(days=None, metal_type=None, start_date=None, end_date=None
             elif days:
                 query += " AND price_date >= %s"
                 params.append((datetime.now() - timedelta(days=int(days))).date())
+
+            # --- Filtre métal ---
             if metal_type and metal_type.lower() != 'all':
                 query += " AND metal_type = %s"
                 params.append(metal_type)
+
+            # ✅ NOUVEAU — Filtre source
+            if source and source.lower() != 'all':
+                query += " AND source_url ILIKE %s"
+                params.append(f'%{source}%')
+
             query += " ORDER BY metal_type, price_date DESC, created_at DESC"
             cur.execute(query, params)
             return cur.fetchall()
@@ -682,7 +704,6 @@ def get_statistics():
                 ORDER BY l.metal_type;
             """)
             variations_raw = cur.fetchall()
-            # ✅ FIX: Sérialiser chaque ligne pour convertir les Decimal
             variations = [serialize_row(v) for v in variations_raw]
 
             return {
@@ -702,7 +723,6 @@ def get_statistics():
 # API DYNAMIQUE: METAL TYPES
 # ===============================
 def get_all_metal_types():
-    """Récupère la liste de tous les types de métaux distincts en DB."""
     conn = get_db_connection()
     if not conn:
         return []
@@ -721,7 +741,6 @@ def get_all_metal_types():
         conn.close()
 
 def get_all_sources():
-    """Récupère la liste de toutes les source_url distinctes en DB."""
     conn = get_db_connection()
     if not conn:
         return []
@@ -740,7 +759,6 @@ def get_all_sources():
         conn.close()
 
 def get_all_fx_currencies():
-    """Récupère la liste de toutes les devises ECB en DB."""
     conn = get_db_connection()
     if not conn:
         return []
@@ -759,7 +777,6 @@ def get_all_fx_currencies():
         conn.close()
 
 def get_price_date_range():
-    """Retourne min/max price_date pour initialiser les datepickers."""
     conn = get_db_connection()
     if not conn:
         return {}
@@ -775,7 +792,6 @@ def get_price_date_range():
         conn.close()
 
 def get_fx_date_range():
-    """Retourne min/max ref_date pour les filtres FX."""
     conn = get_db_connection()
     if not conn:
         return {}
@@ -849,15 +865,10 @@ def get_ecb_rates(start_date=None, end_date=None, quote_currency=None, month=Non
         conn.close()
 
 def get_florent_report_data(year, month):
-    """
-    Rapport Florent avec Budget Rate.
-    FIX: Correction de l'ordre des paramètres SQL.
-    """
     conn = get_db_connection()
     if not conn:
         return []
 
-    # Vérifier si la table fx_budget_rates existe
     has_budget_table = table_exists(conn, 'fx_budget_rates')
 
     try:
@@ -944,10 +955,6 @@ def get_florent_report_data(year, month):
         conn.close()
 
 def get_monthly_fx_summary(year=None, month=None, quote_currency=None):
-    """
-    Résumé mensuel FX.
-    FIX: Guard sur la table fx_budget_rates (peut ne pas exister).
-    """
     conn = get_db_connection()
     if not conn:
         return []
@@ -1020,15 +1027,14 @@ def get_monthly_fx_summary(year=None, month=None, quote_currency=None):
             WHERE 1=1
             """
 
-            # Paramètres dans le bon ordre
             params = [
-                year, month,        # MonthlyClosing
-                year, month,        # PreviousMonthClosing (mois-1)
-                year, month,        # PreviousMonthClosing (décembre an-1 si janvier)
-                year, month,        # YTDAverage
+                year, month,
+                year, month,
+                year, month,
+                year, month,
             ]
             if has_budget_table:
-                params.append(year)  # budget join year
+                params.append(year)
 
             if quote_currency and quote_currency.lower() != 'all':
                 query += " AND mc.quote_currency = %s"
@@ -1313,51 +1319,31 @@ def health_check():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 # ──────────────────────────────────────────
-# ✅ NOUVELLES ROUTES: Filtres dynamiques
+# ROUTES: Filtres dynamiques
 # ──────────────────────────────────────────
 
 @app.route('/api/metals/metal-types')
 def api_metal_types():
-    """
-    Retourne la liste des types de métaux disponibles en DB.
-    Utilisé pour peupler dynamiquement le dropdown côté frontend.
-    """
     metal_types = get_all_metal_types()
     return jsonify({'status': 'success', 'data': metal_types})
 
 @app.route('/api/metals/sources')
 def api_metal_sources():
-    """
-    Retourne la liste des sources disponibles en DB.
-    Utilisé pour peupler dynamiquement le dropdown source.
-    """
     sources = get_all_sources()
     return jsonify({'status': 'success', 'data': sources})
 
 @app.route('/api/metals/date-range')
 def api_metals_date_range():
-    """
-    Retourne min/max price_date depuis la DB.
-    Utilisé pour initialiser les datepickers avec les vraies bornes.
-    """
     dr = get_price_date_range()
     return jsonify({'status': 'success', 'data': dr})
 
 @app.route('/api/fx/currencies')
 def api_fx_currencies():
-    """
-    Retourne la liste de toutes les devises ECB disponibles en DB.
-    Utilisé pour peupler dynamiquement le dropdown FX.
-    """
     currencies = get_all_fx_currencies()
     return jsonify({'status': 'success', 'data': currencies})
 
 @app.route('/api/fx/date-range')
 def api_fx_date_range():
-    """
-    Retourne min/max ref_date depuis la DB.
-    Utilisé pour initialiser les datepickers FX avec les vraies bornes.
-    """
     dr = get_fx_date_range()
     return jsonify({'status': 'success', 'data': dr})
 
@@ -1370,6 +1356,9 @@ def api_latest_prices():
     prices = get_latest_prices()
     return jsonify({'status': 'success', 'data': [serialize_row(p) for p in prices]})
 
+# ==============================================================
+# ✅ MODIFIÉ: /api/prices/history — lit et transmet `source`
+# ==============================================================
 @app.route('/api/prices/history')
 def api_price_history():
     days       = request.args.get('days', type=int)
@@ -1377,9 +1366,12 @@ def api_price_history():
     start_date = request.args.get('start_date')
     end_date   = request.args.get('end_date')
     month      = request.args.get('month')
+    source     = request.args.get('source')          # ✅ NOUVEAU
 
     if metal_type and metal_type.lower() == 'all':
         metal_type = None
+    if source and source.lower() == 'all':           # ✅ NOUVEAU
+        source = None
 
     if month:
         sd, ed = month_to_range(month)
@@ -1397,7 +1389,7 @@ def api_price_history():
                     pass
             start_date, end_date, days = ms.isoformat(), me.isoformat(), None
 
-    history = get_price_history(days, metal_type, start_date, end_date)
+    history = get_price_history(days, metal_type, start_date, end_date, source=source)  # ✅ MODIFIÉ
 
     return jsonify({
         'status': 'success',
@@ -1406,7 +1398,6 @@ def api_price_history():
 
 @app.route('/api/statistics')
 def api_statistics():
-    """FIX: Retourne des données JSON-sérialisables (Decimal → float)."""
     stats = get_statistics()
     return jsonify({'status': 'success', 'data': stats})
 
@@ -1420,10 +1411,6 @@ def api_sync_logs():
 # ──────────────────────────────────────────
 
 def get_bme_data(cursor, year_filter=None, month_filter=None):
-    """
-    BME: Exchange rate matrix from ecb_exchange_rates.
-    FIX: Utilise ecb_exchange_rates (et non ecb_rates).
-    """
     yr = int(year_filter) if year_filter else datetime.now().year
     params = [yr]
     query = """
@@ -1467,7 +1454,6 @@ def metals_workbook():
 
 @app.route('/api/metals/sheets')
 def api_metals_sheets():
-    """Résumé de toutes les sources pour les badges workbook."""
     conn = get_db_connection()
     if not conn:
         return jsonify({'status': 'error', 'message': 'DB connection failed'}), 500
@@ -1477,7 +1463,6 @@ def api_metals_sheets():
             for sheet_id, config in METALS_SOURCE_CONFIGS.items():
                 fmt = config.get('format', 'standard')
                 if fmt == 'exchange_matrix':
-                    # FIX: utilise ecb_exchange_rates
                     cur.execute("""
                         SELECT COUNT(*) AS cnt,
                                MAX(ref_date) AS last_date,
@@ -1547,7 +1532,6 @@ def api_metals_sheets():
 
 @app.route('/api/metals/sheet/<sheet_id>')
 def api_get_sheet_data(sheet_id):
-    # SUMMARY tab is under enhancement — return 200 instead of 400
     if sheet_id == 'summary':
         return jsonify({'status': 'enhancement', 'sheet_id': 'summary', 'message': 'En cours — Phase Enhancement', 'data': []}), 200
 
@@ -1743,87 +1727,183 @@ def export_sheet_excel(sheet_id):
         logger.error(f"Erreur export_sheet_excel [{sheet_id}]: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
+# ==============================================================
+# ✅ MODIFIÉ: /export/excel — tous les filtres pris en compte
+#    (metal_type, source, month, start_date, end_date)
+# ==============================================================
 @app.route('/export/excel')
 def export_excel():
     try:
-        days       = request.args.get('days', type=int)
+        days       = request.args.get('days',       type=int)
         metal_type = request.args.get('metal_type')
         start_date = request.args.get('start_date')
         end_date   = request.args.get('end_date')
+        month      = request.args.get('month')       # ✅ NOUVEAU
+        source     = request.args.get('source')      # ✅ NOUVEAU
+
+        # Normaliser les valeurs 'all'
         if metal_type and metal_type.lower() == 'all':
             metal_type = None
+        if source and source.lower() == 'all':       # ✅ NOUVEAU
+            source = None
 
-        history_data = get_price_history(days, metal_type, start_date, end_date)
+        # Si le filtre mois est fourni, il prend la priorité sur start/end
+        if month and not start_date and not end_date:
+            sd, ed = month_to_range(month)
+            if sd and ed:
+                start_date = sd.isoformat()
+                end_date   = ed.isoformat()
+                days       = None
+
+        # ✅ MODIFIÉ: passer source à get_price_history
+        history_data = get_price_history(
+            days,
+            metal_type,
+            start_date,
+            end_date,
+            source=source
+        )
+
         if not history_data:
             return jsonify({'status': 'error', 'message': 'Aucune donnée à exporter'}), 404
 
+        # ----------------------------------------------------------
+        # Construction du nom de fichier avec les filtres actifs
+        # ----------------------------------------------------------
+        parts = ['Prix_Metaux']
+        if metal_type:
+            parts.append(metal_type.upper())
+        if source:
+            parts.append(source.upper())
+        if month:
+            parts.append(month.replace('-', ''))
+        elif start_date or end_date:
+            if start_date:
+                parts.append(f"du{start_date.replace('-', '')}")
+            if end_date:
+                parts.append(f"au{end_date.replace('-', '')}")
+        parts.append(datetime.now().strftime('%Y%m%d_%H%M%S'))
+        filename = '_'.join(parts) + '.xlsx'
+
+        # ----------------------------------------------------------
+        # Pivot : une ligne par métal, une colonne par date
+        # ----------------------------------------------------------
         date_set = set()
         for item in history_data:
-            pd = item['price_date']
-            if isinstance(pd, datetime):
-                pd = pd.date()
-            date_set.add(pd)
+            pd_val = item['price_date']
+            if isinstance(pd_val, datetime):
+                pd_val = pd_val.date()
+            date_set.add(pd_val)
         sorted_dates = sorted(list(date_set))
 
         pivot_data = {}
         for item in history_data:
             metal    = item['metal_type']
-            pd       = item['price_date']
-            if isinstance(pd, datetime):
-                pd = pd.date()
+            pd_val   = item['price_date']
+            if isinstance(pd_val, datetime):
+                pd_val = pd_val.date()
             price    = item['price']
             currency = item['currency']
             unit     = item['unit']
+            src_url  = item.get('source_url', '')
             if metal not in pivot_data:
-                pivot_data[metal] = {'currency': currency, 'unit': unit, 'prices': {}}
-            pivot_data[metal]['prices'][pd] = price
+                pivot_data[metal] = {
+                    'currency': currency,
+                    'unit':     unit,
+                    'source':   src_url,
+                    'prices':   {}
+                }
+            pivot_data[metal]['prices'][pd_val] = price
 
+        # ----------------------------------------------------------
+        # Construction du classeur Excel
+        # ----------------------------------------------------------
         wb = Workbook()
         ws = wb.active
         ws.title = "Historique Prix Métaux"
-        hdr_font = Font(bold=True, color="FFFFFF")
-        hdr_fill = PatternFill(start_color="0066B2", end_color="0066B2", fill_type="solid")
+
+        hdr_font  = Font(bold=True, color="FFFFFF")
+        hdr_fill  = PatternFill(start_color="0066B2", end_color="0066B2", fill_type="solid")
         data_fill = PatternFill(start_color="F5F7FA", end_color="F5F7FA", fill_type="solid")
+        meta_fill = PatternFill(start_color="E8F4FD", end_color="E8F4FD", fill_type="solid")
         ctr       = Alignment(horizontal='center', vertical='center')
         lft       = Alignment(horizontal='left',   vertical='center')
         thin      = Side(style='thin', color="CCCCCC")
         bdr       = Border(top=thin, left=thin, right=thin, bottom=thin)
 
-        headers = ['Produit (Metal)', 'Devise', 'Unité'] + [dt.strftime('%Y-%m-%d') for dt in sorted_dates]
-        for col_idx, header in enumerate(headers, start=1):
-            cell = ws.cell(row=1, column=col_idx, value=header)
-            cell.font = hdr_font; cell.fill = hdr_fill; cell.alignment = ctr; cell.border = bdr
+        # ── Ligne d'en-tête des filtres appliqués (ligne 1) ──────
+        filter_parts = []
+        if metal_type:
+            filter_parts.append(f"Métal: {metal_type}")
+        if source:
+            filter_parts.append(f"Source: {source}")
+        if month:
+            filter_parts.append(f"Mois: {month}")
+        elif start_date or end_date:
+            if start_date:
+                filter_parts.append(f"Du: {start_date}")
+            if end_date:
+                filter_parts.append(f"Au: {end_date}")
+        filter_label = "  |  ".join(filter_parts) if filter_parts else "Tous les filtres"
 
-        row_idx = 2
+        ws.merge_cells(f'A1:{get_column_letter(len(sorted_dates) + 4)}1')
+        ws['A1'] = f"Filtres appliqués : {filter_label}"
+        ws['A1'].font      = Font(bold=True, color="003366", size=11)
+        ws['A1'].fill      = meta_fill
+        ws['A1'].alignment = lft
+        ws['A1'].border    = bdr
+
+        # ── Ligne 2 : en-têtes colonnes ───────────────────────────
+        headers = ['Produit (Metal)', 'Devise', 'Unité', 'Source'] + \
+                  [dt.strftime('%Y-%m-%d') for dt in sorted_dates]
+        for col_idx, header in enumerate(headers, start=1):
+            cell = ws.cell(row=2, column=col_idx, value=header)
+            cell.font      = hdr_font
+            cell.fill      = hdr_fill
+            cell.alignment = ctr
+            cell.border    = bdr
+
+        # ── Lignes de données ─────────────────────────────────────
+        row_idx = 3
         for metal, data in pivot_data.items():
-            ws.cell(row=row_idx, column=1, value=metal).alignment = lft
+            ws.cell(row=row_idx, column=1, value=metal).alignment          = lft
             ws.cell(row=row_idx, column=2, value=data['currency']).alignment = ctr
-            ws.cell(row=row_idx, column=3, value=data['unit']).alignment = ctr
-            for col in range(1, 4):
-                ws.cell(row=row_idx, column=col).fill = data_fill
+            ws.cell(row=row_idx, column=3, value=data['unit']).alignment    = ctr
+            ws.cell(row=row_idx, column=4, value=data.get('source', '')).alignment = ctr
+            for col in range(1, 5):
+                ws.cell(row=row_idx, column=col).fill   = data_fill
                 ws.cell(row=row_idx, column=col).border = bdr
-            for col_idx, dt in enumerate(sorted_dates, start=4):
+            for col_idx, dt in enumerate(sorted_dates, start=5):
                 price = data['prices'].get(dt)
-                cell = ws.cell(row=row_idx, column=col_idx)
+                cell  = ws.cell(row=row_idx, column=col_idx)
                 if price is not None:
-                    cell.value = float(price)
+                    cell.value         = float(price)
                     cell.number_format = '#,##0.########'
-                cell.border = bdr; cell.alignment = ctr
+                cell.border    = bdr
+                cell.alignment = ctr
             row_idx += 1
 
+        # ── Largeurs de colonnes ──────────────────────────────────
         ws.column_dimensions['A'].width = 35
         ws.column_dimensions['B'].width = 10
         ws.column_dimensions['C'].width = 10
-        for col_idx in range(4, len(sorted_dates) + 4):
+        ws.column_dimensions['D'].width = 28
+        for col_idx in range(5, len(sorted_dates) + 5):
             ws.column_dimensions[get_column_letter(col_idx)].width = 12
+
+        # ── Figer la ligne d'en-tête ──────────────────────────────
+        ws.freeze_panes = 'E3'
 
         output = BytesIO()
         wb.save(output)
         output.seek(0)
-        filename = f"Prix_Metaux_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
-        return send_file(output,
-                         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                         as_attachment=True, download_name=filename)
+        return send_file(
+            output,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            as_attachment=True,
+            download_name=filename
+        )
+
     except Exception as e:
         logger.error(f"Erreur export Excel: {e}")
         return jsonify({'error': str(e)}), 500
@@ -2005,7 +2085,6 @@ def api_metals_summary():
                 periods.append(f"{y}-{m:02d}")
             periods.sort(reverse=True)
 
-            # FX USD/EUR
             cur.execute("""
                 SELECT TO_CHAR(DATE_TRUNC('month', ref_date), 'YYYY-MM') AS period,
                        AVG(rate) AS fx_rate
@@ -2078,7 +2157,6 @@ def api_metals_summary():
                                for p in periods}
                 })
 
-            # COMEX
             cur.execute("""
                 SELECT TO_CHAR(DATE_TRUNC('month', price_date), 'YYYY-MM') AS period,
                        AVG(price) * 2.203 AS price_kg_usd
@@ -2099,7 +2177,6 @@ def api_metals_summary():
                            for p in periods}
             })
 
-            # GIRM
             cur.execute("""
                 SELECT TO_CHAR(DATE_TRUNC('month', price_date), 'YYYY-MM') AS period,
                        AVG(price) AS avg_price
@@ -2115,7 +2192,6 @@ def api_metals_summary():
                 'values': {p: girm_map.get(p) for p in periods}
             })
 
-            # LS NIKKO
             cur.execute("""
                 SELECT TO_CHAR(DATE_TRUNC('month', price_date), 'YYYY-MM') AS period,
                        AVG(price) AS avg_price
@@ -2138,7 +2214,6 @@ def api_metals_summary():
                            for p in periods}
             })
 
-            # SHME
             cur.execute("""
                 SELECT TO_CHAR(DATE_TRUNC('month', price_date), 'YYYY-MM') AS period,
                        AVG(price) / 1.13 / 1000 AS cu_nonvat_kg
